@@ -1,0 +1,225 @@
+[
+  {
+    "id": "0185df68-08d8-edcb-e7c5-7f653f6702d9",
+    "account": "01859d7f-ebf4-bd22-96c9-5d4e3cd757c4",
+    "employer": "lyft",
+    "link_item": "lyft",
+    "data_partner": "lyft",
+    "created_at": "2023-01-23T16:13:35.890Z",
+    "updated_at": "2023-01-23T16:13:35.890Z",
+    "status": "completed",
+    "type": "rideshare",
+    "num_tasks": 1,
+    "start_date": "2023-01-23T14:28:50Z",
+    "end_date": "2023-01-23T14:39:14Z",
+    "all_timestamps": {
+      "request_at": 1674484130,
+      "accept_at": 1674484157,
+      "pickup_at": 1674484210,
+      "dropoff_at": 1674484754,
+      "cancel_at": null,
+      "shift_start": null,
+      "shift_end": null,
+      "break_start": null,
+      "break_end": null,
+      "breaks": []
+    },
+    "all_datetimes": {
+      "request_at": "2023-01-23T14:28:50Z",
+      "accept_at": "2023-01-23T14:29:17Z",
+      "pickup_at": "2023-01-23T14:30:10Z",
+      "dropoff_at": "2023-01-23T14:39:14Z",
+      "cancel_at": null,
+      "shift_start": null,
+      "shift_end": null,
+      "break_start": null,
+      "break_end": null,
+      "breaks": []
+    },
+    "duration": 624,
+    "timezone": "America/New_York",
+    "earning_type": "work",
+    "start_location": {
+      "lat": "40.691443046597406",
+      "lng": "-73.75532477754136",
+      "formatted_address": "33443 Stanley Square, New York, NY 40032, US"
+    },
+    "end_location": {
+      "lat": "40.68601983004411",
+      "lng": "-73.88928313135087",
+      "formatted_address": "4958 Marcus Rest, New York, NY 55401, US"
+    },
+    "route": "https://partners.uber.com/p3/payments/trips/707257b1-8b86-427a-8531-f1856114564e?in_app=true",
+    "distance": "4.39",
+    "distance_unit": "miles",
+    "complete_data_available": true,
+    "metadata": {},
+    "circumstances": {
+      "is_pool": true,
+      "is_rush": false,
+      "is_surge": false,
+      "service_type": "Lyft Pool",
+      "position": null
+    },
+    "income": {
+      "currency": "USD",
+      "total_charge": "6.20",
+      "fees": "0.00",
+      "total": "6.20",
+      "pay": "6.20",
+      "tips": "0.00",
+      "bonus": "0.00",
+      "taxes": null
+    },
+    "income_rates": {
+      "hour": "10.45",
+      "mile": "1.00"
+    }
+  },
+  {
+    "id": "0185df68-08ad-1b9e-f4b5-4daf3bc8019b",
+    "account": "01859d7f-ebf4-bd22-96c9-5d4e3cd757c4",
+    "employer": "lyft",
+    "link_item": "lyft",
+    "data_partner": "lyft",
+    "created_at": "2023-01-23T16:13:35.919Z",
+    "updated_at": "2023-01-23T16:13:35.919Z",
+    "status": "completed",
+    "type": "rideshare",
+    "num_tasks": 1,
+    "start_date": "2023-01-23T13:37:41Z",
+    "end_date": "2023-01-23T14:14:53Z",
+    "all_timestamps": {
+      "request_at": 1674481061,
+      "accept_at": 1674481064,
+      "pickup_at": 1674481312,
+      "dropoff_at": 1674483293,
+      "cancel_at": null,
+      "shift_start": null,
+      "shift_end": null,
+      "break_start": null,
+      "break_end": null,
+      "breaks": []
+    },
+    "all_datetimes": {
+      "request_at": "2023-01-23T13:37:41Z",
+      "accept_at": "2023-01-23T13:37:44Z",
+      "pickup_at": "2023-01-23T13:41:52Z",
+      "dropoff_at": "2023-01-23T14:14:53Z",
+      "cancel_at": null,
+      "shift_start": null,
+      "shift_end": null,
+      "break_start": null,
+      "break_end": null,
+      "breaks": []
+    },
+    "duration": 2232,
+    "timezone": "America/New_York",
+    "earning_type": "work",
+    "start_location": {
+      "lat": "40.667831846816284",
+      "lng": "-73.89459844497935",
+      "formatted_address": "9281 Wong Place Apt. 627, New York, NY 86081, US"
+    },
+    "end_location": {
+      "lat": "40.6620959901988",
+      "lng": "-73.64205322462523",
+      "formatted_address": "91629 John Key, New York, NY 13866, US"
+    },
+    "route": "https://partners.uber.com/p3/payments/trips/6aa41d34-0d0c-4af9-babb-aff46e5e0f38?in_app=true",
+    "distance": "18.59",
+    "distance_unit": "miles",
+    "complete_data_available": true,
+    "metadata": {},
+    "circumstances": {
+      "is_pool": false,
+      "is_rush": false,
+      "is_surge": false,
+      "service_type": "Lyft Pool",
+      "position": null
+    },
+    "income": {
+      "currency": "USD",
+      "total_charge": "19.11",
+      "fees": "0.00",
+      "total": "19.11",
+      "pay": "19.11",
+      "tips": "0.00",
+      "bonus": "0.00",
+      "taxes": null
+    },
+    "income_rates": {
+      "hour": "12.84",
+      "mile": "0.60"
+    }
+  },
+  {
+    "id": "0185df68-087c-7b28-8823-59b3050b54d2",
+    "account": "01859d7f-ebf4-bd22-96c9-5d4e3cd757c4",
+    "employer": "lyft",
+    "link_item": "lyft",
+    "data_partner": "lyft",
+    "created_at": "2023-01-23T16:13:35.784Z",
+    "updated_at": "2023-01-23T16:13:35.784Z",
+    "status": "cancelled",
+    "type": "rideshare",
+    "num_tasks": 1,
+    "start_date": "2023-01-23T12:42:22Z",
+    "end_date": null,
+    "all_timestamps": {
+      "request_at": 1674477742,
+      "accept_at": null,
+      "pickup_at": null,
+      "dropoff_at": null,
+      "cancel_at": 1674477749,
+      "shift_start": null,
+      "shift_end": null,
+      "break_start": null,
+      "break_end": null,
+      "breaks": []
+    },
+    "all_datetimes": {
+      "request_at": "2023-01-23T12:42:22Z",
+      "accept_at": null,
+      "pickup_at": null,
+      "dropoff_at": null,
+      "cancel_at": "2023-01-23T12:42:29Z",
+      "shift_start": null,
+      "shift_end": null,
+      "break_start": null,
+      "break_end": null,
+      "breaks": []
+    },
+    "duration": null,
+    "timezone": "America/New_York",
+    "earning_type": "work",
+    "start_location": null,
+    "end_location": null,
+    "route": "https://partners.uber.com/p3/payments/trips/f131f92d-b57f-46da-9ef6-8491321309f2?in_app=true",
+    "distance": "0.00",
+    "distance_unit": "miles",
+    "complete_data_available": true,
+    "metadata": {},
+    "circumstances": {
+      "is_pool": true,
+      "is_rush": false,
+      "is_surge": false,
+      "service_type": "Lyft Pool",
+      "position": null
+    },
+    "income": {
+      "currency": "USD",
+      "total_charge": "0.00",
+      "fees": "0.00",
+      "total": "0.00",
+      "pay": "0.00",
+      "tips": "0.00",
+      "bonus": "0.00",
+      "taxes": null
+    },
+    "income_rates": {
+      "hour": null,
+      "mile": null
+    }
+  }
+]

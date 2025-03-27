@@ -1,0 +1,6 @@
+[build]
+  command = "pnpm run build"
+  publish = "build"
+
+[build.environment]
+  PNPM_VERSION = "9.12.3"

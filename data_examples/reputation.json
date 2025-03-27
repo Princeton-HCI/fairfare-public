@@ -1,0 +1,21 @@
+{
+  "id": "1f24c447-d645-41ab-afb7-e81b1db699c5",
+  "account": "810a054e-8133-4411-9722-12ebd6db040f",
+  "employer": "uber",
+  "created_at": "2020-09-10T17:12:49.715371Z",
+  "updated_at": "2020-09-11T08:52:38.138449Z",
+  "rating": "4.95",
+  "acceptance_rate": "0.86",
+  "ontime_rate": "0.80",
+  "achievements": [
+    {
+      "count": 1,
+      "label": "perfect_rating",
+      "badge_url": "https://media.website.com/1554853.png",
+      "description": "Earned on total 5-star ratings",
+      "points": "5",
+      "metadata": {}
+    }
+  ],
+  "metadata": {}
+}

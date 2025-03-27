@@ -1,0 +1,31 @@
+name: Deploy Migrations to Production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  push-supabase-migrations-to-production:
+    runs-on: ubuntu-latest
+    environment: Production
+
+    env:
+      # This is needed to run Supabase in non-interactive mode, see:
+      # https://supabase.com/docs/guides/deployment/managing-environments#configure-github-actions
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      PRODUCTION_PROJECT_ID: ${{ vars.PROJECT_ID }}
+      VITE_TWILIO_TOKEN: placeholder-to-make-supabase-work
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - run: |
+          supabase link --project-ref $PRODUCTION_PROJECT_ID
+          supabase db push

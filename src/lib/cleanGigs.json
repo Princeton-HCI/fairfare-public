@@ -1,0 +1,1802 @@
+[
+  {
+    "id": "018cf511-b0cf-9b47-4d7c-7f18242b15c0",
+    "start_datetime": "2024-01-10T02:24:41Z",
+    "income_fees": -6.1019437397,
+    "income_total": 22.5573038822,
+    "income_tips": 1.1614049788,
+    "type": "rideshare",
+    "income_total_charge": 31.0566173179
+  },
+  {
+    "id": "018cf511-b0fd-6397-6e28-840afd0438f4",
+    "start_datetime": "2024-01-07T09:13:32Z",
+    "income_fees": 12.0228169319,
+    "income_total": 7.3275039949,
+    "income_tips": 1.1891496581,
+    "type": "rideshare",
+    "income_total_charge": 41.0699570186
+  },
+  {
+    "id": "018cf511-b131-e067-1976-f0c31ac4f4f8",
+    "start_datetime": "2024-01-07T08:51:54Z",
+    "income_fees": -8.8651340817,
+    "income_total": 7.4697300927,
+    "income_tips": 0.6009483798,
+    "type": "rideshare",
+    "income_total_charge": 40.5259382496
+  },
+  {
+    "id": "018cf511-b159-e30a-dacc-711aef9aede5",
+    "start_datetime": "2024-01-07T07:28:28Z",
+    "income_fees": 7.5019866648,
+    "income_total": 15.945824974,
+    "income_tips": 8.4064013028,
+    "type": "rideshare",
+    "income_total_charge": 30.9454439426
+  },
+  {
+    "id": "018cf511-b182-bb25-3cca-b033e14a0aa5",
+    "start_datetime": "2024-01-07T04:06:51Z",
+    "income_fees": 4.7254840397,
+    "income_total": 36.1487236658,
+    "income_tips": 1.3420703397,
+    "type": "rideshare",
+    "income_total_charge": 10.6493883625
+  },
+  {
+    "id": "018cf511-b1aa-64a9-9ba0-7d5417b95499",
+    "start_datetime": "2024-01-07T03:40:23Z",
+    "income_fees": 0.9307931476,
+    "income_total": 32.8688742582,
+    "income_tips": 7.0341597247,
+    "type": "rideshare",
+    "income_total_charge": 35.1717732687
+  },
+  {
+    "id": "018cf511-b1d0-00ac-9446-c1c88d59b7a8",
+    "start_datetime": "2024-01-07T00:11:34Z",
+    "income_fees": 2.0180594558,
+    "income_total": 39.4902273742,
+    "income_tips": 0.3454852804,
+    "type": "rideshare",
+    "income_total_charge": 33.9003358652
+  },
+  {
+    "id": "018cf511-b1f6-7793-ba58-b55f1930131d",
+    "start_datetime": "2024-01-06T23:52:57Z",
+    "income_fees": 5.4528312303,
+    "income_total": 7.3292188116,
+    "income_tips": 0.5636024179,
+    "type": "rideshare",
+    "income_total_charge": 50.7386073329
+  },
+  {
+    "id": "018cf511-b21c-7fc2-80fc-14beffcc6a82",
+    "start_datetime": "2024-01-06T23:21:17Z",
+    "income_fees": 10.3882713708,
+    "income_total": 33.3781376739,
+    "income_tips": 2.6309382274,
+    "type": "rideshare",
+    "income_total_charge": 46.5716599296
+  },
+  {
+    "id": "018cf511-b240-f088-4de4-ac1e6abbe2a0",
+    "start_datetime": "2024-01-06T02:55:04Z",
+    "income_fees": 7.6781180881,
+    "income_total": 18.1484659285,
+    "income_tips": 0.167814073,
+    "type": "rideshare",
+    "income_total_charge": 54.9344644531
+  },
+  {
+    "id": "018cf511-b26a-a43f-c94f-8c574e91a6ed",
+    "start_datetime": "2024-01-05T23:40:35Z",
+    "income_fees": 3.5875415841,
+    "income_total": 15.5434859135,
+    "income_tips": 3.8181428539,
+    "type": "rideshare",
+    "income_total_charge": 62.2652702845
+  },
+  {
+    "id": "018cf511-b290-cbc9-e1f0-03353babc32d",
+    "start_datetime": "2024-01-05T18:59:16Z",
+    "income_fees": 17.6991787931,
+    "income_total": 25.76189792,
+    "income_tips": 1.7721804699,
+    "type": "rideshare",
+    "income_total_charge": 26.7508843754
+  },
+  {
+    "id": "018cf511-b2bb-8e74-8e99-2b88f28327c1",
+    "start_datetime": "2024-01-05T18:00:41Z",
+    "income_fees": 10.118127544,
+    "income_total": -1.9594795245,
+    "income_tips": 1.8137531686,
+    "type": "rideshare",
+    "income_total_charge": 13.0792227804
+  },
+  {
+    "id": "018cf511-b2e4-3082-ff33-08e7c1641ac9",
+    "start_datetime": "2024-01-05T17:52:36Z",
+    "income_fees": 5.6038883886,
+    "income_total": 25.2434053425,
+    "income_tips": 4.7817270195,
+    "type": "rideshare",
+    "income_total_charge": 44.6185386779
+  },
+  {
+    "id": "018cf511-b310-4d7a-8345-9cdf049678eb",
+    "start_datetime": "2024-01-05T17:26:05Z",
+    "income_fees": 5.3944588155,
+    "income_total": 38.7972403268,
+    "income_tips": 1.5772364164,
+    "type": "rideshare",
+    "income_total_charge": 10.4885734002
+  },
+  {
+    "id": "018cf511-b33e-f16c-a90a-442a2897476d",
+    "start_datetime": "2024-01-04T19:34:40Z",
+    "income_fees": 3.6382179054,
+    "income_total": 0.3224517393,
+    "income_tips": 5.2418879131,
+    "type": "rideshare",
+    "income_total_charge": 27.8167244639
+  },
+  {
+    "id": "018cf511-b368-6430-3287-23ce50998f45",
+    "start_datetime": "2024-01-04T18:57:06Z",
+    "income_fees": 17.9734147213,
+    "income_total": 28.40264829,
+    "income_tips": 3.9532455556,
+    "type": "rideshare",
+    "income_total_charge": 13.2226286873
+  },
+  {
+    "id": "018cf511-b396-9747-5e52-92c8a60f1343",
+    "start_datetime": "2024-01-04T18:36:17Z",
+    "income_fees": 12.4313375313,
+    "income_total": 3.4422334845,
+    "income_tips": 7.646237281,
+    "type": "rideshare",
+    "income_total_charge": 2.010595699
+  },
+  {
+    "id": "018cf516-8720-2a17-a71d-f4496522f0b3",
+    "start_datetime": "2024-01-03T16:57:13Z",
+    "income_fees": 3.6081869084,
+    "income_total": 23.5748343437,
+    "income_tips": 0.9943967984,
+    "type": "rideshare",
+    "income_total_charge": 33.6385691136
+  },
+  {
+    "id": "018cf516-8752-49c0-625d-252d8998fcc7",
+    "start_datetime": "2024-01-02T02:21:24Z",
+    "income_fees": -3.2562578975,
+    "income_total": 7.0121642745,
+    "income_tips": 4.8281154522,
+    "type": "rideshare",
+    "income_total_charge": 25.3162967162
+  },
+  {
+    "id": "018cf516-8781-fb14-e702-092937bb7d13",
+    "start_datetime": "2024-01-02T02:19:49Z",
+    "income_fees": -3.5970951916,
+    "income_total": 17.5135260361,
+    "income_tips": 6.6086932538,
+    "type": "rideshare",
+    "income_total_charge": 16.7909776664
+  },
+  {
+    "id": "018cf516-87b4-2f06-4fb5-6ef7f3afe091",
+    "start_datetime": "2024-01-02T02:10:48Z",
+    "income_fees": -6.928218098,
+    "income_total": 42.116894084,
+    "income_tips": 4.5122700653,
+    "type": "rideshare",
+    "income_total_charge": 43.0631798154
+  },
+  {
+    "id": "018cf516-87e0-6179-54ff-6dbd6e71caf3",
+    "start_datetime": "2024-01-02T01:25:14Z",
+    "income_fees": 6.2281518168,
+    "income_total": 31.099148211,
+    "income_tips": 4.9409000042,
+    "type": "rideshare",
+    "income_total_charge": 20.0828473168
+  },
+  {
+    "id": "018cf516-8810-dc7a-1f8b-69e6266d4d22",
+    "start_datetime": "2024-01-02T01:00:50Z",
+    "income_fees": -6.0756813821,
+    "income_total": 3.8733274005,
+    "income_tips": 4.1689600307,
+    "type": "rideshare",
+    "income_total_charge": 41.9417982878
+  },
+  {
+    "id": "018cf516-883f-6035-6192-5372897f9107",
+    "start_datetime": "2024-01-01T23:30:56Z",
+    "income_fees": 7.8732715589,
+    "income_total": 25.7181005954,
+    "income_tips": 8.6773074927,
+    "type": "rideshare",
+    "income_total_charge": 72.6208018599
+  },
+  {
+    "id": "018cf516-8874-db2b-da8a-6833f7cc7e79",
+    "start_datetime": "2024-01-01T23:03:06Z",
+    "income_fees": 4.8532563218,
+    "income_total": 14.5680759781,
+    "income_tips": 7.7454038221,
+    "type": "rideshare",
+    "income_total_charge": 50.4711372176
+  },
+  {
+    "id": "018cf516-889f-2543-be04-958afdd7118e",
+    "start_datetime": "2024-01-01T10:14:47Z",
+    "income_fees": 6.8833311949,
+    "income_total": 10.7473535043,
+    "income_tips": 2.3783924108,
+    "type": "rideshare",
+    "income_total_charge": 49.4941571402
+  },
+  {
+    "id": "018cf516-88cd-02e0-f801-b723d266cec9",
+    "start_datetime": "2024-01-01T09:40:49Z",
+    "income_fees": 5.4156243503,
+    "income_total": 46.3251726024,
+    "income_tips": 2.9155946317,
+    "type": "rideshare",
+    "income_total_charge": 86.0410722609
+  },
+  {
+    "id": "018cf516-88f9-404f-c9a9-23b8399402e7",
+    "start_datetime": "2024-01-01T09:16:45Z",
+    "income_fees": -2.6613106298,
+    "income_total": 9.1755911433,
+    "income_tips": 1.4516893689,
+    "type": "rideshare",
+    "income_total_charge": 47.534492152
+  },
+  {
+    "id": "018cf516-8929-0fb6-2393-a5c2e9a0ec04",
+    "start_datetime": "2024-01-01T09:15:44Z",
+    "income_fees": -1.7473396603,
+    "income_total": 43.24339485,
+    "income_tips": 3.9308655051,
+    "type": "rideshare",
+    "income_total_charge": 34.0668320438
+  },
+  {
+    "id": "018cf516-895e-4095-ee7f-12b7055072a9",
+    "start_datetime": "2024-01-01T09:12:33Z",
+    "income_fees": 4.9836400808,
+    "income_total": 43.0936261978,
+    "income_tips": 2.9436636398,
+    "type": "rideshare",
+    "income_total_charge": 46.0354014646
+  },
+  {
+    "id": "018cf516-8993-c9b3-2f9d-74a191224cd0",
+    "start_datetime": "2024-01-01T08:48:18Z",
+    "income_fees": 5.1845504135,
+    "income_total": 12.9847603877,
+    "income_tips": 0.6320570847,
+    "type": "rideshare",
+    "income_total_charge": 58.3167331601
+  },
+  {
+    "id": "018cf516-89bf-f857-55b7-b7f46fe4ebd1",
+    "start_datetime": "2024-01-01T08:47:29Z",
+    "income_fees": 7.2519032747,
+    "income_total": 45.2834325983,
+    "income_tips": 4.1175449071,
+    "type": "rideshare",
+    "income_total_charge": 28.1609047055
+  },
+  {
+    "id": "018cf516-89ef-b4f7-113b-96d0606195bf",
+    "start_datetime": "2024-01-01T08:40:37Z",
+    "income_fees": 11.2026059457,
+    "income_total": 24.8145654043,
+    "income_tips": 1.4721545313,
+    "type": "rideshare",
+    "income_total_charge": 40.2188975988
+  },
+  {
+    "id": "018cf516-8a1f-af03-576c-73676947cbaf",
+    "start_datetime": "2024-01-01T06:09:58Z",
+    "income_fees": -4.4545871134,
+    "income_total": 23.1549502469,
+    "income_tips": 5.9086865927,
+    "type": "rideshare",
+    "income_total_charge": 10.2378931944
+  },
+  {
+    "id": "018cf516-8a51-b600-d5eb-673dc26a161a",
+    "start_datetime": "2024-01-01T05:40:08Z",
+    "income_fees": 10.2036564144,
+    "income_total": 8.3063315837,
+    "income_tips": 3.9768700373,
+    "type": "rideshare",
+    "income_total_charge": 29.3638174273
+  },
+  {
+    "id": "018cf516-8a81-faaf-f28f-344c396d9419",
+    "start_datetime": "2024-01-01T05:31:40Z",
+    "income_fees": 4.3977223877,
+    "income_total": 1.4747383138,
+    "income_tips": 1.7095826021,
+    "type": "rideshare",
+    "income_total_charge": 26.8104221373
+  },
+  {
+    "id": "018cf516-8ab0-bacf-e8b7-41764e162032",
+    "start_datetime": "2024-01-01T05:02:48Z",
+    "income_fees": -1.6308346371,
+    "income_total": 10.5650110116,
+    "income_tips": 2.7631798758,
+    "type": "rideshare",
+    "income_total_charge": 34.8311803645
+  },
+  {
+    "id": "018cf516-8af2-6e4f-77ab-7448edcfc9c2",
+    "start_datetime": "2024-01-01T04:02:11Z",
+    "income_fees": 8.3879730619,
+    "income_total": 24.6611809702,
+    "income_tips": 8.7980757247,
+    "type": "rideshare",
+    "income_total_charge": 4.7776099694
+  },
+  {
+    "id": "018cf516-8b1e-cf63-1ab7-fadff78ed192",
+    "start_datetime": "2024-01-01T03:45:32Z",
+    "income_fees": 2.8991501704,
+    "income_total": 27.0354709152,
+    "income_tips": 5.9371815028,
+    "type": "rideshare",
+    "income_total_charge": 26.0755003266
+  },
+  {
+    "id": "018cf516-8b50-a278-1779-51c4950fd001",
+    "start_datetime": "2024-01-01T02:27:37Z",
+    "income_fees": 6.6625485102,
+    "income_total": 13.1526570965,
+    "income_tips": 0.9828294791,
+    "type": "rideshare",
+    "income_total_charge": 68.5585546597
+  },
+  {
+    "id": "018cf516-8b7f-db21-64d4-4eb0d9ef5033",
+    "start_datetime": "2024-01-01T01:44:00Z",
+    "income_fees": 10.6726116671,
+    "income_total": 31.369392115,
+    "income_tips": 4.3797458395,
+    "type": "rideshare",
+    "income_total_charge": 27.2618687553
+  },
+  {
+    "id": "018cf516-8bac-3943-ec5b-f9d876d58873",
+    "start_datetime": "2024-01-01T00:46:51Z",
+    "income_fees": 4.2473150095,
+    "income_total": 9.9791466646,
+    "income_tips": 2.8311844387,
+    "type": "rideshare",
+    "income_total_charge": 19.6732520618
+  },
+  {
+    "id": "018cf516-8bd9-5dc2-f18d-931d2b091d22",
+    "start_datetime": "2023-12-31T23:52:10Z",
+    "income_fees": -4.2441943467,
+    "income_total": -11.1910210694,
+    "income_tips": 3.2601430458,
+    "type": "rideshare",
+    "income_total_charge": 26.5334516157
+  },
+  {
+    "id": "018cf516-8c06-ac15-4415-0bd0159c91a1",
+    "start_datetime": "2023-12-31T07:07:06Z",
+    "income_fees": -1.282824919,
+    "income_total": 2.3203641923,
+    "income_tips": 1.3543141707,
+    "type": "rideshare",
+    "income_total_charge": 54.0090158462
+  },
+  {
+    "id": "018cf516-8c31-67ef-90ab-37ab0d0fee35",
+    "start_datetime": "2023-12-31T04:24:27Z",
+    "income_fees": 4.2617817427,
+    "income_total": 24.049953895,
+    "income_tips": 1.5641414811,
+    "type": "rideshare",
+    "income_total_charge": 28.109929818
+  },
+  {
+    "id": "018cf516-8c5f-3806-addd-e9fb68081d9d",
+    "start_datetime": "2023-12-31T04:01:47Z",
+    "income_fees": 8.6528740464,
+    "income_total": 19.1074239185,
+    "income_tips": 1.9278516379,
+    "type": "rideshare",
+    "income_total_charge": 18.6920064076
+  },
+  {
+    "id": "018cf516-8c8f-315a-8201-548d95adcd0f",
+    "start_datetime": "2023-12-31T02:08:00Z",
+    "income_fees": 0.7337699387,
+    "income_total": 8.8505680393,
+    "income_tips": 6.8269188887,
+    "type": "rideshare",
+    "income_total_charge": 50.563235516
+  },
+  {
+    "id": "018cf516-8cba-1e6f-6389-394952d26323",
+    "start_datetime": "2023-12-30T12:39:36Z",
+    "income_fees": 1.4451657223,
+    "income_total": 7.3823184391,
+    "income_tips": 7.9664831486,
+    "type": "rideshare",
+    "income_total_charge": 27.459578443
+  },
+  {
+    "id": "018cf516-8ceb-a462-a9d6-5724a7d3eba9",
+    "start_datetime": "2023-12-30T11:57:39Z",
+    "income_fees": 15.0546004647,
+    "income_total": 10.0788162911,
+    "income_tips": 2.1377987939,
+    "type": "rideshare",
+    "income_total_charge": 67.0286546494
+  },
+  {
+    "id": "018cf516-8d17-e151-2e50-018253c43d35",
+    "start_datetime": "2023-12-30T11:37:55Z",
+    "income_fees": 1.9554407634,
+    "income_total": 7.2118759919,
+    "income_tips": 6.1969240025,
+    "type": "rideshare",
+    "income_total_charge": 0.198935687
+  },
+  {
+    "id": "018cf516-8d43-3f3d-c698-314e7cf34b54",
+    "start_datetime": "2023-12-30T11:16:05Z",
+    "income_fees": -0.9618151046,
+    "income_total": -1.3025531155,
+    "income_tips": 4.1701932556,
+    "type": "rideshare",
+    "income_total_charge": 64.8357486014
+  },
+  {
+    "id": "018cf516-8d74-f07e-f6f4-a28dbd2f956e",
+    "start_datetime": "2023-12-30T11:08:54Z",
+    "income_fees": 12.7418699725,
+    "income_total": 8.7409014253,
+    "income_tips": 8.2111522139,
+    "type": "rideshare",
+    "income_total_charge": 49.8557775185
+  },
+  {
+    "id": "018cf516-8da5-e1b8-dcd3-75b4d981f2fa",
+    "start_datetime": "2023-12-30T07:29:20Z",
+    "income_fees": 0.618254696,
+    "income_total": 36.3547775779,
+    "income_tips": 0.7595091973,
+    "type": "rideshare",
+    "income_total_charge": 23.3296030379
+  },
+  {
+    "id": "018cf516-8dd6-6b69-1b8c-598412ce06e4",
+    "start_datetime": "2023-12-30T06:58:55Z",
+    "income_fees": 3.9908888878,
+    "income_total": 20.6723615966,
+    "income_tips": 3.5669507391,
+    "type": "rideshare",
+    "income_total_charge": 34.6776106955
+  },
+  {
+    "id": "018cf516-8e05-9bc7-f58c-55fe406dc4e9",
+    "start_datetime": "2023-12-28T20:47:58Z",
+    "income_fees": 14.542590754,
+    "income_total": -10.5994769127,
+    "income_tips": 5.2579172176,
+    "type": "rideshare",
+    "income_total_charge": 13.6813118462
+  },
+  {
+    "id": "018cf516-8e37-1214-fee5-766ae981cdcc",
+    "start_datetime": "2023-12-28T20:17:51Z",
+    "income_fees": 3.8545927784,
+    "income_total": 45.3867099685,
+    "income_tips": 2.9165669181,
+    "type": "rideshare",
+    "income_total_charge": 33.5454378235
+  },
+  {
+    "id": "018cf516-8e62-70a7-8248-712c96815bcb",
+    "start_datetime": "2023-12-27T18:56:59Z",
+    "income_fees": 9.816869019,
+    "income_total": -21.3094638047,
+    "income_tips": 1.5560947929,
+    "type": "rideshare",
+    "income_total_charge": 42.1049925725
+  },
+  {
+    "id": "018cf516-8e9f-191c-478b-86484d69ff0e",
+    "start_datetime": "2023-12-26T06:46:52Z",
+    "income_fees": 9.9806029039,
+    "income_total": 23.9944119357,
+    "income_tips": 2.0911789023,
+    "type": "rideshare",
+    "income_total_charge": 42.806721927
+  },
+  {
+    "id": "018cf516-8ee6-6bed-e9d8-ea59560409f4",
+    "start_datetime": "2023-12-26T06:06:07Z",
+    "income_fees": 6.4093703544,
+    "income_total": -5.5847156793,
+    "income_tips": 5.7703686534,
+    "type": "rideshare",
+    "income_total_charge": 30.0144706254
+  },
+  {
+    "id": "018cf516-8f1a-3bcd-5c4c-2ec451db5f3b",
+    "start_datetime": "2023-12-26T05:53:51Z",
+    "income_fees": 10.4824247904,
+    "income_total": 34.8881133581,
+    "income_tips": 1.7505238777,
+    "type": "rideshare",
+    "income_total_charge": 36.4798986615
+  },
+  {
+    "id": "018cf516-8f4b-f7f4-f727-342fed70ca4a",
+    "start_datetime": "2023-12-26T05:18:46Z",
+    "income_fees": -0.0887661157,
+    "income_total": 23.0687077459,
+    "income_tips": 5.0877083582,
+    "type": "rideshare",
+    "income_total_charge": 9.9546295137
+  },
+  {
+    "id": "018cf516-8f7a-da3f-b3a5-4ebd1c86d049",
+    "start_datetime": "2023-12-26T04:11:33Z",
+    "income_fees": -0.2556835447,
+    "income_total": 18.9381349864,
+    "income_tips": 0.0930295742,
+    "type": "rideshare",
+    "income_total_charge": 54.3804565041
+  },
+  {
+    "id": "018cf516-8fa8-bd25-b188-b6c5150f7d87",
+    "start_datetime": "2023-12-26T03:29:19Z",
+    "income_fees": -0.7201836098,
+    "income_total": 10.0164336288,
+    "income_tips": 2.0908844867,
+    "type": "rideshare",
+    "income_total_charge": 80.752752989
+  },
+  {
+    "id": "018cf516-8fd6-6e2c-d97b-695895e34092",
+    "start_datetime": "2023-12-26T03:09:37Z",
+    "income_fees": 12.3371137156,
+    "income_total": -22.9354054664,
+    "income_tips": 2.8132451347,
+    "type": "rideshare",
+    "income_total_charge": 37.307241909
+  },
+  {
+    "id": "018cf516-8fff-cdf4-b3f8-d319058a485c",
+    "start_datetime": "2023-12-24T06:11:02Z",
+    "income_fees": 11.2257656544,
+    "income_total": 3.0347988574,
+    "income_tips": 2.6131933459,
+    "type": "rideshare",
+    "income_total_charge": 15.6393357513
+  },
+  {
+    "id": "018cf516-902c-63ee-a804-bc128cf8d1cd",
+    "start_datetime": "2023-12-24T04:45:22Z",
+    "income_fees": 0.6377515766,
+    "income_total": 10.0340683539,
+    "income_tips": 2.3295301145,
+    "type": "rideshare",
+    "income_total_charge": 32.1174578716
+  },
+  {
+    "id": "018cf516-9056-49f8-2381-b4c4ff0be022",
+    "start_datetime": "2023-12-24T04:33:35Z",
+    "income_fees": 4.756046471,
+    "income_total": 40.2098742057,
+    "income_tips": 3.8516225839,
+    "type": "rideshare",
+    "income_total_charge": 35.0601629458
+  },
+  {
+    "id": "018cf516-9085-08b2-fd2b-5ba85a746f67",
+    "start_datetime": "2023-12-24T01:10:34Z",
+    "income_fees": -5.7442378111,
+    "income_total": 9.6487380794,
+    "income_tips": 2.5756608867,
+    "type": "rideshare",
+    "income_total_charge": 9.7215707771
+  },
+  {
+    "id": "018cf516-90b7-c185-14cc-50e58bc9def2",
+    "start_datetime": "2023-12-23T21:52:47Z",
+    "income_fees": 19.0477934001,
+    "income_total": -23.8609660427,
+    "income_tips": 0.7677356196,
+    "type": "rideshare",
+    "income_total_charge": 63.4845346812
+  },
+  {
+    "id": "018cf516-90e5-3694-700f-aa77ed830749",
+    "start_datetime": "2023-12-23T11:54:38Z",
+    "income_fees": 5.1664852797,
+    "income_total": 34.5681598325,
+    "income_tips": 4.1186099898,
+    "type": "rideshare",
+    "income_total_charge": 33.86449449
+  },
+  {
+    "id": "018cf516-9112-368c-21f2-3fa4744d0000",
+    "start_datetime": "2023-12-23T11:06:55Z",
+    "income_fees": 14.397337866,
+    "income_total": 41.9342610075,
+    "income_tips": 0.3852658629,
+    "type": "rideshare",
+    "income_total_charge": 7.7245320103
+  },
+  {
+    "id": "018cf516-913f-1ce4-6fc4-3e723d2cee71",
+    "start_datetime": "2023-12-23T11:03:08Z",
+    "income_fees": 9.3591139942,
+    "income_total": 6.5451768243,
+    "income_tips": 5.8294278251,
+    "type": "rideshare",
+    "income_total_charge": 48.1261833185
+  },
+  {
+    "id": "018cf516-916e-f0c5-053e-4d102695f8d7",
+    "start_datetime": "2023-12-23T02:28:57Z",
+    "income_fees": 12.0217931846,
+    "income_total": 47.2396768722,
+    "income_tips": 3.7359443458,
+    "type": "rideshare",
+    "income_total_charge": 37.1116122982
+  },
+  {
+    "id": "018cf516-9197-abc8-165e-72ccd2635b08",
+    "start_datetime": "2023-12-23T01:47:27Z",
+    "income_fees": -3.2221282085,
+    "income_total": 19.8041970589,
+    "income_tips": 5.5107150967,
+    "type": "rideshare",
+    "income_total_charge": 30.454221422
+  },
+  {
+    "id": "018cf516-91c1-1e30-3c2b-db0ebe515c90",
+    "start_datetime": "2023-12-22T04:43:47Z",
+    "income_fees": -6.7119818762,
+    "income_total": 0.3174600201,
+    "income_tips": 2.5487860801,
+    "type": "rideshare",
+    "income_total_charge": 23.0023929206
+  },
+  {
+    "id": "018cf516-91ef-ebe7-2c0b-fce915865583",
+    "start_datetime": "2023-12-22T04:18:34Z",
+    "income_fees": 8.9297902361,
+    "income_total": 24.1465770514,
+    "income_tips": 1.8327211599,
+    "type": "rideshare",
+    "income_total_charge": 26.0138703743
+  },
+  {
+    "id": "018cf516-921b-75a5-5159-41c6be550a18",
+    "start_datetime": "2023-12-22T03:56:50Z",
+    "income_fees": 2.8053944891,
+    "income_total": -11.5894743427,
+    "income_tips": 0.2370112797,
+    "type": "rideshare",
+    "income_total_charge": 70.0411517158
+  },
+  {
+    "id": "018cf516-9246-2f3e-70b5-cb720cc8fe5d",
+    "start_datetime": "2023-12-21T17:11:07Z",
+    "income_fees": 13.4984687548,
+    "income_total": 27.1457100736,
+    "income_tips": 0.9053842635,
+    "type": "rideshare",
+    "income_total_charge": 26.1822169263
+  },
+  {
+    "id": "018cf516-9274-4c05-df8e-094cd88f5952",
+    "start_datetime": "2023-12-21T04:41:02Z",
+    "income_fees": 8.8244000774,
+    "income_total": -5.8629643298,
+    "income_tips": 2.7491622534,
+    "type": "rideshare",
+    "income_total_charge": 35.9752146163
+  },
+  {
+    "id": "018cf516-92c4-8477-17bf-9112b1c529d1",
+    "start_datetime": "2023-12-21T02:43:42Z",
+    "income_fees": -2.8719527077,
+    "income_total": -12.3368634261,
+    "income_tips": 3.3660373478,
+    "type": "rideshare",
+    "income_total_charge": 14.8739236316
+  },
+  {
+    "id": "018cf516-92f1-a0de-3a84-b5a4383fa4e6",
+    "start_datetime": "2023-12-20T20:11:54Z",
+    "income_fees": 1.3992621295,
+    "income_total": 4.8328846824,
+    "income_tips": 1.0668269455,
+    "type": "rideshare",
+    "income_total_charge": 37.371009157
+  },
+  {
+    "id": "018cf516-9321-a426-1cc8-cfe27337c780",
+    "start_datetime": "2023-12-20T01:46:30Z",
+    "income_fees": -1.0554851685,
+    "income_total": 18.5594515833,
+    "income_tips": 1.2471261153,
+    "type": "rideshare",
+    "income_total_charge": 23.1878136025
+  },
+  {
+    "id": "018cf516-934b-3133-354a-e7bc7a45e4e8",
+    "start_datetime": "2023-12-19T05:20:32Z",
+    "income_fees": 4.2305332898,
+    "income_total": 12.6151849127,
+    "income_tips": 2.6989559912,
+    "type": "rideshare",
+    "income_total_charge": 24.3489882825
+  },
+  {
+    "id": "018cf516-9377-2b16-1c64-27f546d06005",
+    "start_datetime": "2023-12-19T05:09:13Z",
+    "income_fees": 1.0621644739,
+    "income_total": 20.2101360226,
+    "income_tips": 2.3716458232,
+    "type": "rideshare",
+    "income_total_charge": 41.5500273735
+  },
+  {
+    "id": "018cf516-93a8-a0ac-b833-0161639c3c3b",
+    "start_datetime": "2023-12-19T04:31:24Z",
+    "income_fees": 9.2463971031,
+    "income_total": 10.8208079872,
+    "income_tips": 1.1509080165,
+    "type": "rideshare",
+    "income_total_charge": 11.2438439923
+  },
+  {
+    "id": "018cf516-93d9-94f5-018c-0b8698e84257",
+    "start_datetime": "2023-12-19T02:01:20Z",
+    "income_fees": 1.4487016787,
+    "income_total": 27.5618347064,
+    "income_tips": 1.2918075557,
+    "type": "rideshare",
+    "income_total_charge": 45.984459198
+  },
+  {
+    "id": "018cf516-9405-7a11-8b4e-b1f0927a05c4",
+    "start_datetime": "2023-12-18T20:08:17Z",
+    "income_fees": 5.4548126923,
+    "income_total": 37.2318703802,
+    "income_tips": 4.6069167632,
+    "type": "rideshare",
+    "income_total_charge": 12.7769170737
+  },
+  {
+    "id": "018cf516-9431-5b93-02c0-f2ce52e236bc",
+    "start_datetime": "2023-12-18T19:05:47Z",
+    "income_fees": -4.5893268889,
+    "income_total": -7.1010507596,
+    "income_tips": 0.0829267982,
+    "type": "rideshare",
+    "income_total_charge": 58.4670542589
+  },
+  {
+    "id": "018cf516-945e-ce48-e8ab-2d81a15a7ab8",
+    "start_datetime": "2023-12-18T18:23:17Z",
+    "income_fees": -2.2908343061,
+    "income_total": 16.4891901482,
+    "income_tips": 3.1094296761,
+    "type": "rideshare",
+    "income_total_charge": 38.0944416168
+  },
+  {
+    "id": "018cf516-948e-3042-8086-fff0d2984e60",
+    "start_datetime": "2023-12-18T17:55:32Z",
+    "income_fees": 3.144897054,
+    "income_total": 34.8522193195,
+    "income_tips": 1.7985977114,
+    "type": "rideshare",
+    "income_total_charge": 48.9534502607
+  },
+  {
+    "id": "018cf516-94be-f8e8-fd7d-951c910f49be",
+    "start_datetime": "2023-12-18T17:21:27Z",
+    "income_fees": -4.2812817454,
+    "income_total": 28.6977114091,
+    "income_tips": 2.3649229168,
+    "type": "rideshare",
+    "income_total_charge": 18.685878573
+  },
+  {
+    "id": "018cf516-94e8-09fb-10d7-f7a5dfef0b97",
+    "start_datetime": "2023-12-17T09:12:38Z",
+    "income_fees": 2.8412034801,
+    "income_total": 21.2176468425,
+    "income_tips": 5.6040861469,
+    "type": "rideshare",
+    "income_total_charge": 10.8470637558
+  },
+  {
+    "id": "018cf516-9516-2b4c-1cf9-8f24c95c9962",
+    "start_datetime": "2023-12-17T08:50:52Z",
+    "income_fees": 9.2268652942,
+    "income_total": 6.7549142017,
+    "income_tips": 8.4532664755,
+    "type": "rideshare",
+    "income_total_charge": 24.0130210901
+  },
+  {
+    "id": "018cf516-9542-51fa-282d-4502e1e9bf3a",
+    "start_datetime": "2023-12-17T07:21:51Z",
+    "income_fees": -5.8958993108,
+    "income_total": 21.3247480485,
+    "income_tips": 3.0620590895,
+    "type": "rideshare",
+    "income_total_charge": 2.6322095344
+  },
+  {
+    "id": "018cf516-9571-e109-bfa7-e7a6ce673daa",
+    "start_datetime": "2023-12-17T06:56:05Z",
+    "income_fees": 1.3774893638,
+    "income_total": 26.6170713546,
+    "income_tips": 2.5628022742,
+    "type": "rideshare",
+    "income_total_charge": 34.5719976481
+  },
+  {
+    "id": "018cf516-959e-a88a-9228-33842bb5dd42",
+    "start_datetime": "2023-12-17T06:42:25Z",
+    "income_fees": 3.7841406556,
+    "income_total": 19.4452491247,
+    "income_tips": 4.9395644522,
+    "type": "rideshare",
+    "income_total_charge": 31.9436454326
+  },
+  {
+    "id": "018cf516-95c6-4aed-bc87-2538610adbe8",
+    "start_datetime": "2023-12-17T05:56:42Z",
+    "income_fees": 0.2228789152,
+    "income_total": 40.1540989686,
+    "income_tips": 1.2770409937,
+    "type": "rideshare",
+    "income_total_charge": 42.8218510987
+  },
+  {
+    "id": "018cf516-95f7-e071-62a8-82ebcc571f4f",
+    "start_datetime": "2023-12-17T05:20:24Z",
+    "income_fees": 1.4262870118,
+    "income_total": 22.2294865509,
+    "income_tips": 4.4845094447,
+    "type": "rideshare",
+    "income_total_charge": 24.4599667587
+  },
+  {
+    "id": "018cf516-9624-14c5-19b0-50ab4bbd5dfd",
+    "start_datetime": "2023-12-17T03:27:44Z",
+    "income_fees": 0.4145785669,
+    "income_total": -8.2505260805,
+    "income_tips": 8.4005183738,
+    "type": "rideshare",
+    "income_total_charge": 37.1587110706
+  },
+  {
+    "id": "018cf516-9650-d3ff-daf1-a2fade7dc8e6",
+    "start_datetime": "2023-12-17T02:47:50Z",
+    "income_fees": 14.2356824791,
+    "income_total": 24.6784762772,
+    "income_tips": 1.7298398325,
+    "type": "rideshare",
+    "income_total_charge": 19.3225619462
+  },
+  {
+    "id": "018cf516-96a1-f416-b9e9-d7f3205614cb",
+    "start_datetime": "2023-12-17T02:29:21Z",
+    "income_fees": 1.7673940688,
+    "income_total": 8.2389459685,
+    "income_tips": 5.733186548,
+    "type": "rideshare",
+    "income_total_charge": 42.6481637038
+  },
+  {
+    "id": "018cf516-96de-5ffe-8da3-980828761221",
+    "start_datetime": "2023-12-17T02:01:53Z",
+    "income_fees": 1.2354057707,
+    "income_total": -10.1637644471,
+    "income_tips": 1.607822721,
+    "type": "rideshare",
+    "income_total_charge": 36.4833995778
+  },
+  {
+    "id": "018cf516-9711-7db4-4891-56eab8e54dbb",
+    "start_datetime": "2023-12-17T01:37:34Z",
+    "income_fees": 12.0440102608,
+    "income_total": 10.9642567689,
+    "income_tips": 2.9780251625,
+    "type": "rideshare",
+    "income_total_charge": 19.6997437456
+  },
+  {
+    "id": "018cf516-973e-e2a7-c61b-966dc91066c0",
+    "start_datetime": "2023-12-16T10:55:46Z",
+    "income_fees": -0.9189205696,
+    "income_total": 15.0899484868,
+    "income_tips": 1.5785423997,
+    "type": "rideshare",
+    "income_total_charge": 18.3501706261
+  },
+  {
+    "id": "018cf516-976f-2be4-be6a-921d716f70a8",
+    "start_datetime": "2023-12-16T10:32:28Z",
+    "income_fees": 1.3036871873,
+    "income_total": 16.2139421217,
+    "income_tips": 3.6904104833,
+    "type": "rideshare",
+    "income_total_charge": 39.7660324422
+  },
+  {
+    "id": "018cf516-97a2-6365-f583-1f39e66bdd8c",
+    "start_datetime": "2023-12-16T09:17:26Z",
+    "income_fees": 20.2110469605,
+    "income_total": 14.7292858137,
+    "income_tips": 2.1453177585,
+    "type": "rideshare",
+    "income_total_charge": 28.9152006163
+  },
+  {
+    "id": "018cf516-97cd-6e6d-9849-dca1ba7c4a48",
+    "start_datetime": "2023-12-16T08:58:00Z",
+    "income_fees": 2.863936048,
+    "income_total": -7.3973610652,
+    "income_tips": 1.1195099622,
+    "type": "rideshare",
+    "income_total_charge": 30.863810887
+  },
+  {
+    "id": "018cf516-97f8-5a28-50fe-e7b22d5e61ab",
+    "start_datetime": "2023-12-16T08:22:02Z",
+    "income_fees": 2.1845669448,
+    "income_total": 46.9614453816,
+    "income_tips": 4.6828119163,
+    "type": "rideshare",
+    "income_total_charge": 27.7068594113
+  },
+  {
+    "id": "018cf516-9824-d4ed-fe48-a7ef6e2f4b88",
+    "start_datetime": "2023-12-16T07:32:13Z",
+    "income_fees": 4.3644318951,
+    "income_total": 17.9398973724,
+    "income_tips": 3.1256212925,
+    "type": "rideshare",
+    "income_total_charge": 47.0382421474
+  },
+  {
+    "id": "018cf516-9851-eb48-f599-4e04b50c4913",
+    "start_datetime": "2023-12-16T07:29:28Z",
+    "income_fees": 2.5652563387,
+    "income_total": -2.8717934988,
+    "income_tips": 1.8367447144,
+    "type": "rideshare",
+    "income_total_charge": 17.1258782749
+  },
+  {
+    "id": "018cf516-987d-b847-45ae-82824fd62e67",
+    "start_datetime": "2023-12-16T05:37:03Z",
+    "income_fees": 11.5053545303,
+    "income_total": -3.0960489398,
+    "income_tips": 1.9704571675,
+    "type": "rideshare",
+    "income_total_charge": 41.1719183301
+  },
+  {
+    "id": "018cf516-98ad-c0d7-3e6b-0f92973b8710",
+    "start_datetime": "2023-12-16T05:20:45Z",
+    "income_fees": 2.6379285114,
+    "income_total": 30.9965016617,
+    "income_tips": 6.5522691895,
+    "type": "rideshare",
+    "income_total_charge": 46.1634899896
+  },
+  {
+    "id": "018cf516-98d9-851e-e0a3-f3ffd91e0190",
+    "start_datetime": "2023-12-16T05:09:39Z",
+    "income_fees": -2.7038327769,
+    "income_total": 34.6312090466,
+    "income_tips": 2.1855118724,
+    "type": "rideshare",
+    "income_total_charge": 34.5156253206
+  },
+  {
+    "id": "018cf516-9906-960e-18b0-f5c41c98fcf5",
+    "start_datetime": "2023-12-16T04:46:08Z",
+    "income_fees": -2.3631844458,
+    "income_total": 10.1999372152,
+    "income_tips": 2.4462541897,
+    "type": "rideshare",
+    "income_total_charge": 49.7945505015
+  },
+  {
+    "id": "018cf516-9932-219f-56b2-cf3032de5fe9",
+    "start_datetime": "2023-12-16T04:29:43Z",
+    "income_fees": 0.2352190702,
+    "income_total": 27.5085402183,
+    "income_tips": 1.2456412346,
+    "type": "rideshare",
+    "income_total_charge": 2.3568188753
+  },
+  {
+    "id": "018cf516-995d-3f0d-3635-431f8d0d65b8",
+    "start_datetime": "2023-12-16T02:39:02Z",
+    "income_fees": -0.8131827845,
+    "income_total": 46.6440547536,
+    "income_tips": 7.6302603507,
+    "type": "rideshare",
+    "income_total_charge": 25.5319572388
+  },
+  {
+    "id": "018cf516-998a-91c3-df0e-11cc6b3911c9",
+    "start_datetime": "2023-12-16T02:27:54Z",
+    "income_fees": 5.9927982315,
+    "income_total": 1.8652295423,
+    "income_tips": 0.1608515462,
+    "type": "rideshare",
+    "income_total_charge": 6.7480254099
+  },
+  {
+    "id": "018cf516-99bc-e2b3-6a8d-3a4c3cd8eba7",
+    "start_datetime": "2023-12-16T01:59:24Z",
+    "income_fees": 22.5115548606,
+    "income_total": 32.6804866948,
+    "income_tips": 7.3224562785,
+    "type": "rideshare",
+    "income_total_charge": 27.4817057628
+  },
+  {
+    "id": "018cf516-99e9-ef4a-9965-d06e6139ca0c",
+    "start_datetime": "2023-12-16T01:24:42Z",
+    "income_fees": -0.8502469289,
+    "income_total": 14.0821855211,
+    "income_tips": 1.1539641755,
+    "type": "rideshare",
+    "income_total_charge": 56.6442225028
+  },
+  {
+    "id": "018cf516-9a15-63b4-c159-ce0cfe0ef624",
+    "start_datetime": "2023-12-15T04:35:26Z",
+    "income_fees": 2.7997015771,
+    "income_total": 33.1801808833,
+    "income_tips": 2.2088301904,
+    "type": "rideshare",
+    "income_total_charge": 8.5613407251
+  },
+  {
+    "id": "018cf516-9a48-1339-fe0e-24f2731e165f",
+    "start_datetime": "2023-12-13T04:25:27Z",
+    "income_fees": -2.7682172283,
+    "income_total": 37.7465069102,
+    "income_tips": 2.0651701747,
+    "type": "rideshare",
+    "income_total_charge": 33.802167802
+  },
+  {
+    "id": "018cf516-9a83-38cd-2a5f-f12069322e62",
+    "start_datetime": "2023-12-13T01:25:46Z",
+    "income_fees": 7.5376856456,
+    "income_total": 23.5139485051,
+    "income_tips": 1.0419799509,
+    "type": "rideshare",
+    "income_total_charge": 63.3246492768
+  },
+  {
+    "id": "018cf516-9ac4-6119-fd44-b5f110007575",
+    "start_datetime": "2023-12-12T22:51:05Z",
+    "income_fees": 8.2161328202,
+    "income_total": 5.6232617282,
+    "income_tips": 3.0319356913,
+    "type": "rideshare",
+    "income_total_charge": 30.2017677189
+  },
+  {
+    "id": "018cf516-9af7-7c69-4e57-d685f3c25d54",
+    "start_datetime": "2023-12-12T16:46:53Z",
+    "income_fees": -1.3087671857,
+    "income_total": 46.5722928959,
+    "income_tips": 8.6418668906,
+    "type": "rideshare",
+    "income_total_charge": 32.7588583301
+  },
+  {
+    "id": "018cf516-9b25-6da6-466b-c5b34ebb29c9",
+    "start_datetime": "2023-12-11T16:25:24Z",
+    "income_fees": -1.2236957757,
+    "income_total": 49.526660835,
+    "income_tips": 0.9474269967,
+    "type": "rideshare",
+    "income_total_charge": 41.2690094492
+  },
+  {
+    "id": "018cf516-9b4d-572a-fc6c-ad501e6a8126",
+    "start_datetime": "2023-12-11T16:21:29Z",
+    "income_fees": 17.7602322511,
+    "income_total": 24.2081044789,
+    "income_tips": 3.3057946973,
+    "type": "rideshare",
+    "income_total_charge": 23.8219969424
+  },
+  {
+    "id": "018cf516-9b78-0fc4-7ad8-23fcab65ba45",
+    "start_datetime": "2023-12-11T16:04:46Z",
+    "income_fees": 21.4746358735,
+    "income_total": 36.0219946835,
+    "income_tips": 1.0611713587,
+    "type": "rideshare",
+    "income_total_charge": 54.9036844062
+  },
+  {
+    "id": "018cf516-9ba4-8888-1c65-dd1c863b9a49",
+    "start_datetime": "2023-12-10T09:08:07Z",
+    "income_fees": -3.7106985557,
+    "income_total": 28.080590901,
+    "income_tips": 3.6533620039,
+    "type": "rideshare",
+    "income_total_charge": 40.593409895
+  },
+  {
+    "id": "018cf516-9bce-1b3b-45f7-6c50c94d9d76",
+    "start_datetime": "2023-12-10T08:49:06Z",
+    "income_fees": -1.3789166096,
+    "income_total": 44.1480131604,
+    "income_tips": 3.1451092834,
+    "type": "rideshare",
+    "income_total_charge": 44.8330012358
+  },
+  {
+    "id": "018cf516-9bfb-ccf5-2b68-40c98251dc4f",
+    "start_datetime": "2023-12-10T05:48:54Z",
+    "income_fees": 12.382987379,
+    "income_total": 10.5365180882,
+    "income_tips": 1.9862717582,
+    "type": "rideshare",
+    "income_total_charge": 16.0530200546
+  },
+  {
+    "id": "018cf516-9c22-ea91-4d8e-557b9ec002e8",
+    "start_datetime": "2023-12-10T05:29:43Z",
+    "income_fees": 2.7039389204,
+    "income_total": 16.3556017294,
+    "income_tips": 3.8643311566,
+    "type": "rideshare",
+    "income_total_charge": 30.9204356875
+  },
+  {
+    "id": "018cf516-9c50-7e21-2c44-56d2e8726a14",
+    "start_datetime": "2023-12-10T04:06:07Z",
+    "income_fees": 1.8280141138,
+    "income_total": 16.0541566896,
+    "income_tips": 3.8796577573,
+    "type": "rideshare",
+    "income_total_charge": 9.6776589434
+  },
+  {
+    "id": "018cf516-9c82-581a-d018-e167c9ee8038",
+    "start_datetime": "2023-12-10T03:30:28Z",
+    "income_fees": 0.8530372185,
+    "income_total": 7.0889067609,
+    "income_tips": 1.4897102318,
+    "type": "rideshare",
+    "income_total_charge": 51.3408604049
+  },
+  {
+    "id": "018cf516-9cb2-c9a3-7a7c-50b5f071daf3",
+    "start_datetime": "2023-12-10T03:11:58Z",
+    "income_fees": 0.9110295891,
+    "income_total": 26.7832687772,
+    "income_tips": 1.5752013683,
+    "type": "rideshare",
+    "income_total_charge": 14.7554604357
+  },
+  {
+    "id": "018cf516-9ce4-f04b-2b61-f2b59639a75a",
+    "start_datetime": "2023-12-10T02:03:06Z",
+    "income_fees": 8.6032117218,
+    "income_total": 14.6350376223,
+    "income_tips": 2.8368028638,
+    "type": "rideshare",
+    "income_total_charge": 11.1443581476
+  },
+  {
+    "id": "018cf516-9d16-0207-e99e-a1bd7d9c917d",
+    "start_datetime": "2023-12-10T01:20:48Z",
+    "income_fees": -1.4872134589,
+    "income_total": 48.3917427438,
+    "income_tips": 3.5577704612,
+    "type": "rideshare",
+    "income_total_charge": 39.9513957356
+  },
+  {
+    "id": "018cf516-9d3e-2488-8d6c-e4c9be4fd5e8",
+    "start_datetime": "2023-12-09T12:26:08Z",
+    "income_fees": 12.5452678312,
+    "income_total": 28.5687069226,
+    "income_tips": 4.7673083336,
+    "type": "rideshare",
+    "income_total_charge": 33.0075920214
+  },
+  {
+    "id": "018cf516-9d6e-3e32-f177-9bda65c420cf",
+    "start_datetime": "2023-12-09T11:35:31Z",
+    "income_fees": 1.8621064664,
+    "income_total": 36.1804735529,
+    "income_tips": 5.5534250877,
+    "type": "rideshare",
+    "income_total_charge": 18.2496709186
+  },
+  {
+    "id": "018cf516-9d9b-f742-5bbb-86dcbb9c8846",
+    "start_datetime": "2023-12-09T10:38:50Z",
+    "income_fees": 3.117068534,
+    "income_total": 9.2743050971,
+    "income_tips": 3.4645589247,
+    "type": "rideshare",
+    "income_total_charge": 28.0893358747
+  },
+  {
+    "id": "018cf516-9dc5-f9ef-4be6-ca6bd3b55828",
+    "start_datetime": "2023-12-09T10:01:24Z",
+    "income_fees": 3.539213441,
+    "income_total": 31.8794639021,
+    "income_tips": 0.5385904377,
+    "type": "rideshare",
+    "income_total_charge": 10.5388878487
+  },
+  {
+    "id": "018cf516-9df2-431a-c378-c051603bae57",
+    "start_datetime": "2023-12-09T09:51:34Z",
+    "income_fees": 5.8952339641,
+    "income_total": 34.5471458218,
+    "income_tips": 6.8407635558,
+    "type": "rideshare",
+    "income_total_charge": 30.6702128699
+  },
+  {
+    "id": "018cf516-9e22-d356-81a6-96070f79a4cf",
+    "start_datetime": "2023-12-09T09:37:38Z",
+    "income_fees": 10.4480782138,
+    "income_total": 15.2287657844,
+    "income_tips": 2.5703157494,
+    "type": "rideshare",
+    "income_total_charge": 23.9820883244
+  },
+  {
+    "id": "018cf516-9e87-f5fe-4bc4-074c9f20d58f",
+    "start_datetime": "2023-12-09T09:32:21Z",
+    "income_fees": 12.7095038724,
+    "income_total": 14.3014094599,
+    "income_tips": 1.0471160385,
+    "type": "rideshare",
+    "income_total_charge": 18.1532255997
+  },
+  {
+    "id": "018cf516-9eb8-de4c-1677-1234a4eba3aa",
+    "start_datetime": "2023-12-09T09:18:38Z",
+    "income_fees": -4.2894345887,
+    "income_total": 10.061824928,
+    "income_tips": 2.2575340377,
+    "type": "rideshare",
+    "income_total_charge": 31.6260023632
+  },
+  {
+    "id": "018cf516-9ee4-afa2-960c-ecdafd6ec2af",
+    "start_datetime": "2023-12-09T09:09:29Z",
+    "income_fees": 5.5606577437,
+    "income_total": 0.1575014431,
+    "income_tips": 4.0102447661,
+    "type": "rideshare",
+    "income_total_charge": 42.1670989775
+  },
+  {
+    "id": "018cf516-9f0f-c0a5-28c4-6a3921a06b48",
+    "start_datetime": "2023-12-09T08:52:06Z",
+    "income_fees": -1.8978453575,
+    "income_total": 8.9735581886,
+    "income_tips": 0.6036720588,
+    "type": "rideshare",
+    "income_total_charge": 34.24131854
+  },
+  {
+    "id": "018cf516-9f3b-cd3f-f96e-ed8ae1312cc8",
+    "start_datetime": "2023-12-09T06:23:34Z",
+    "income_fees": -3.6458675358,
+    "income_total": 41.6317689323,
+    "income_tips": 0.9467575851,
+    "type": "rideshare",
+    "income_total_charge": 54.9895576825
+  },
+  {
+    "id": "018cf516-9f66-cf09-7d3f-11f44245ed46",
+    "start_datetime": "2023-12-09T05:52:54Z",
+    "income_fees": 6.2700735604,
+    "income_total": 14.832358577,
+    "income_tips": 4.0533580247,
+    "type": "rideshare",
+    "income_total_charge": 36.1651790625
+  },
+  {
+    "id": "018cf516-9f98-bf41-8843-0a4834df7957",
+    "start_datetime": "2023-12-09T04:08:04Z",
+    "income_fees": 3.4047427692,
+    "income_total": 22.2702640891,
+    "income_tips": 0.8846180134,
+    "type": "rideshare",
+    "income_total_charge": 67.4129580621
+  },
+  {
+    "id": "018cf516-9fc4-0ebf-0f78-b2e15e6bf713",
+    "start_datetime": "2023-12-09T03:47:24Z",
+    "income_fees": 3.95759917,
+    "income_total": 11.5238943574,
+    "income_tips": 5.6363120477,
+    "type": "rideshare",
+    "income_total_charge": 34.8457562162
+  },
+  {
+    "id": "018cf516-9ff5-ffc0-8408-17e392d738ca",
+    "start_datetime": "2023-12-08T23:02:38Z",
+    "income_fees": 10.7884013816,
+    "income_total": 16.400974539,
+    "income_tips": 5.269861062,
+    "type": "rideshare",
+    "income_total_charge": 51.7569705414
+  },
+  {
+    "id": "018cf516-a023-1a32-29aa-2d70febe1c89",
+    "start_datetime": "2023-12-08T21:27:51Z",
+    "income_fees": -1.5239325826,
+    "income_total": 43.6913083331,
+    "income_tips": 2.8784478144,
+    "type": "rideshare",
+    "income_total_charge": 49.3428964341
+  },
+  {
+    "id": "018cf516-a051-80b5-f246-f68f3f7ee389",
+    "start_datetime": "2023-12-08T04:06:47Z",
+    "income_fees": -1.1015884313,
+    "income_total": 0.9518970463,
+    "income_tips": 3.5692227936,
+    "type": "rideshare",
+    "income_total_charge": 17.4690642967
+  },
+  {
+    "id": "018cf516-a07f-526a-6318-d164d48eaa96",
+    "start_datetime": "2023-12-08T01:44:49Z",
+    "income_fees": 9.4464287491,
+    "income_total": -2.5886635757,
+    "income_tips": 5.3654153474,
+    "type": "rideshare",
+    "income_total_charge": 14.7952314772
+  },
+  {
+    "id": "018cf516-a0ac-2643-039c-3bd984ef04d9",
+    "start_datetime": "2023-12-07T16:51:41Z",
+    "income_fees": 7.0773366424,
+    "income_total": 27.6425569269,
+    "income_tips": 0.2307932145,
+    "type": "rideshare",
+    "income_total_charge": 28.760692185
+  },
+  {
+    "id": "018cf516-a0db-0de2-f048-3374fc25022c",
+    "start_datetime": "2023-12-07T05:40:35Z",
+    "income_fees": 13.9957099213,
+    "income_total": -12.0351480155,
+    "income_tips": 3.9678162934,
+    "type": "rideshare",
+    "income_total_charge": 10.5317712067
+  },
+  {
+    "id": "018cf516-a10c-f52e-964e-5d59223236d8",
+    "start_datetime": "2023-12-07T04:44:38Z",
+    "income_fees": 5.9149992123,
+    "income_total": 12.6566576111,
+    "income_tips": 6.2368530647,
+    "type": "rideshare",
+    "income_total_charge": 20.0305826016
+  },
+  {
+    "id": "018cf516-a138-2b35-822e-f9dc229ea393",
+    "start_datetime": "2023-12-07T04:23:17Z",
+    "income_fees": 3.6687815753,
+    "income_total": 38.1247566305,
+    "income_tips": 1.0071774051,
+    "type": "rideshare",
+    "income_total_charge": 27.1548963485
+  },
+  {
+    "id": "018cf516-a165-247f-192f-394f879618d6",
+    "start_datetime": "2023-12-07T04:15:06Z",
+    "income_fees": -1.8683073541,
+    "income_total": 10.1733895704,
+    "income_tips": 4.6594510976,
+    "type": "rideshare",
+    "income_total_charge": 58.894145484
+  },
+  {
+    "id": "018cf516-a193-b6c9-e292-dff4dee7d7f9",
+    "start_datetime": "2023-12-06T15:51:59Z",
+    "income_fees": 3.7922427764,
+    "income_total": 29.104500039,
+    "income_tips": 4.7883324871,
+    "type": "rideshare",
+    "income_total_charge": 28.8122648798
+  },
+  {
+    "id": "018cf516-a1c1-0046-9e22-bf52fc7c42e1",
+    "start_datetime": "2023-12-06T15:27:35Z",
+    "income_fees": 1.8344313133,
+    "income_total": 23.6007069591,
+    "income_tips": 5.4863835052,
+    "type": "rideshare",
+    "income_total_charge": 38.5793733357
+  },
+  {
+    "id": "018cf516-a1ed-7151-1ad9-4a88a1cae845",
+    "start_datetime": "2023-12-06T06:06:03Z",
+    "income_fees": 7.9219445326,
+    "income_total": 19.0232822195,
+    "income_tips": 5.7044437216,
+    "type": "rideshare",
+    "income_total_charge": 36.7479593066
+  },
+  {
+    "id": "018cf516-a217-4e34-4aaf-e3b3d4401cc6",
+    "start_datetime": "2023-12-06T05:11:14Z",
+    "income_fees": 4.466422793,
+    "income_total": 20.8453045335,
+    "income_tips": 8.6172992316,
+    "type": "rideshare",
+    "income_total_charge": 28.6534637296
+  },
+  {
+    "id": "018cf516-a254-3e93-73e6-ff0de2ed9caf",
+    "start_datetime": "2023-12-06T04:54:06Z",
+    "income_fees": -3.3331986796,
+    "income_total": 22.9323278208,
+    "income_tips": 5.1357960256,
+    "type": "rideshare",
+    "income_total_charge": 11.8988075328
+  },
+  {
+    "id": "018cf516-a289-6443-9390-61d439cd10d0",
+    "start_datetime": "2023-12-06T04:12:47Z",
+    "income_fees": 13.5840123298,
+    "income_total": -1.9550135319,
+    "income_tips": 4.4724021055,
+    "type": "rideshare",
+    "income_total_charge": 5.2877329739
+  },
+  {
+    "id": "018cf516-a2b4-eea7-7276-9d05f4294f1a",
+    "start_datetime": "2023-12-06T03:46:38Z",
+    "income_fees": 14.8496286206,
+    "income_total": 20.4010630328,
+    "income_tips": 9.9466728846,
+    "type": "rideshare",
+    "income_total_charge": 39.3653280295
+  },
+  {
+    "id": "018cf516-a2de-3797-8e09-df23eb5a344f",
+    "start_datetime": "2023-12-06T02:32:03Z",
+    "income_fees": 4.9792566808,
+    "income_total": 19.1621233102,
+    "income_tips": 5.0952904816,
+    "type": "rideshare",
+    "income_total_charge": 7.2516959397
+  },
+  {
+    "id": "018cf516-a30b-e802-973c-feda45579af1",
+    "start_datetime": "2023-12-05T16:21:33Z",
+    "income_fees": 3.9473520871,
+    "income_total": 41.0496466304,
+    "income_tips": 2.7343135951,
+    "type": "rideshare",
+    "income_total_charge": 68.8549915447
+  },
+  {
+    "id": "018cf516-a33e-035f-b94a-38854eb9a00f",
+    "start_datetime": "2023-12-05T04:11:37Z",
+    "income_fees": 10.9821811542,
+    "income_total": -5.3379216204,
+    "income_tips": 0.4337218323,
+    "type": "rideshare",
+    "income_total_charge": 40.9567413192
+  },
+  {
+    "id": "018cf516-a36b-f44c-5a65-4f8a37baae01",
+    "start_datetime": "2023-12-05T03:41:54Z",
+    "income_fees": 2.3043223642,
+    "income_total": 15.1671565633,
+    "income_tips": 3.7743204424,
+    "type": "rideshare",
+    "income_total_charge": 22.1250844855
+  },
+  {
+    "id": "018cf516-a397-b58c-7152-82cb830b21e6",
+    "start_datetime": "2023-12-05T03:18:57Z",
+    "income_fees": -1.2437564468,
+    "income_total": 44.5307495969,
+    "income_tips": 2.836014322,
+    "type": "rideshare",
+    "income_total_charge": 14.4450157531
+  },
+  {
+    "id": "018cf516-a3ca-ef5a-d1fc-65237f00fef4",
+    "start_datetime": "2023-12-31T15:12:54Z",
+    "income_fees": 11.3991198581,
+    "income_total": 36.8036999796,
+    "income_tips": 9.558266727,
+    "type": null,
+    "income_total_charge": 25.3705668551
+  },
+  {
+    "id": "018cf516-a3f5-275f-e3d8-90b4512080e6",
+    "start_datetime": "2023-12-25T08:45:02Z",
+    "income_fees": 5.4948495864,
+    "income_total": 41.9744588917,
+    "income_tips": 1.5824303358,
+    "type": null,
+    "income_total_charge": 5.9143888792
+  },
+  {
+    "id": "018cf516-a41f-3ff7-ffc3-68cdcc2dee1c",
+    "start_datetime": "2023-12-24T17:48:42Z",
+    "income_fees": 11.5334929202,
+    "income_total": 25.1419113802,
+    "income_tips": 5.0397725214,
+    "type": null,
+    "income_total_charge": 57.7470212843
+  },
+  {
+    "id": "018cf516-a449-a483-d18b-03b3c0c34fca",
+    "start_datetime": "2023-12-17T14:37:42Z",
+    "income_fees": 11.0059378875,
+    "income_total": 13.6144049862,
+    "income_tips": 5.0429531323,
+    "type": null,
+    "income_total_charge": 31.7035806628
+  },
+  {
+    "id": "018cf516-a478-9ce9-e616-284a43210095",
+    "start_datetime": "2023-12-10T22:01:42Z",
+    "income_fees": 3.9111254908,
+    "income_total": 0.7568071271,
+    "income_tips": 4.5699457482,
+    "type": null,
+    "income_total_charge": 74.2273204685
+  },
+  {
+    "id": "018cf51a-295c-407b-d3f1-2aa793ad957d",
+    "start_datetime": "2023-12-04T16:10:11Z",
+    "income_fees": -6.2269081436,
+    "income_total": 24.7471392086,
+    "income_tips": 0.2877703089,
+    "type": "rideshare",
+    "income_total_charge": 0.7180170997
+  },
+  {
+    "id": "018cf51a-2987-3967-1ea8-4ca2f507d09c",
+    "start_datetime": "2023-12-03T11:41:57Z",
+    "income_fees": 13.6784211385,
+    "income_total": 26.5831756116,
+    "income_tips": 3.542915285,
+    "type": "rideshare",
+    "income_total_charge": 40.6502575973
+  },
+  {
+    "id": "018cf51a-29ae-e4a4-73e4-9070df8b9477",
+    "start_datetime": "2023-12-03T10:06:08Z",
+    "income_fees": -6.9239893415,
+    "income_total": 38.7391116254,
+    "income_tips": 6.5709567666,
+    "type": "rideshare",
+    "income_total_charge": 56.3641806937
+  },
+  {
+    "id": "018cf51a-29d3-a4d9-a4f3-d1c9396c661a",
+    "start_datetime": "2023-12-03T09:23:46Z",
+    "income_fees": 7.0027591104,
+    "income_total": 31.638083649,
+    "income_tips": 7.9640794673,
+    "type": "rideshare",
+    "income_total_charge": 4.0041446724
+  },
+  {
+    "id": "018cf51a-29fd-36e9-1219-105d61107e09",
+    "start_datetime": "2023-12-03T09:09:40Z",
+    "income_fees": -0.1360131163,
+    "income_total": 3.5863464505,
+    "income_tips": 1.9873568928,
+    "type": "rideshare",
+    "income_total_charge": 23.8357543077
+  },
+  {
+    "id": "018cf51a-2a22-91d4-2f6b-98334c48ed84",
+    "start_datetime": "2023-12-03T08:37:56Z",
+    "income_fees": 0.7466704837,
+    "income_total": 27.6540802577,
+    "income_tips": 5.3441052617,
+    "type": "rideshare",
+    "income_total_charge": 44.3355852736
+  },
+  {
+    "id": "018cf51a-2a48-899a-173e-3148f6d84274",
+    "start_datetime": "2023-12-03T07:23:10Z",
+    "income_fees": 8.8432603986,
+    "income_total": 22.7497279671,
+    "income_tips": 6.5146951141,
+    "type": "rideshare",
+    "income_total_charge": 37.5310876776
+  },
+  {
+    "id": "018cf51a-2a6d-42e8-6f5f-3fefc4e191ce",
+    "start_datetime": "2023-12-03T06:37:01Z",
+    "income_fees": 3.4682896467,
+    "income_total": 22.3715027067,
+    "income_tips": 4.1296360044,
+    "type": "rideshare",
+    "income_total_charge": 23.0842269826
+  },
+  {
+    "id": "018cf51a-2a96-d119-079c-bf7f577550b1",
+    "start_datetime": "2023-12-03T05:25:12Z",
+    "income_fees": 11.6455264897,
+    "income_total": 3.109301952,
+    "income_tips": 5.7097335845,
+    "type": "rideshare",
+    "income_total_charge": 42.1238612798
+  },
+  {
+    "id": "018cf51a-2abe-b133-eb36-8952abe9ae0d",
+    "start_datetime": "2023-12-03T01:14:59Z",
+    "income_fees": -2.1846216981,
+    "income_total": 25.2899623746,
+    "income_tips": 4.1819987007,
+    "type": "rideshare",
+    "income_total_charge": 70.9661846471
+  },
+  {
+    "id": "018cf51a-2ae4-2506-59bd-5c728d2c8293",
+    "start_datetime": "2023-12-03T00:56:13Z",
+    "income_fees": 15.088681511,
+    "income_total": 1.4911239106,
+    "income_tips": 7.4381110852,
+    "type": "rideshare",
+    "income_total_charge": 6.9970044618
+  },
+  {
+    "id": "018cf51a-2b0a-1fd6-c365-e3d49076e524",
+    "start_datetime": "2023-12-02T09:50:14Z",
+    "income_fees": 8.5805987032,
+    "income_total": -3.6150914054,
+    "income_tips": 2.965396233,
+    "type": "rideshare",
+    "income_total_charge": 46.5434821158
+  },
+  {
+    "id": "018cf51a-2b33-f4f5-d697-d0998ae354c8",
+    "start_datetime": "2023-12-02T09:00:58Z",
+    "income_fees": 13.0786594082,
+    "income_total": 25.2052644567,
+    "income_tips": 5.6941612808,
+    "type": "rideshare",
+    "income_total_charge": 8.380659262
+  },
+  {
+    "id": "018cf51a-2b5a-2caf-ddb6-db0c28a06a5e",
+    "start_datetime": "2023-12-02T08:13:58Z",
+    "income_fees": 11.3568295709,
+    "income_total": 6.6432788732,
+    "income_tips": 1.3051169785,
+    "type": "rideshare",
+    "income_total_charge": 44.9505556266
+  },
+  {
+    "id": "018cf51a-2b80-a3c0-1412-38c0c4c5b27b",
+    "start_datetime": "2023-12-02T07:55:08Z",
+    "income_fees": -4.9645553871,
+    "income_total": -19.1387033958,
+    "income_tips": 3.2851672244,
+    "type": "rideshare",
+    "income_total_charge": 72.6836106073
+  },
+  {
+    "id": "018cf51a-2ba7-0940-f25c-4390991d87dd",
+    "start_datetime": "2023-12-02T07:40:15Z",
+    "income_fees": 1.8953012692,
+    "income_total": 26.3185950465,
+    "income_tips": 1.2416593628,
+    "type": "rideshare",
+    "income_total_charge": 25.9234398474
+  },
+  {
+    "id": "018cf51a-2bd0-28a6-4928-6c8fe27839c3",
+    "start_datetime": "2023-12-02T07:26:04Z",
+    "income_fees": 13.7447157115,
+    "income_total": 0.8723823905,
+    "income_tips": 2.6689645466,
+    "type": "rideshare",
+    "income_total_charge": 64.0776963334
+  },
+  {
+    "id": "018cf51a-2bf7-bf8e-23f9-ba6520fd071c",
+    "start_datetime": "2023-12-02T06:56:06Z",
+    "income_fees": -0.8942342738,
+    "income_total": 19.3152813028,
+    "income_tips": 2.2938019867,
+    "type": "rideshare",
+    "income_total_charge": 17.8030284086
+  },
+  {
+    "id": "018cf51a-2c1b-db2f-19ae-fa5ac1f4198a",
+    "start_datetime": "2023-12-02T06:29:09Z",
+    "income_fees": 7.0602731172,
+    "income_total": 18.564997031,
+    "income_tips": 3.0010369167,
+    "type": "rideshare",
+    "income_total_charge": 15.7492083475
+  },
+  {
+    "id": "018cf51a-2c44-fcef-80ca-bb8bbdc43e57",
+    "start_datetime": "2023-12-02T06:12:04Z",
+    "income_fees": -0.4285537381,
+    "income_total": 33.6016890023,
+    "income_tips": 6.795693931,
+    "type": "rideshare",
+    "income_total_charge": 18.1375600019
+  },
+  {
+    "id": "018cf51a-2c68-4320-d9b5-d9ed1d8f2b20",
+    "start_datetime": "2023-12-02T04:26:10Z",
+    "income_fees": 19.9259643586,
+    "income_total": 7.5265873027,
+    "income_tips": 2.1605511602,
+    "type": "rideshare",
+    "income_total_charge": 38.8048436694
+  },
+  {
+    "id": "018cf51a-2c8d-b2ca-243b-616c11651157",
+    "start_datetime": "2023-12-02T01:52:30Z",
+    "income_fees": 12.083688673,
+    "income_total": 59.4390635803,
+    "income_tips": 6.1593470988,
+    "type": "rideshare",
+    "income_total_charge": 50.0263715609
+  },
+  {
+    "id": "018cf51a-2cb3-9196-9109-2e9064b519ea",
+    "start_datetime": "2023-12-01T02:15:24Z",
+    "income_fees": 10.8149202496,
+    "income_total": 12.6694726456,
+    "income_tips": 2.1742986504,
+    "type": "rideshare",
+    "income_total_charge": 28.68951842
+  }
+]

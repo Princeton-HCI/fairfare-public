@@ -1,0 +1,31 @@
+name: Update Demo Branch
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    environment: Staging # Organization_BOT token is only available on staging.
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal access token.
+
+      - name: Setup Git User
+        run: |
+          git config user.name "The Organization Bot"
+          git config user.email "theorganization@university.edu"
+
+      - name: Push
+        # git push origin demo
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.THEOrganization_BOT_PERSONAL_ACCESS_TOKEN_FOR_GITHUB_ACTIONS }}
+          branch: demo

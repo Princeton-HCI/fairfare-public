@@ -1,0 +1,54 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.input,
+.textarea {
+  height: 40px;
+  @apply rounded-none;
+  @apply bg-white;
+}
+
+.label-text {
+  @apply font-medium;
+  @apply pb-0.5;
+}
+
+.btn {
+  @apply rounded-none h-10 min-h-10;
+}
+
+.alert {
+  @apply rounded-none;
+}
+
+.btn-neutral {
+  @apply border-none;
+}
+
+.navbar {
+  @apply bg-primary w-svw;
+}
+
+.shadow-top {
+  -webkit-box-shadow: 0px 2px 16px 0px rgba(0, 0, 0, 0.5);
+  -moz-box-shadow: 0px 2px 16px 0px rgba(0, 0, 0, 0.5);
+  box-shadow: 0px 2px 16px 0px rgba(0, 0, 0, 0.5);
+}
+
+dialog::backdrop {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/*
+Convert btn-ghost in the bottom drawer to btn-outline inline for large
+viewports
+*/
+.bottom-drawer .btn-ghost {
+  @apply md:btn-outline;
+}
+
+/* for the first a child of .bottom-drawer, if it is a.btn-ghost, then apply pl-0 */
+.bottom-drawer > a.btn-ghost:first-child {
+  @apply pl-0;
+}

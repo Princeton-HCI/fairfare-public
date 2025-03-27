@@ -1,0 +1,8 @@
+{
+  "conventionalCommits.scopes": ["basic-ui", "authentication", "fares"],
+  "i18n-ally.localesPaths": ["src/lang"],
+  "i18n-ally.keystyle": "flat",
+  "i18n-ally.sourceLanguage": "en",
+  "editor.formatOnSave": true,
+  "eslint.workingDirectories": ["./src"]
+}

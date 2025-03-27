@@ -1,0 +1,30 @@
+name: Deploy Migrations to Staging
+
+on:
+  push:
+    branches:
+      - staging
+  workflow_dispatch:
+
+jobs:
+  push-supabase-migrations-to-staging:
+    runs-on: ubuntu-latest
+    environment: Staging
+
+    env:
+      # This is needed to run Supabase in non-interactive mode, see:
+      # https://supabase.com/docs/guides/deployment/managing-environments#configure-github-actions
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_TOKEN }}
+      SUPABASE_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      SUPABASE_PROJECT_ID: ${{ vars.PROJECT_ID }}
+      VITE_TWILIO_TOKEN: 'temp-value-for-ci'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - run: supabase link --project-ref $SUPABASE_PROJECT_ID
+      - run: supabase db push

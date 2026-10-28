@@ -1,6 +1,8 @@
 import type { RequestEvent } from './$types';
 import { supabase } from '@src/lib/server/db';
 import { getProfileFromUserId } from '@src/lib/databaseHelpers';
+import { isDemoMode } from '@src/lib/utils';
+import { DEMO_OTP } from '$lib/demo/constants';
 
 type VerifyOtpRequestWithUserIdBody = {
   token: string;
@@ -40,6 +42,22 @@ export const POST = async (event: RequestEvent) => {
     if (!phone) return new Response('No phone provided', { status: 400 });
   } else {
     return new Response('Invalid request', { status: 400 });
+  }
+
+  // In demo mode, accept the fixed demo OTP and return the current session
+  if (isDemoMode && token === DEMO_OTP) {
+    const { session, user } = await event.locals.safeGetSession();
+    if (session && user) {
+      return new Response(
+        JSON.stringify({
+          user,
+          session
+        }),
+        { status: 200 }
+      );
+    }
+    // If no session in demo mode, return error
+    return new Response('No active session', { status: 401 });
   }
 
   const { data, error } = await supabase.auth.verifyOtp({

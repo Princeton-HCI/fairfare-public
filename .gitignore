@@ -24,5 +24,8 @@ supabase/config.toml
 .idea/
 **.xlsx
 
+deno.lock
+
 # Sentry Config File
 .env.sentry-build-plugin
+/coverage

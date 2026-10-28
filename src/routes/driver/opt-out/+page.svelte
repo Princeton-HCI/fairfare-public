@@ -4,12 +4,15 @@
   import { supabase } from '@src/lib/client/db';
   import { _ } from 'svelte-i18n';
   import { toast } from '@src/lib/toasts';
+  import { dataSharingConsents } from '@src/lib/stores/dataSharingConsents';
 
   import BottomDrawer from '@src/lib/components/BottomDrawer.svelte';
   import BackButton from '@src/lib/components/BackButton.svelte';
   import Input from '@src/lib/components/Input.svelte';
 
-  let phoneNumber: string;
+  import PhoneNumberInput from '@src/lib/components/PhoneNumberInput.svelte';
+  import { isDemoMode } from '@src/lib/utils';
+  import { DEMO_OTP } from '$lib/demo/constants';
 
   type ModalStatus = 'primary' | 'awaiting-otp-entry';
   let modalStatus: ModalStatus = $state('primary');
@@ -44,18 +47,19 @@
       toast({ text: $_('driver.opt-out.index.invalid-phone-number'), type: 'error' });
       return;
     }
-    // update the phoneNumber in the outer scope
-    phoneNumber = formPhoneNumber as string;
 
-    // strip non-numeric characters and check length = 10
-    const phoneNumberStripped = formPhoneNumber.replace(/\D/g, '');
-
-    if (phoneNumberStripped.length < 10) {
+    if (phoneNumber.length < 10) {
       console.error('Invalid phone number');
       toast({ text: $_('driver.opt-out.index.invalid-phone-number'), type: 'error' });
       return;
     }
-    const sentOtpSuccessfully = await sendOtp(phoneNumberStripped);
+    // In demo mode, skip sending OTP since we use a fixed code
+    if (isDemoMode) {
+      modalStatus = 'awaiting-otp-entry';
+      return;
+    }
+
+    const sentOtpSuccessfully = await sendOtp(phoneNumber);
     if (sentOtpSuccessfully) {
       modalStatus = 'awaiting-otp-entry';
     }
@@ -91,7 +95,12 @@
       if (optOutResponse.ok) {
         const data = await optOutResponse.json();
         const optOutSurveyId = data.optOutSurveyId;
-        // redirect to exit survey with userId
+
+        await supabase.auth.signOut();
+        window.sessionStorage.removeItem('affiliations');
+        window.sessionStorage.removeItem('dataSharingConsents');
+        window.sessionStorage.removeItem('argyleAccounts');
+
         window.location.href = '/driver/opt-out/survey/' + optOutSurveyId;
       } else {
         toast({
@@ -108,23 +117,32 @@
   };
 
   let modal: { closeModal: () => void };
+  let phoneNumber = $state('');
+  let otpValue = $state(isDemoMode ? DEMO_OTP : '');
+
+  // Load user's data sharing consents on page load
+  dataSharingConsents.getSelectedDataSharingConsentsFromDatabase();
+
+  // Create a derived value for the organization names
+  let consentedOrganizations = $derived(
+    $dataSharingConsents.selected.map((org) => org.name).join(', ')
+  );
 </script>
 
 <div class="prose">
-  <h1>
-    {$_('driver.opt-out.index.opt-out-of-system')}
-  </h1>
+  <h1>{$_('driver.settings.delete-all-my-data-from-system')}</h1>
 
-  <p>
-    {$_(
-      'driver.opt-out.index.opting-out-of-system-will-remove-your-data-from-the-platform-and-will-prevent-researchers-from-using-it-in-the-future'
-    )}
-  </p>
-  <p>
-    {$_(
-      'driver.opt-out.index.if-you-opt-out-we-will-delete-your-information-from-our-databases-and-you-will-no-longer-be-able-to-access-your-account'
-    )}
-  </p>
+  <p>{$_('driver.opt-out.deleting-your-data-from-system-will')}</p>
+  <ul>
+    <li>
+      {$_('driver.opt-out.prevent-organizations-from-accessing-your-data', {
+        values: { consentedOrganizations: consentedOrganizations || 'organizations' }
+      })}
+    </li>
+    <li>{$_('driver.opt-out.prevent-researchers-from-using-your-data-in-the-future')}</li>
+    <li>{$_('driver.opt-out.delete-your-information-from-our-databases')}</li>
+    <li>{$_('driver.opt-out.make-it-impossible-to-further-access-your-account')}</li>
+  </ul>
   <BottomDrawer orientation="horizontal">
     <BackButton href="/driver" moreClasses="md:hidden" />
     <div>
@@ -132,41 +150,41 @@
         buttonClass="btn btn-error"
         bind:this={modal}
         id="opt-out-modal"
-        title={$_('driver.opt-out.index.are-you-really-sure-you-want-to-opt-out')}
+        title={$_(
+          'driver.settings.are-you-really-sure-you-want-to-delete-all-your-data-from-system'
+        )}
       >
         {#snippet buttonContent()}
-          {$_('driver.opt-out.index.opt-out')}
+          {$_('driver.opt-out.index.delete-my-data')}
         {/snippet}
         {#snippet dialogContent()}
           <div class="prose">
-            {$_('driver.opt-out.index.opting-out-will')}
+            <p>{$_('driver.opt-out.deleting-your-data-from-system-will')}</p>
             <ul>
-              <li>{$_('driver.opt-out.index.delete-your-data-from-our-databases')}</li>
-              <li>{$_('driver.opt-out.index.remove-your-ability-to-access-your-account')}</li>
               <li>
-                {$_(
-                  'driver.opt-out.index.prevent-researchers-from-using-your-data-for-future-research'
-                )}
+                {$_('driver.opt-out.prevent-organizations-from-accessing-your-data', {
+                  values: { consentedOrganizations: consentedOrganizations || 'organizations' }
+                })}
               </li>
+              <li>{$_('driver.opt-out.prevent-researchers-from-using-your-data-in-the-future')}</li>
+              <li>{$_('driver.opt-out.delete-your-information-from-our-databases')}</li>
+              <li>{$_('driver.opt-out.make-it-impossible-to-further-access-your-account')}</li>
             </ul>
             {#if modalStatus == 'primary'}
-              {$_('driver.opt-out.index.enter-your-phone-number-to-opt-out')}
+              {$_('driver.opt-out.enter-your-phone-number-to-delete-your-data')}
               <form
-                class="flex flex-col gap-2"
+                class="flex flex-col gap-4"
                 onsubmit={(event) => {
                   handleSendOtpSubmit(event);
                 }}
               >
-                <Input
-                  label={$_('driver.opt-out.index.phone-number')}
-                  bottomLabel="1 202-222-2222"
-                  type="tel"
-                  name="phoneNumber"
-                />
-                <button class="btn btn-neutral" onclick={() => modal.closeModal()} type="reset"
-                  >{$_('driver.opt-out.index.no-i-changed-my-mind')}</button
+                <PhoneNumberInput bind:phoneNumber />
+                <button
+                  class="btn btn-neutral w-full"
+                  onclick={() => modal.closeModal()}
+                  type="reset">{$_('driver.opt-out.no-i-changed-my-mind')}</button
                 >
-                <button class="btn btn-ghost" type="submit">
+                <button class="btn btn-error w-full" type="submit">
                   {$_('driver.opt-out.index.delete-my-data')}
                 </button>
               </form>
@@ -192,6 +210,7 @@
                   bottomLabel="123456"
                   maxlength={6}
                   minlength={6}
+                  bind:value={otpValue}
                 />
                 <button class="btn btn-neutral" onclick={() => modal.closeModal()} type="reset"
                   >{$_('driver.opt-out.index.no-i-changed-my-mind')}</button

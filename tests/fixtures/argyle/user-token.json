@@ -1,0 +1,8 @@
+{
+  "capturedAt": "2026-09-12T13:18:31.049Z",
+  "source": "https://api-sandbox.argyle.com/v2/user-tokens",
+  "status": 200,
+  "body": {
+    "user_token": "REDACTED-USER-TOKEN"
+  }
+}

@@ -13,6 +13,8 @@
   import Modal from '../Modal.svelte';
   import { toast } from '@src/lib/toasts';
   import Input from '../Input.svelte';
+  import { isDemoMode } from '@src/lib/utils';
+  import { DEMO_OTP } from '$lib/demo/constants';
 
   interface Props {
     userId: string;
@@ -36,6 +38,8 @@
   };
 
   const onOpen = () => {
+    // In demo mode, skip sending OTP since we use a fixed code (555555)
+    if (isDemoMode) return;
     // hit the API to sent the OTP
     sendOtp();
   };
@@ -69,6 +73,7 @@
   };
 
   let showResendCodeLink = $state(false);
+  let otpValue = $state(isDemoMode ? DEMO_OTP : '');
   let modal: { closeModal: () => void };
 
   // after 10 seconds, show the resend code link
@@ -125,11 +130,12 @@
           maxlength={6}
           label={$_('components.auth.ConfirmIdentityWithOtpModal.enter-code')}
           name="otp"
+          bind:value={otpValue}
         />
         <button type="submit" class="btn btn-neutral mt-4">
           {$_('components.auth.ConfirmIdentityWithOtpModal.submit')}
         </button>
-        {#if showResendCodeLink}
+        {#if showResendCodeLink && !isDemoMode}
           <button
             type="button"
             class="btn btn-ghost"

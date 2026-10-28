@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+
+# Disallow access to organizer routes
+Disallow: /organizer/ 
+
+# Disallows for Svelte
+Disallow: /*.js$
+Disallow: /*.json
+Disallow: /analytics.json
+Disallow: /current-visitors.json
+
+# See: https://scottspence.com/posts/robots-txt-file-for-sveltekit-projects
+
+User-agent: GPTBot
+Disallow: /

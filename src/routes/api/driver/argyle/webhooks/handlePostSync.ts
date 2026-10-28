@@ -1,6 +1,7 @@
 import { supabase } from '@src/lib/server/db';
 import { sendTakeRateMessageIfElegibleToArgyleUser } from './sendTakeRateMessageIfElegibleToArgyleUser';
 import { sendThankYouMessageToArgyleUser } from './sendThankYouMessageToArgyleUser';
+import { isDemoMode } from '@src/lib/utils';
 
 type PostSyncEnum = SupabaseEnums['study_participations_post_sync'];
 
@@ -36,20 +37,20 @@ const checkPostSyncBehavior = async (argyleUserId: string): Promise<PostSyncEnum
 };
 
 const handlePostSync = async (argyleUserId: string) => {
+  // In demo mode, skip sending real SMS messages entirely
+  if (isDemoMode) return;
+
   // Check the post sync behavior that we want here
   const postSyncBehavior = await checkPostSyncBehavior(argyleUserId);
 
   if (postSyncBehavior === 'send-take-rate') {
-    // We'll check again if the user is eligible for the survey after the
-    // full sync, in case they now meet the criteria.
+    // We'll send a link to the take rate to the user.
     // The text message will never send twice because of the db constraint
     await sendTakeRateMessageIfElegibleToArgyleUser(argyleUserId);
   } else if (postSyncBehavior === 'send-thank-you') {
     // We'll send a thank you message to the user.
     // The text message will never send twice because of the db constraint
     await sendThankYouMessageToArgyleUser(argyleUserId);
-  } else {
-    // no-op -- for the 'do-nothing' case or in the case that the user has no profile
   }
 };
 

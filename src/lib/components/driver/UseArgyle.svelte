@@ -3,16 +3,23 @@
   import { goto } from '$app/navigation';
 
   import { toast } from '@src/lib/toasts';
+  import { _ } from 'svelte-i18n';
   import { argyleAccounts } from '@src/lib/stores/argyleAccounts';
-  import createArgyleLinkInstance from '@src/lib/client/createArgyleLinkInstance';
+  import createArgyleLinkInstance, {
+    fetchArgyleBootstrap,
+    startDemoPrefill
+  } from '@src/lib/client/createArgyleLinkInstance';
+  import { isDemoMode } from '@src/lib/utils';
+  import { demoMessages } from '@src/lib/stores/demoMessages';
+  import DemoCredentialsSidebar from './DemoCredentialsSidebar.svelte';
+  import FakeSmsPreview from './FakeSmsPreview.svelte';
 
   interface Props {
     onAbortRedirectTo: string;
     onSuccessRedirectTo?: string;
     onClose?: () => void;
     argyleLinkIds?: string[];
-    // This is correctly nullble, but we should consider an implementation that
-    // doesn't pass children at all
+    orgKey?: string;
     children?: import('svelte').Snippet;
   }
 
@@ -21,50 +28,95 @@
     onSuccessRedirectTo = '/driver/done',
     onClose = () => {},
     argyleLinkIds = [],
+    orgKey = undefined,
     children
   }: Props = $props();
 
-  const argyleIsLoaded = () => {
-    return window.Argyle !== undefined;
-  };
+  let showCredentials = $state(isDemoMode);
+  let showSmsPreview = $state(false);
+
+  const argyleIsLoaded = () => window.Argyle !== undefined;
 
   const handleArgyleLinkClose = async () => {
-    /**
-     * When the user closes the Argyle link, we want to check if they have any
-     * connected accounts. If they do, we move forward in the flow.
-     *
-     * If not, we push them back out to the consent page.
-     */
     if (argyleAccounts.getArgyleAccountsLength() === 0) {
-      toast({ text: 'You exited out of linking your Uber/Lyft account.', type: 'info' });
+      await fetch('/api/driver/argyle/cleanup-user', { method: 'POST' }).catch(() => {});
+      toast({ text: $_('driver.argyle.exited-linking'), type: 'info' });
       goto(onAbortRedirectTo);
-    } else {
-      goto(onSuccessRedirectTo);
+      onClose?.();
+      return;
     }
-    if (onClose) {
-      onClose();
+
+    if (isDemoMode && $demoMessages.length > 0) {
+      showSmsPreview = true;
+      return;
     }
+
+    goto(onSuccessRedirectTo);
+    onClose?.();
   };
 
-  onMount(async () => {
-    if (argyleIsLoaded() && $argyleAccounts.token) {
-      const linkInstance = createArgyleLinkInstance(
+  const handleSmsPreviewClose = () => {
+    showSmsPreview = false;
+    demoMessages.clear();
+    goto(onSuccessRedirectTo);
+    onClose?.();
+  };
+
+  onMount(() => {
+    let cleanupPrefill: (() => void) | undefined;
+
+    const initArgyle = async () => {
+      const bootstrap = await fetchArgyleBootstrap(orgKey);
+
+      if (!bootstrap.canConnect) {
+        const message =
+          bootstrap.reason === 'over_capacity'
+            ? 'This organization has reached its driver limit. Please contact your organizer.'
+            : 'This organization is not accepting new driver connections right now.';
+        toast({ text: message, type: 'info' });
+        onClose?.();
+        return;
+      }
+
+      argyleAccounts.setToken(bootstrap.token);
+
+      if (!argyleIsLoaded()) {
+        console.error('Argyle not loaded');
+        alert('Argyle not loaded');
+        return;
+      }
+
+      const linkInstance = createArgyleLinkInstance(bootstrap.token, handleArgyleLinkClose, {
         argyleLinkIds,
-        $argyleAccounts.token,
-        handleArgyleLinkClose
-      );
+        apiHost: bootstrap.config.apiHost,
+        flowId: bootstrap.config.flowId,
+        organizationId: bootstrap.config.organizationId,
+        orgKey
+      });
       linkInstance.open();
-    } else if (!argyleIsLoaded()) {
-      // This should not happen since we load the script on the first driver page hit
-      // See: src/routes/driver/+layout.svelte
-      console.error('Argyle not loaded');
-      alert('Argyle not loaded');
-    } else {
-      console.error('Argyle token not loaded. argyleAccounts.setToken needs to be called first.');
-    }
+      cleanupPrefill = startDemoPrefill();
+    };
+
+    initArgyle().catch((error) => {
+      console.error(error);
+      toast({ text: $_('driver.settings.something-went-wrong-please-try-again'), type: 'error' });
+      onClose?.();
+    });
+
+    return () => {
+      cleanupPrefill?.();
+    };
   });
 </script>
 
 <section>
   {@render children?.()}
 </section>
+
+{#if showCredentials}
+  <DemoCredentialsSidebar />
+{/if}
+
+{#if showSmsPreview}
+  <FakeSmsPreview messages={$demoMessages} onClose={handleSmsPreviewClose} />
+{/if}

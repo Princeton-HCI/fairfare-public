@@ -2,44 +2,44 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
 
-  import { page } from '$app/state';
-  import { toast } from '@src/lib/toasts';
-
-  import ConsentToDataSharing from '@src/lib/components/driver/ConsentToDataSharing.svelte';
-  import { affiliations } from '@src/lib/stores/affiliations';
-  import { dataSharingConsents } from '@src/lib/stores/dataSharingConsents';
-  import { title } from '@src/lib/stores/pageinfo';
-  import ChooseAffiliateOrganization from '../../[slug]/ChooseAffiliateOrganization.svelte';
   import { goto } from '$app/navigation';
+  import { page } from '$app/state';
+  import { onMount } from 'svelte';
+  import { title } from '@src/lib/stores/pageinfo';
+  import { affiliations } from '@src/lib/stores/affiliations';
+  import ChooseAffiliateOrganization from '../../../../lib/components/ChooseAffiliateOrganization.svelte';
   import BottomDrawer from '@src/lib/components/BottomDrawer.svelte';
 
-  const onOrgConsentUpdate = async () => {
-    try {
-      await dataSharingConsents.updateDatabase();
-      await affiliations.updateDatabase();
-    } catch (error) {
-      console.error('Error updating data sharing consents:', error);
-      toast({ text: $_('driver.settings.something-went-wrong-please-try-again'), type: 'error' });
+  title.set($_('driver.settings.update-settings'));
+
+  let currentSlug = $derived(page.params.slug ?? page.data.slug);
+  let selectedAffiliation = $derived($affiliations.selected);
+  let affiliationsLoaded = $derived($affiliations.selectedAffiliationsAreLoadedFromDatabase);
+  let continueUrl = $derived(
+    selectedAffiliation?.key
+      ? `/driver/org-data-sharing/${selectedAffiliation.key}`
+      : '/driver/org-data-sharing'
+  );
+  let isRedirectingToConsent = $state(false);
+
+  onMount(() => {
+    if (currentSlug === 'org' || currentSlug === 'org-data-sharing') {
+      affiliations.getSelectedAffiliationsFromDatabase();
+    }
+  });
+
+  $effect(() => {
+    if (currentSlug !== 'org-data-sharing' || !affiliationsLoaded || isRedirectingToConsent) {
       return;
     }
 
-    toast({
-      text: $_('driver.settings.your-data-sharing-preferences-have-been-updated'),
-      type: 'success'
-    });
-    // update stores
-    await affiliations.getSelectedAffiliationsFromDatabase();
-    await dataSharingConsents.getSelectedDataSharingConsentsFromDatabase();
-
-    // redirect to /driver/settings/
-    goto('/driver/settings');
-  };
-
-  title.set($_('driver.settings.update-settings'));
+    isRedirectingToConsent = true;
+    goto(continueUrl, { replaceState: true });
+  });
 </script>
 
 <div class="flex flex-col items-center sm:px-2">
-  {#if page.data.slug == 'org'}
+  {#if currentSlug == 'org'}
     <div class="text-sm breadcrumbs self-start">
       <ul>
         <li><a href="/driver/">{$_('nav.home')}</a></li>
@@ -49,11 +49,11 @@
     </div>
     <ChooseAffiliateOrganization showButton={false} preloadSelectedAffiliations />
     <BottomDrawer orientation="vertical">
-      <a class="btn btn-neutral" href="/driver/settings/org-data-sharing">
+      <a class="btn btn-neutral" href={continueUrl}>
         {$_('driver.settings.continue')}
       </a>
     </BottomDrawer>
-  {:else if page.data.slug == 'org-data-sharing'}
+  {:else if currentSlug == 'org-data-sharing'}
     <div class="text-sm breadcrumbs self-start">
       <ul>
         <li><a href="/driver/">{$_('nav.home')}</a></li>
@@ -62,10 +62,9 @@
         <li>{$_('nav.data-sharing')}</li>
       </ul>
     </div>
-    <ConsentToDataSharing
-      buttonText={$_('driver.settings.update')}
-      onButtonClick={onOrgConsentUpdate}
-      preloadSelectedConsents
-    />
+    <div class="prose self-start">
+      <h1>{$_('nav.data-sharing')}</h1>
+      <p>Loading the organization-specific sharing flow...</p>
+    </div>
   {/if}
 </div>

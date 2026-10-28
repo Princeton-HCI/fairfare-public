@@ -1,0 +1,9 @@
+{
+  "capturedAt": "2026-09-12T13:18:30.788Z",
+  "source": "https://api-sandbox.argyle.com/v2/users",
+  "status": 201,
+  "body": {
+    "user_token": "REDACTED-USER-TOKEN",
+    "id": "01a095c4-ff11-64a3-e078-dbef1d759f70"
+  }
+}

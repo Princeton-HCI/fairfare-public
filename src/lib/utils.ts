@@ -29,6 +29,17 @@ export const USDformatter = new Intl.NumberFormat('en-US', {
   currencyDisplay: 'narrowSymbol'
 });
 
+/**
+ * Normalize a phone number to a canonical comparison form: digits only.
+ *
+ * Supabase stores verified phone numbers as digits without a leading `+`
+ * (e.g. `15555551234`), so stripping non-digits from both the stored value
+ * and any user/allowlist input yields a stable, comparable key.
+ */
+export const stripPhoneNumberStringOfNonDigits = (phoneNumber: string): string => {
+  return phoneNumber.replace(/\D/g, '');
+};
+
 export const formatPhoneNumber = (phoneNumber: string) => {
   /**
    * Expecting a phone number like +18002223333
@@ -58,3 +69,35 @@ export const convertDateToUTC = (dateWithTZ: Date) => {
 };
 
 export const isDemoMode = import.meta.env.VITE_IS_DEMO === 'true';
+
+/**
+ * Display name for a person, from the identity fields `profiles` carries.
+ * `fallback` is what to show when there is no name — a dash in tables, a word
+ * like `'Driver'` in headings, or `person?.email ?? '—'` where an email is the
+ * better stand-in.
+ */
+export const formatPersonName = (
+  person: { first_name?: string | null; last_initial?: string | null } | null | undefined,
+  fallback = '—'
+): string => [person?.first_name, person?.last_initial].filter(Boolean).join(' ') || fallback;
+
+/** Locale date for a nullable timestamp column, or a dash. */
+export const formatDate = (value: string | null | undefined): string =>
+  value ? new Date(value).toLocaleDateString() : '—';
+
+/** Locale date and time for a nullable timestamp column, or a dash. */
+export const formatDateTime = (value: string | null | undefined): string =>
+  value ? new Date(value).toLocaleString() : '—';
+
+/**
+ * The current query string with some params changed, for links that flip one
+ * filter and keep the rest. A `null` value drops the param.
+ */
+export const hrefWithParams = (url: URL, changes: Record<string, string | null>): string => {
+  const params = new URLSearchParams(url.searchParams);
+  for (const [key, value] of Object.entries(changes)) {
+    if (value === null) params.delete(key);
+    else params.set(key, value);
+  }
+  return `?${params.toString()}`;
+};

@@ -14,6 +14,39 @@ export interface ActivityWithTakeRate extends ArgyleDriverActivity {
   take_rate: number;
 }
 
+export const SUPPORTED_TAKE_RATE_EMPLOYERS = ['Uber Driver'] as const;
+
+const CANONICAL_EMPLOYER_BY_NORMALISED: Record<string, string> = {
+  uber: 'Uber Driver',
+  'uber driver': 'Uber Driver',
+  lyft: 'Lyft Driver',
+  'lyft driver': 'Lyft Driver'
+};
+
+const titleCase = (s: string) =>
+  s
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((w) => w[0].toUpperCase() + w.slice(1).toLowerCase())
+    .join(' ');
+
+export const canonicalizeEmployer = (employer: string | null | undefined): string | null => {
+  if (!employer) return null;
+  const trimmed = employer.trim();
+  if (trimmed.length === 0) return null;
+  const key = trimmed.toLowerCase();
+  return CANONICAL_EMPLOYER_BY_NORMALISED[key] ?? titleCase(trimmed);
+};
+
+export type PlatformTakeRateInfo = {
+  employer: string;
+  averagePlatformTakePct: number;
+  averagePlatformTakePctString: string;
+  minPlatformTakeString: string | undefined;
+  maxPlatformTakeString: string | undefined;
+  gigsLength: number;
+};
+
 class UserNotFoundError extends Error {
   constructor(message: string) {
     super(message);
@@ -32,6 +65,15 @@ class LessThanTenGigsError extends Error {
   constructor(message: string) {
     super(message);
     this.name = 'LessThanTenGigsError'; // this is the i18n key
+  }
+}
+
+class UnsupportedPlatformError extends Error {
+  unsupportedEmployers: string[];
+  constructor(message: string, unsupportedEmployers: string[] = []) {
+    super(message);
+    this.name = 'UnsupportedPlatformError'; // this is the i18n key
+    this.unsupportedEmployers = unsupportedEmployers;
   }
 }
 
@@ -123,6 +165,22 @@ const getFilteredGigsWithNonNaNTakeRates = (
   return filteredGigsWithNonNaNTakeRates;
 };
 
+const isSupportedEmployer = (employer: string | null | undefined): boolean => {
+  const canonical = canonicalizeEmployer(employer);
+  return !!canonical && (SUPPORTED_TAKE_RATE_EMPLOYERS as readonly string[]).includes(canonical);
+};
+
+const _statsForGigs = (gigs: ActivityWithTakeRate[]) => {
+  const averagePlatformTakePct = _.meanBy(gigs, (x) => x.take_rate);
+  return {
+    averagePlatformTakePct,
+    averagePlatformTakePctString: averagePlatformTakePct.toFixed(0),
+    minPlatformTakeString: getMinPlatformTakeStringFromGigs(gigs),
+    maxPlatformTakeString: getMaxPlatformTakeStringFromGigs(gigs),
+    gigsLength: gigs.length
+  };
+};
+
 const _getPublicTakeRateInfoFromGigsWithTakeRates = async (gigs: ActivityWithTakeRate[]) => {
   /**
    * Here we compile the public take rate info that we'll pass from the server
@@ -135,27 +193,52 @@ const _getPublicTakeRateInfoFromGigsWithTakeRates = async (gigs: ActivityWithTak
    * This follows a nice MVC pattern, where the client remains "dumb" and
    * only has a responsibility to display the data.
    *
+   * Platform handling: only gigs whose `employer` is in
+   * `SUPPORTED_TAKE_RATE_EMPLOYERS` are used to compute take rate. Employers
+   * present on the user's gigs but not in that list are surfaced via
+   * `unsupportedEmployers` so the UI can explain why they're missing.
+   *
    * @param gigs - The gigs to calculate the public take rate info from.
    */
-  if (!checkIfGigsAreValid(gigs)) {
+  const supportedGigs = gigs.filter((g) => isSupportedEmployer(g.employer));
+  const unsupportedEmployers = _.uniq(
+    gigs
+      .filter((g) => !isSupportedEmployer(g.employer))
+      .map((g) => canonicalizeEmployer(g.employer))
+  ).filter((e): e is string => typeof e === 'string' && e.length > 0);
+
+  if (supportedGigs.length === 0 && unsupportedEmployers.length > 0) {
+    throw new UnsupportedPlatformError(
+      'No gigs from a platform with supported take rate calculation',
+      unsupportedEmployers
+    );
+  }
+
+  if (!checkIfGigsAreValid(supportedGigs)) {
     throw new LessThanTenGigsError('Too few gigs');
   }
 
-  const userId = gigs[0].user;
+  const userId = supportedGigs[0].user ?? gigs[0]?.user;
 
   if (!userId) throw new UserNotFoundError('No user id found');
 
   const phoneNumberLastTwo = await getUserPhoneNumberFromId(userId).then((x) => x?.slice(-2));
 
-  const averagePlatformTakePct = _getAveragePlatformTakePctFromGigs(gigs);
+  const byPlatform: PlatformTakeRateInfo[] = SUPPORTED_TAKE_RATE_EMPLOYERS.flatMap(
+    (employer): PlatformTakeRateInfo[] => {
+      const platformGigs = supportedGigs.filter(
+        (g) => canonicalizeEmployer(g.employer) === employer
+      );
+      if (platformGigs.length === 0) return [];
+      return [{ employer, ..._statsForGigs(platformGigs) }];
+    }
+  );
 
   return {
-    averagePlatformTakePctString: averagePlatformTakePct.toFixed(0),
-    averagePlatformTakePct: averagePlatformTakePct,
-    minPlatformTakeString: getMinPlatformTakeStringFromGigs(gigs),
-    maxPlatformTakeString: getMaxPlatformTakeStringFromGigs(gigs),
-    gigsLength: gigs.length,
-    monthsSinceMinDateToShow: getMonthsSinceMinDateToShow(gigs),
+    aggregate: _statsForGigs(supportedGigs),
+    byPlatform,
+    unsupportedEmployers,
+    monthsSinceMinDateToShow: getMonthsSinceMinDateToShow(supportedGigs),
     userId,
     phoneNumberLastTwo
   };
@@ -182,7 +265,9 @@ const checkIfGigsAreValid = (gigs: ActivityWithTakeRate[]) => {
 };
 
 const _getAveragePlatformTakePctFromGigs = (gigs: ArgyleDriverActivity[]) => {
-  const filteredGigsWithNonNaNTakeRates = getFilteredGigsWithNonNaNTakeRates(gigs);
+  const filteredGigsWithNonNaNTakeRates = getFilteredGigsWithNonNaNTakeRates(gigs).filter((g) =>
+    isSupportedEmployer(g.employer)
+  );
 
   const averagePlatformTakePct = _.meanBy(filteredGigsWithNonNaNTakeRates, (x) => x.take_rate);
 
@@ -226,5 +311,6 @@ const getMonthsSinceMinDateToShow = (gigs: ActivityWithTakeRate[]) => {
 export {
   getRecentSixMonthsPublicTakeRateInfoFromShortUserId,
   _getAveragePlatformTakePctFromGigs,
-  _getPublicTakeRateInfoFromGigsWithTakeRates
+  _getPublicTakeRateInfoFromGigsWithTakeRates,
+  UnsupportedPlatformError
 };

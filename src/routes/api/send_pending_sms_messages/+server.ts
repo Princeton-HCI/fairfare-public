@@ -1,8 +1,11 @@
 import { supabase } from '@src/lib/server/db';
+import { validateInternalApiKey } from '@src/lib/server/internalAuth';
 import { error, json } from '@sveltejs/kit';
 import { attemptSendingSmsMessage } from '@src/lib/smsMessages/utils';
+import type { RequestEvent } from '@sveltejs/kit';
 
-export const GET = async () => {
+export const GET = async ({ request }: RequestEvent) => {
+  validateInternalApiKey(request);
   const minimumAllowableSendHours = 10; // 10am
   const maximumAllowableSendHours = 16; // 4pm
 

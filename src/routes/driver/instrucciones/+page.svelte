@@ -3,6 +3,7 @@
   import { title } from '@src/lib/stores/pageinfo';
 
   import BreadCrumb from '@src/lib/components/BreadCrumb.svelte';
+  import { PUB_SUPPORT_EMAIL } from '$env/static/public';
 
   title.set('Instrucciones');
   locale.set('es');
@@ -13,8 +14,8 @@
   <h1>Instrucciones de inscripción</h1>
 
   <p>
-    ¡Hola conductores! PELQ se está asociando con investigadores de University y del University y
-    para estudiar las comisiones justas y la demanda de tus viajes.
+    ¡Hola conductores! PELQ se está asociando con investigadores de Sample University para estudiar
+    las comisiones justas y la demanda de tus viajes.
     <strong>
       Registrarte tarda 5 minutos, y obtendrás información sobre los porcentajes de las comisiones
       reales.
@@ -34,7 +35,7 @@
   </ul>
   <div class="max-w-[250px] m-auto">
     <img
-      src="/img/instructions/how-much-is-uber-taking.jpg"
+      src="/img/instructions/how-much-is-uber-taking.webp"
       class="border border-black"
       alt="A screenshot of the System interface with a red arrow pointing at the 'Join Our Study' button."
     />
@@ -64,7 +65,7 @@
   </ul>
   <div class="max-w-[250px] m-auto">
     <img
-      src="/img/instructions/how-do-you-want-to-log-in.jpg"
+      src="/img/instructions/how-do-you-want-to-log-in.webp"
       class="border border-black"
       alt="A screenshot of the data linking screen, with a red arrow pointing at the 'Phone Number' button."
     />
@@ -80,7 +81,7 @@
   </ul>
   <div class="max-w-[250px] m-auto">
     <img
-      src="/img/instructions/your-uber-account-is-connected.png"
+      src="/img/instructions/your-uber-account-is-connected.webp"
       class="border border-black"
       alt="A screenshot with text 'Your Uber account is connected' with a red arrow pointing at a 'Continue to System button'."
     />
@@ -98,7 +99,7 @@
 
   <p>
     Si tienes alguna pregunta, problema o petición, nos encantaría ayudarte. Envíanos un correo a
-    <a href="mailto:theorganization@university.edu">theorganization@university.edu</a>.
+    <a href="mailto:{PUB_SUPPORT_EMAIL}">{PUB_SUPPORT_EMAIL}</a>.
   </p>
   <BreadCrumb returnUrl="/driver/landing" text="← Volver a la página de inscripción" />
 </div>

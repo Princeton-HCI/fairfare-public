@@ -159,6 +159,14 @@ export interface WebhookAccountsUpdated extends ArgyleWebhookBase {
     account: string;
   };
 }
+export interface WebhookAccountsRemoved extends ArgyleWebhookBase {
+  event: 'accounts.removed';
+  name: string;
+  data: {
+    user: string;
+    account: string;
+  };
+}
 
 // Union type to represent any possible webhook response
 export type ArgyleWebhookResponse =
@@ -176,4 +184,5 @@ export type ArgyleWebhookResponse =
   | WebhookVehiclesRemoved
   | WebhookUsersFullySynced
   | WebhookAccountsConnected
-  | WebhookAccountsUpdated;
+  | WebhookAccountsUpdated
+  | WebhookAccountsRemoved;

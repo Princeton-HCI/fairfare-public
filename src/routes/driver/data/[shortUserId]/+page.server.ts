@@ -2,7 +2,10 @@ import type { PageServerLoad } from './$types';
 import { wrapLoadWithSentry } from '@sentry/sveltekit';
 
 import short from 'short-uuid';
-import { getRecentSixMonthsPublicTakeRateInfoFromShortUserId } from '@src/lib/gigCalculations';
+import {
+  getRecentSixMonthsPublicTakeRateInfoFromShortUserId,
+  UnsupportedPlatformError
+} from '@src/lib/gigCalculations';
 
 export const load: PageServerLoad = wrapLoadWithSentry(
   async ({ locals: { safeGetSession }, params }) => {
@@ -25,14 +28,19 @@ export const load: PageServerLoad = wrapLoadWithSentry(
       };
     } catch (error) {
       let errorI18nKey = 'UnknownError';
+      let unsupportedEmployers: string[] = [];
       // get the error.name and use it as the key for i18n
       if (error instanceof Error) errorI18nKey = error.name;
+      if (error instanceof UnsupportedPlatformError) {
+        unsupportedEmployers = error.unsupportedEmployers;
+      }
       console.error('Error in driver/data/[shortUserId]/+page.server.ts', error);
 
       return {
         session,
         hasError: true,
-        errorI18nKey
+        errorI18nKey,
+        unsupportedEmployers
       };
     }
   }

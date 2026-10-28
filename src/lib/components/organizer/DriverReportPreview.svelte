@@ -1,5 +1,7 @@
 <script lang="ts">
   import { toast } from '@src/lib/toasts';
+  import { page } from '$app/state';
+  import { hasCapability } from '@src/lib/rbac';
   import { onMount } from 'svelte'; // we need to load print-js dynamically, loading it on the server breaks // https://github.com/crabbly/Print.js/issues/400
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
@@ -10,53 +12,39 @@
   });
 
   import DriverNamePhoneAndEmail from '@src/lib/components/organizer/DriverNamePhoneAndEmail.svelte';
-  import getPdfBlob from './getPdfBlob';
-
-  import type { GetPdfBlobArguments } from './getPdfBlob';
+  import makeDriverReportPdfBlob from '@src/routes/organizer/driver_report_pdf/makeDriverReportPdfBlob';
+  import type { FilteredActivitiesResponse } from '@src/routes/api/organizer/filtered_driver_activities/+server';
 
   interface Props {
-    annualInterestRateAsString: string;
-    selectedEmployer: string | null;
-    referencePeriodString: string;
-    deactivationPeriodString: string;
-    totalNumberOfTrips: string;
-    grossEstimatedLostPay: string;
-    grossEstimatedLostPayWithInterest: string;
-    deactivationPeriodDurationString: string;
-    driverFullName: string;
+    backendData: FilteredActivitiesResponse | undefined;
     driverEmail: string;
+    driverFullName: string;
     driverPhone: string;
-    getPdfBlobArguments?: GetPdfBlobArguments;
-    averageDailyPayString: string;
+    isLoading: boolean;
     missingInputData: boolean;
+    selectedEmployer: string | null;
   }
 
   let {
-    annualInterestRateAsString,
+    backendData,
     selectedEmployer,
-    referencePeriodString,
-    deactivationPeriodString,
-    totalNumberOfTrips,
-    grossEstimatedLostPay,
-    grossEstimatedLostPayWithInterest,
-    deactivationPeriodDurationString,
     driverFullName,
     driverEmail,
     driverPhone,
-    getPdfBlobArguments,
-    averageDailyPayString,
-    missingInputData
+    missingInputData,
+    isLoading
   }: Props = $props();
 
   let isPrinting = $state(false);
   let isDownloading = $state(false);
 
   const downloadPdf = async (shouldPrint: boolean) => {
-    if (getPdfBlobArguments === undefined) {
-      console.error('Missing getPdfBlobArguments');
+    if (!backendData) {
+      console.error('Missing backend data');
       toast({ text: 'Failed to generate report', type: 'error' });
       return;
     }
+
     if (shouldPrint) {
       isPrinting = true;
     } else {
@@ -68,89 +56,150 @@
       return;
     }
 
-    const { filename, blob } = await getPdfBlob(getPdfBlobArguments); // MS Edge and IE don't allow using a blob object directly as link href, instead it is necessary to use msSaveOrOpenBlob // @ts-expect-error Property 'msSaveOrOpenBlob' does not exist on type 'Navigator'.ts(2339)
+    try {
+      const pdfBlob = await makeDriverReportPdfBlob(
+        driverFullName,
+        driverEmail,
+        driverPhone,
+        backendData.referencePeriod,
+        backendData.deactivationPeriod,
+        backendData.totalNumberOfTrips,
+        backendData.averageDailyPayString,
+        backendData.grossEstimatedLostPay,
+        backendData.grossEstimatedLostPayWithInterest,
+        backendData.annualInterestRate,
+        selectedEmployer ?? undefined,
+        backendData.interestPeriod,
+        backendData.demandLetterDate
+      );
 
-    // @ts-expect-error Property 'msSaveOrOpenBlob' does not exist on type 'Navigator'.ts(2339)
-    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+      const filename = `${driverFullName.replace(/[^a-zA-Z]+/g, '_').toLowerCase()}_earnings_report.pdf`;
+
       // @ts-expect-error Property 'msSaveOrOpenBlob' does not exist on type 'Navigator'.ts(2339)
-      window.navigator.msSaveOrOpenBlob(blob, filename);
-    } else {
-      // For other browsers: create a link pointing to the ObjectURL containing the blob.
-      const objUrl = window.URL.createObjectURL(blob);
-      console.log(objUrl);
-
-      if (shouldPrint) {
-        // Create a new window for the PDF
-        const printWindow = window.open(objUrl, '_blank'); // Wait for the PDF to load
-
-        // TODO: update the download filename for printing
-        if (printWindow) {
-          printWindow.onload = function () {
-            // Trigger the print dialog
-            printWindow.print(); // Clean up: revoke the blob URL after a delay
-
-            setTimeout(() => {
-              window.URL.revokeObjectURL(objUrl);
-              isPrinting = false;
-            }, 1000);
-          };
-        } else {
-          console.error('Failed to open print window. Pop-ups might be blocked.');
-          isPrinting = false;
-        }
+      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+        // @ts-expect-error Property 'msSaveOrOpenBlob' does not exist on type 'Navigator'.ts(2339)
+        window.navigator.msSaveOrOpenBlob(pdfBlob, filename);
       } else {
-        // Create a link pointing to the ObjectURL containing the blob.
-        const data = window.URL.createObjectURL(blob);
+        // For other browsers: create a link pointing to the ObjectURL containing the blob.
+        const objUrl = window.URL.createObjectURL(pdfBlob);
+        console.log(objUrl);
 
-        const link = document.createElement('a');
-        link.href = data;
-        link.download = filename;
+        if (shouldPrint) {
+          // Create a new window for the PDF
+          const printWindow = window.open(objUrl, '_blank'); // Wait for the PDF to load
 
-        // this is necessary as link.click() does not work on the latest firefox
-        link.dispatchEvent(
-          new MouseEvent('click', {
-            bubbles: true,
-            cancelable: true,
-            view: window
-          })
-        );
+          // TODO: update the download filename for printing
+          if (printWindow) {
+            printWindow.onload = function () {
+              // Trigger the print dialog
+              printWindow.print(); // Clean up: revoke the blob URL after a delay
 
-        setTimeout(() => {
-          // For Firefox it is necessary to delay revoking the ObjectURL
-          window.URL.revokeObjectURL(data);
-          link.remove();
-        }, 100);
+              setTimeout(() => {
+                window.URL.revokeObjectURL(objUrl);
+                isPrinting = false;
+              }, 1000);
+            };
+          } else {
+            console.error('Failed to open print window. Pop-ups might be blocked.');
+            isPrinting = false;
+          }
+        } else {
+          // Create a link pointing to the ObjectURL containing the blob.
+          const data = window.URL.createObjectURL(pdfBlob);
 
-        isDownloading = false;
+          const link = document.createElement('a');
+          link.href = data;
+          link.download = filename;
+
+          // this is necessary as link.click() does not work on the latest firefox
+          link.dispatchEvent(
+            new MouseEvent('click', {
+              bubbles: true,
+              cancelable: true,
+              view: window
+            })
+          );
+
+          setTimeout(() => {
+            // For Firefox it is necessary to delay revoking the ObjectURL
+            window.URL.revokeObjectURL(data);
+            link.remove();
+          }, 100);
+        }
       }
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      toast({ text: 'Failed to generate report', type: 'error' });
+    } finally {
+      isDownloading = false;
     }
   };
 
   let printButtonDisabled = $derived(isPrinting || missingInputData);
 
   let downloadButtonDisabled = $derived(isDownloading || missingInputData);
+
+  // The PDF is rendered in the browser, so this can only hide the controls;
+  // the server-side ZIP/PDF endpoints enforce the same capability.
+  const canExport = $derived(
+    hasCapability(page.data.roles, 'org:export_driver_data', page.params.affiliate_organization_key)
+  );
 </script>
 
-<div class="max-w-lg mx-auto">
+<div>
   <div class="flex flex-row items-center gap-2 justify-between">
-    <h2 class="font-bold text-lg">Report Preview</h2>
-    <div class="flex flex-row gap-2">
-      <button class="btn self-end" disabled={printButtonDisabled} onclick={() => downloadPdf(true)}>
-        {isPrinting ? 'Printing...' : 'Print'}
-      </button>
-      <button
-        class="btn self-end"
-        disabled={downloadButtonDisabled}
-        onclick={() => downloadPdf(false)}
-      >
-        {isDownloading ? 'Downloading...' : 'Download'}
-      </button>
-    </div>
+    <h2 class="font-semibold text-base text-base-content">Report Preview</h2>
+    {#if canExport}
+      <div class="flex flex-row gap-2">
+        <button
+          class="btn btn-sm btn-ghost gap-1.5"
+          disabled={printButtonDisabled}
+          onclick={() => downloadPdf(true)}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="1.5"
+            ><path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
+            /></svg
+          >
+          {isPrinting ? 'Printing...' : 'Print'}
+        </button>
+        <button
+          class="btn btn-sm btn-primary gap-1.5"
+          disabled={downloadButtonDisabled}
+          onclick={() => downloadPdf(false)}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+            ><path
+              fill-rule="evenodd"
+              d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+              clip-rule="evenodd"
+            /></svg
+          >
+          {isDownloading ? 'Downloading...' : 'Download'}
+        </button>
+      </div>
+    {/if}
   </div>
-  <div class="my-2 p-4 rounded-sm border bg-white">
+  <div class="my-2 p-5 rounded-lg bg-white shadow-sm">
     {#if missingInputData}
       <div class="h-64 flex items-center justify-center">
         <p class="text-error">Please complete the above fields to generate the report</p>
+      </div>
+    {:else if isLoading || backendData === undefined}
+      <div class="h-64 flex items-center justify-center">
+        <p>Loading activities...</p>
       </div>
     {:else}
       <!-- 
@@ -168,40 +217,39 @@
       <div class="h-1"></div>
       <p>
         Reference period:
-        <b class="font-bold">{referencePeriodString}</b>
+        <b class="font-bold">{backendData.referencePeriod}</b>
       </p>
       <p>
         Deactivation period:
-        <b class="font-bold">{deactivationPeriodString}</b>
-      </p>
-      <p>
-        Total number of trips: <b class="font-bold">{totalNumberOfTrips.toLocaleString()}</b>
+        <b class="font-bold">{backendData.deactivationPeriod}</b>
       </p>
       <br />
-      <p>Average daily pay: <b class="font-bold">{averageDailyPayString}</b></p>
+      <p>Average daily pay: <b class="font-bold">{backendData.averageDailyPayString}</b></p>
 
-      {#if grossEstimatedLostPay != '$NaN'}
+      <p>
+        Gross estimated lost pay: <b class="font-bold">{backendData.grossEstimatedLostPay}</b>
+      </p>
+      <br />
+      <p>
+        Gross estimated lost pay with interest: <b class="font-bold">
+          {backendData.grossEstimatedLostPayWithInterest}
+        </b>
+      </p>
+      <p>
+        Annual interest rate: <b class="font-bold">{backendData.annualInterestRate}</b>
+      </p>
+      <p>
+        Interest calculation period: <b class="font-bold">{backendData.interestPeriod}</b>
+      </p>
+      {#if backendData.demandLetterDate}
         <p>
-          Gross estimated lost pay: <b class="font-bold">{grossEstimatedLostPay}</b>
-        </p>
-        <p>
-          Gross estimated lost pay with interest: <b class="font-bold">
-            {grossEstimatedLostPayWithInterest}
-          </b>
+          Demand/arbitration date: <b class="font-bold">{backendData.demandLetterDate}</b>
         </p>
       {/if}
-      <p>
-        Annual interest rate: <b class="font-bold">{annualInterestRateAsString}</b>
-      </p>
-      <br />
-
-      <p>
-        Period of deactivation: <b class="font-bold">{deactivationPeriodDurationString}</b>
-      </p>
       {#if selectedEmployer}
+        <br />
         <p>Platform: <b class="font-bold">{selectedEmployer}</b></p>
       {/if}
-      <div class="h-20"></div>
     {/if}
   </div>
 </div>

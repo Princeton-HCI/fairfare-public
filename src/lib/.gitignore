@@ -3,3 +3,4 @@
 *.ipynb
 *.html
 !cleanGigs.json
+!server/demoArgyleSandboxGigs.json

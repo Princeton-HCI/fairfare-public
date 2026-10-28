@@ -1,19 +1,19 @@
 import {
   addIdentityDataToUserAndEnableOtpLogin,
-  argyleFetch,
-  buildArgyleUrl
+  fetchIdentityByUser
 } from '@src/lib/server/argyle';
 import { supabase } from '@src/lib/server/db';
+import { validateInternalApiKey } from '@src/lib/server/internalAuth';
 import { error, json } from '@sveltejs/kit';
-
-import type { ArgyleIdentitiesResponse } from '@src/lib/types';
+import type { RequestEvent } from '@sveltejs/kit';
 import { UserDoesNotExistError } from '@src/lib/errors';
 
-export const POST = async () => {
+export const POST = async ({ request }: RequestEvent) => {
+  validateInternalApiKey(request);
   const { data: profilesWithMissingData, error: supabaseError } = await supabase
     .from('profiles')
     .select('*')
-    .or('email.is.null, first_name.is.null, last_name.is.null')
+    .or('email.is.null, first_name.is.null, last_initial.is.null')
     .not('argyle_user', 'is', null)
     .not('user_id', 'is', null);
 
@@ -47,24 +47,7 @@ export const POST = async () => {
   // iterate over the users and update their identities
   await Promise.all(
     profilesWithMissingData.map(async (profile) => {
-      const params = new URLSearchParams({
-        user: profile.argyle_user
-      });
-      const url = buildArgyleUrl('/identities?' + params);
-      const response = await argyleFetch(url, {});
-
-      // check status code
-      if (response.status !== 200) {
-        console.error(
-          'Failed to fetch identities for user: argyle fetch not ok ' +
-            profile.argyle_user +
-            '. Status code: ' +
-            response.status
-        );
-        return; // go to the next user
-      }
-
-      const responseData: ArgyleIdentitiesResponse = await response.json(); // to json
+      const responseData = { results: await fetchIdentityByUser(profile.argyle_user) };
 
       // if the user has no identities
       if (responseData.results.length === 0) {

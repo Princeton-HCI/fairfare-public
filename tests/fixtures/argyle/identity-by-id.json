@@ -1,0 +1,50 @@
+{
+  "capturedAt": "2026-09-12T13:18:30.182Z",
+  "source": "https://api-sandbox.argyle.com/v2/identities/394f86f9-ea8a-38ed-8e34-f235c5a0487a",
+  "status": 200,
+  "body": {
+    "id": "394f86f9-ea8a-38ed-8e34-f235c5a0487a",
+    "account": "01a04c67-2759-0dbc-77fc-16fdf8290366",
+    "address": {
+      "city": "New York",
+      "line1": "759 Victoria Plaza",
+      "line2": null,
+      "state": "NY",
+      "country": "US",
+      "postal_code": "10014"
+    },
+    "first_name": "Bob",
+    "last_name": "Jones",
+    "full_name": "Bob Jones",
+    "birth_date": "1980-10-10",
+    "email": "test1@argyle.com",
+    "phone_number": "+18009000010",
+    "picture_url": "https://api-sandbox.argyle.com/v2/payroll-documents/01a04c67-4d1f-1725-00d2-1ff64e7c7104/file",
+    "employment_status": "active",
+    "employment_type": "contractor",
+    "job_title": null,
+    "ssn": "000-00-0000",
+    "marital_status": "Married filing jointly",
+    "gender": "Male",
+    "hire_date": null,
+    "original_hire_date": null,
+    "termination_date": null,
+    "termination_reason": null,
+    "employer": "Uber Driver",
+    "base_pay": {
+      "amount": null,
+      "period": null,
+      "currency": null
+    },
+    "pay_cycle": "weekly",
+    "platform_ids": {
+      "employee_id": null,
+      "position_id": null,
+      "platform_user_id": "9VT8JS89ALM5EBH5"
+    },
+    "created_at": "2026-08-29T07:23:53.348Z",
+    "updated_at": "2026-08-29T07:24:06.701Z",
+    "metadata": {},
+    "employment": "8477f432-79cd-31a7-8f38-490d8f456935"
+  }
+}

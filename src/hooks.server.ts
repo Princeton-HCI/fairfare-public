@@ -5,28 +5,33 @@ import { createServerClient } from '@supabase/ssr';
 import type { Handle } from '@sveltejs/kit';
 import { config } from 'dotenv';
 import { getProfileFromUserId } from './lib/databaseHelpers';
+import { emptyAuthContext } from './lib/rbac';
+import { loadAuthContext } from './lib/server/rbac';
 
-const getEnvironment = (): string => {
+type SafeSession = Awaited<ReturnType<App.Locals['safeGetSession']>>;
+
+const isProduction = (): boolean => {
   config(); // Load env vars
 
-  const netlifySiteName = process.env.SITE_NAME;
-  const netlifySiteId = process.env.SITE_ID;
-  const netlifyDeployUrl = process.env.URL;
-
-  if (!netlifySiteName || !netlifySiteId || !netlifyDeployUrl) {
-    return 'development';
-  }
-
-  // FIXME: improve this, see: https://docs.netlify.com/functions/environment-variables/
-  return 'production';
+  // See: https://docs.netlify.com/configure-builds/environment-variables/#build-metadata
+  const url = process.env.URL ?? '';
+  return (
+    process.env.CONTEXT === 'production' &&
+    url.includes('getsystem.org') &&
+    !url.includes('staging.')
+  );
 };
 
+const environment = isProduction() ? 'production' : 'development';
+
 Sentry.init({
-  // CONTEXT is from Netlify's build metadata: https://docs.netlify.com/configure-builds/environment-variables/#build-metadata
-  // MODE is from Vite's build metadata: https://vitejs.dev/guide/env-and-mode.html#modes
-  environment: getEnvironment(),
-  dsn: 'https://3f41c01122e43d8dfa35db144809967c@o4506775983947776.ingest.us.sentry.io/4508320236437504',
-  tracesSampleRate: 1
+  dsn: 'https://examplePublicKey@o0.ingest.sentry.io/0',
+  environment,
+  enabled: environment === 'production',
+  ignoreErrors: ['NetworkError', 'Failed to fetch', 'Load failed', 'AbortError'],
+  beforeSend(event) {
+    return event.exception ? event : null;
+  }
 });
 
 export const handle: Handle = sequence(Sentry.sentryHandle(), async ({ event, resolve }) => {
@@ -50,17 +55,32 @@ export const handle: Handle = sequence(Sentry.sentryHandle(), async ({ event, re
   });
 
   /**
+   * Memoized per request, keyed on the access token. A single page render calls
+   * `safeGetSession` from the root layout, any nested layouts, and the page
+   * load — without this, each of those repeats `getUser()`, the profile lookup,
+   * and the three role queries behind `loadAuthContext`. Keying on the token
+   * rather than caching unconditionally keeps a sign-in or sign-out that
+   * happens mid-request from being served a stale context.
+   */
+  let cachedSession: { accessToken: string; value: SafeSession } | null = null;
+
+  /**
    * Unlike `supabase.auth.getSession()`, which returns the session _without_
    * validating the JWT, this function also calls `getUser()` to validate the
    * JWT before returning the session.
    */
   event.locals.safeGetSession = async () => {
-    // TODO: look run these queries in parallel to speed up the response
+    // `getSession()` reads the cookie locally, so this stays cheap on a hit.
     const {
       data: { session }
     } = await event.locals.supabase.auth.getSession();
     if (!session) {
-      return { session: null, user: null, profile: null };
+      cachedSession = null;
+      return { session: null, user: null, profile: null, roles: emptyAuthContext() };
+    }
+
+    if (cachedSession?.accessToken === session.access_token) {
+      return cachedSession.value;
     }
 
     const {
@@ -69,13 +89,23 @@ export const handle: Handle = sequence(Sentry.sentryHandle(), async ({ event, re
     } = await event.locals.supabase.auth.getUser();
     if (error || !user) {
       // JWT validation has failed
-      return { session: null, user: null, profile: null };
+      cachedSession = null;
+      return { session: null, user: null, profile: null, roles: emptyAuthContext() };
     }
 
-    // Get the user's profile as well
-    const profile = await getProfileFromUserId(event.locals.supabase, user.id);
+    // Get the user's profile as well. A missing profile must not 500 the request —
+    // role checks still run from user_roles / organization_members.
+    const [profile, roles] = await Promise.all([
+      getProfileFromUserId(event.locals.supabase, user.id).catch((error) => {
+        console.error('Failed to load profile for session', error);
+        return null;
+      }),
+      loadAuthContext(event.locals.supabase, user.id)
+    ]);
 
-    return { session, user, profile };
+    const value = { session, user, profile, roles };
+    cachedSession = { accessToken: session.access_token, value };
+    return value;
   };
 
   return resolve(event, {

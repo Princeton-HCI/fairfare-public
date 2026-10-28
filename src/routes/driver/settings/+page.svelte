@@ -2,6 +2,10 @@
   import { onMount } from 'svelte';
   import { _ } from 'svelte-i18n';
 
+  import {
+    SYSTEM_VIRTUAL_PRIMARY_KEY,
+    SYSTEM_VIRTUAL_PRIMARY_NAME
+  } from '@src/lib/affiliationConstants';
   import ExternalLink from '@src/lib/components/ExternalLink.svelte';
   import BooleanAsIcon from '@src/lib/components/BooleanAsIcon.svelte';
   import Spinner from '@src/lib/components/Spinner.svelte';
@@ -15,9 +19,13 @@
 
   import CalendarEventFilled from '@src/lib/icons/CalendarEventFilled.svelte';
   import CarFilled from '@src/lib/icons/CarFilled.svelte';
+  import PhoneFilled from '@src/lib/icons/PhoneFilled.svelte';
+
+  import { formatPhoneNumber } from '@src/lib/utils';
 
   import type { PageProps } from './$types';
   import BottomDrawer from '@src/lib/components/BottomDrawer.svelte';
+  import logOut from '@src/lib/client/logOut';
 
   title.set('Settings');
 
@@ -28,11 +36,13 @@
     dateSignedUp,
     userId,
     shortUserId,
+    phoneNumber,
     phoneNumberLastTwo,
     argyleUserId,
     allArgyleAccountsAreConnected,
     argyleAccounts: argyleAccountsFromDatabase,
-    argyleUserToken
+    argyleUserToken,
+    hasAnyArgyleAccounts
   } = data;
 
   const formattedDateSignedUp = dateSignedUp
@@ -54,52 +64,83 @@
     if (argyleUserToken) argyleAccounts.setToken(argyleUserToken);
   });
 
-  // we need a list of organizations that are either selected for data sharing
-  // or as affiliated organizations
-  // the format should be like
-  // [ { key: 'org1', name: 'Organization 1', isAffiliated: true, isDataSharing: true }, ... ]
-  let selectedDataSharingConsents = $derived(
-    $dataSharingConsents.selected.map((consent) => ({
-      key: consent.key,
-      name: consent.name,
-      url: consent.url,
-      isDataSharing: true,
-      isAffiliated: undefined
-    }))
-  );
+  // Build a table of rows from primary + secondaries + consents.
+  // Rendering order: primary -> secondaries -> virtual primary (if applicable).
+  type OrgRow = {
+    key: string;
+    name: string | undefined;
+    url: string | null | undefined;
+    isAffiliated: boolean;
+    isPrimary: boolean;
+    isDataSharing: boolean;
+    affiliateOrganizationSlug: string;
+    isVirtualPrimary?: boolean;
+  };
 
-  let selectedAffiliation = $derived(
-    $affiliations.selected && {
-      key: $affiliations.selected.key,
-      name: $affiliations.selected.name,
-      url: $affiliations.selected.url,
-      isDataSharing: undefined,
-      isAffiliated: true
+  let primaryOrg = $derived($affiliations.primary);
+  let secondaryOrgs = $derived($affiliations.secondaryOrgs);
+
+  let consentByKey = $derived(new Map($dataSharingConsents.selected.map((c) => [c.key, c])));
+
+  let organizationsForTable = $derived.by<OrgRow[]>(() => {
+    const rows: OrgRow[] = [];
+
+    if (primaryOrg) {
+      rows.push({
+        key: primaryOrg.key,
+        name: primaryOrg.name,
+        url: primaryOrg.url,
+        isAffiliated: true,
+        isPrimary: true,
+        isDataSharing: consentByKey.has(primaryOrg.key),
+        affiliateOrganizationSlug: primaryOrg.key
+      });
     }
-  );
 
-  let organizationKeysForTable = $derived(
-    selectedAffiliation
-      ? [
-          ...new Set(
-            selectedDataSharingConsents.map((org) => org.key).concat([selectedAffiliation.key])
-          )
-        ]
-      : [...new Set(selectedDataSharingConsents.map((org) => org.key))]
-  );
+    for (const org of secondaryOrgs) {
+      rows.push({
+        key: org.key,
+        name: org.name,
+        url: org.url,
+        isAffiliated: true,
+        isPrimary: false,
+        isDataSharing: consentByKey.has(org.key),
+        affiliateOrganizationSlug: org.key
+      });
+    }
 
-  let organizationsForTable = $derived(
-    organizationKeysForTable.map((key) => {
-      const selectedDataSharingConsent = selectedDataSharingConsents.find((org) => org.key === key);
-      return {
-        key: key,
-        name: selectedAffiliation?.name || selectedDataSharingConsent?.name,
-        isAffiliated: selectedAffiliation?.key === key,
-        isDataSharing: selectedDataSharingConsent?.isDataSharing || false,
-        url: selectedAffiliation?.url || selectedDataSharingConsent?.url
-      };
-    })
-  );
+    // Data-sharing consents WITHOUT a matching affiliation (consent-only rows).
+    for (const consent of $dataSharingConsents.selected) {
+      const alreadyShown = rows.some((r) => r.key === consent.key);
+      if (alreadyShown) continue;
+      rows.push({
+        key: consent.key,
+        name: consent.name,
+        url: consent.url,
+        isAffiliated: false,
+        isPrimary: false,
+        isDataSharing: true,
+        affiliateOrganizationSlug: consent.key
+      });
+    }
+
+    // Virtual primary: driver has Argyle accounts but no real primary org.
+    // Without this row they have no UI affordance to stop sharing global data.
+    if (!primaryOrg && hasAnyArgyleAccounts) {
+      rows.push({
+        key: SYSTEM_VIRTUAL_PRIMARY_KEY,
+        name: SYSTEM_VIRTUAL_PRIMARY_NAME,
+        url: null,
+        isAffiliated: true,
+        isPrimary: true,
+        isDataSharing: true,
+        affiliateOrganizationSlug: SYSTEM_VIRTUAL_PRIMARY_KEY,
+        isVirtualPrimary: true
+      });
+    }
+
+    return rows;
+  });
 
   let showArgyle = $state(false);
 </script>
@@ -108,143 +149,193 @@
   <h1>
     {$_('nav.settings')}
   </h1>
-  <h2 class="font-medium text-left text-xl mb-4 mt-8">
-    {$_('driver.settings.your-information-in-system')}
-  </h2>
 
-  <div class="bg-neutral text-neutral-content flex gap-4 items-center p-4">
-    <div
-      class="bg-accent rounded-full h-12 w-12 flex items-center justify-center font-medium text-lg"
-    >
-      {initials}
-    </div>
-    <div class="grow flex gap-1 flex-col">
-      <div class="font-bold">{fullName}</div>
-      <div class="text-xs flex items-center gap-2">
-        <div class="flex items-center gap-1">
-          <CarFilled />
-          <span>
-            {activitiesCount?.toLocaleString()}
-            {$_('driver.settings.trips')}
-          </span>
-        </div>
-        <div class="flex items-center gap-1">
-          <CalendarEventFilled />
-          <span>
-            {$_('driver.settings.joined')}
-            {formattedDateSignedUp}
-          </span>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  {#if argyleAccountsFromDatabase}
-    {#each argyleAccountsFromDatabase as account}
-      <dl class="grid grid-cols-2 gap-y-2 bg-white p-4 mt-4">
-        <dt class="border-b font-normal m-0 p-0">
-          {$_('driver.settings.account')}
-        </dt>
-        <dd class="border-b font-bold text-right m-0 p-0 pb-2">
-          {account.employers.join(', ')}
-        </dd>
-        <dt class="border-b font-normal m-0 p-0">
-          {$_('driver.settings.status')}
-        </dt>
-        <dd class="border-b font-bold text-right m-0 p-0 pb-2">
-          {account.connection.status}
-        </dd>
-        <dt class="border-b font-normal m-0 p-0">
-          {$_('driver.settings.gigs')}
-        </dt>
-        <dd class="border-b font-bold text-right m-0 p-0 pb-2">
-          {account.availability.gigs.available_count.toLocaleString()}
-        </dd>
-        <dt class="border-b font-normal m-0 p-0">
-          {$_('driver.settings.created-at')}
-        </dt>
-        <dd class="border-b font-bold text-right m-0 p-0 pb-2">
-          {new Date(account.created_at).toLocaleDateString()}
-        </dd>
-      </dl>
-    {/each}
-  {:else}
-    {$_('driver.settings.no-accounts-found')}
-  {/if}
-
-  {#if allArgyleAccountsAreConnected}
-    <button onclick={() => (showArgyle = true)} class="btn btn-outline">
-      {$_('driver.settings.review-my-linked-accounts')}
-    </button>
-    <p class="mt-1 text-sm">
-      {$_('driver.settings.all-of-your-linked-accounts-are-up-to-date')}
+  {#if data.error}
+    <p>
+      {data.error}
     </p>
-  {:else}
-    <p class="font-bold text-error mb-1">
-      {$_('driver.settings.your-linked-accounts-are-out-of-date')}
-    </p>
-    <button onclick={() => (showArgyle = true)} class="btn btn-primary">
-      {$_('driver.settings.review-my-linked-accounts')}
-    </button>
-  {/if}
-
-  <p class="mt-4">
-    <a href="/driver/data/{shortUserId}" class="btn btn-neutral">
-      {$_('driver.settings.view-my-take-rate-data')}
+    <!-- go home button -->
+    <a href="/driver/" class="btn btn-neutral">
+      {$_('nav.home')}
     </a>
-  </p>
+  {:else}
+    <h2 class="font-medium text-left text-xl mb-4 mt-8">
+      {$_('driver.settings.your-information-in-system')}
+    </h2>
 
-  {#if showArgyle}
-    <UseArgyle
-      onAbortRedirectTo="/driver/settings"
-      onSuccessRedirectTo="/driver/settings"
-      onClose={() => (showArgyle = false)}
-    />
-  {/if}
-
-  <h2 class="font-medium text-xl self-start leading-none mt-8 mb-4">
-    {$_('driver.settings.your-affiliation-and-data-sharing')}
-  </h2>
-  {#if $affiliations.selectedAffiliationsAreLoadedFromDatabase}
-    {#each organizationsForTable as { name, url, isAffiliated, isDataSharing }}
-      <div class="bg-white flex gap-2 p-4 flex-col mt-4">
-        <span class="font-bold leading-tight">{name}</span>
-        <div class="flex gap-3 items-center text-sm">
-          <div class="flex gap-1 items-center">
-            <BooleanAsIcon value={isAffiliated} />
-            <span>{$_('driver.settings.affiliated')}</span>
+    <div class="bg-neutral text-neutral-content flex gap-4 items-center p-4">
+      <div
+        class="bg-accent rounded-full h-12 w-12 flex items-center justify-center font-medium text-lg"
+      >
+        {initials}
+      </div>
+      <div class="grow flex gap-1 flex-col">
+        <div class="font-bold">{fullName}</div>
+        <div class="text-xs flex items-center gap-2 flex-wrap">
+          <div class="flex items-center gap-1">
+            <CarFilled />
+            <span>
+              {activitiesCount?.toLocaleString()}
+              {$_('driver.settings.trips')}
+            </span>
           </div>
-          <div class="flex gap-1 items-center">
-            <BooleanAsIcon value={isDataSharing} />
-            <span>{$_('driver.settings.sharing-data')}</span>
+          <div class="flex items-center gap-1">
+            <CalendarEventFilled />
+            <span>
+              {$_('driver.settings.joined')}
+              {formattedDateSignedUp}
+            </span>
+          </div>
+          <div class="flex items-center gap-1">
+            <PhoneFilled />
+            <span>{formatPhoneNumber(phoneNumber!)}</span>
           </div>
         </div>
       </div>
-      {#if url}
-        <ExternalLink href={url}>{$_('driver.settings.learn-more-about')} {name}</ExternalLink>
-      {/if}
-    {/each}
-  {:else}
-    <Spinner />
-  {/if}
+    </div>
 
-  <p>
-    <a href="/driver/opt-out" class="btn btn-error btn-outline" type="submit">
-      {$_('driver.settings.opt-out')}
-    </a>
-  </p>
+    {#if argyleAccountsFromDatabase}
+      {#each argyleAccountsFromDatabase as account}
+        <dl class="grid grid-cols-2 gap-y-2 bg-white p-4 mt-4">
+          <dt class="border-b font-normal m-0 p-0">
+            {$_('driver.settings.account')}
+          </dt>
+          <dd class="border-b font-bold text-right m-0 p-0 pb-2">
+            {account.employers.join(', ')}
+          </dd>
+          <dt class="border-b font-normal m-0 p-0">
+            {$_('driver.settings.status')}
+          </dt>
+          <dd class="border-b font-bold text-right m-0 p-0 pb-2">
+            {account.connection.status}
+          </dd>
+          <dt class="border-b font-normal m-0 p-0">
+            {$_('driver.settings.gigs')}
+          </dt>
+          <dd class="border-b font-bold text-right m-0 p-0 pb-2">
+            {account.availability?.gigs?.available_count?.toLocaleString() ?? '—'}
+          </dd>
+          <dt class="border-b font-normal m-0 p-0">
+            {$_('driver.settings.created-at')}
+          </dt>
+          <dd class="border-b font-bold text-right m-0 p-0 pb-2">
+            {new Date(account.created_at).toLocaleDateString()}
+          </dd>
+        </dl>
+      {/each}
+    {:else}
+      {$_('driver.settings.no-accounts-found')}
+    {/if}
 
-  <BottomDrawer orientation="vertical">
-    {#if userId && phoneNumberLastTwo}
-      <CsvDataDownloadButton
-        {userId}
-        {phoneNumberLastTwo}
-        title={$_('driver.settings.download-my-data')}
+    {#if allArgyleAccountsAreConnected}
+      <button onclick={() => (showArgyle = true)} class="btn btn-outline mt-2">
+        {hasAnyArgyleAccounts
+          ? $_('driver.settings.review-my-linked-accounts')
+          : $_('driver.settings.re-connect-argyle-accounts')}
+      </button>
+      <p class="mt-1 text-sm">
+        {#if hasAnyArgyleAccounts}
+          {$_('driver.settings.all-of-your-linked-accounts-are-up-to-date')}
+        {:else}
+          {$_('driver.settings.note-that-some-disconnected')}
+        {/if}
+      </p>
+    {:else}
+      <p class="font-bold text-error mb-1">
+        {$_('driver.settings.your-linked-accounts-are-out-of-date')}
+      </p>
+      <button onclick={() => (showArgyle = true)} class="btn btn-primary">
+        {$_('driver.settings.review-my-linked-accounts')}
+      </button>
+    {/if}
+
+    <p class="mt-4">
+      <a href="/driver/data/{shortUserId}" class="btn btn-neutral">
+        {$_('driver.settings.view-my-take-rate-data')}
+      </a>
+    </p>
+
+    {#if showArgyle}
+      <UseArgyle
+        onAbortRedirectTo="/driver/settings"
+        onSuccessRedirectTo="/driver/settings"
+        onClose={() => (showArgyle = false)}
       />
     {/if}
 
-    <a class="btn btn-ghost" href="/driver/settings/org">
-      {$_('driver.data.manage-data-sharing')}
-    </a>
-  </BottomDrawer>
+    <h2 class="font-medium text-xl self-start leading-none mt-8 mb-4">
+      {$_('driver.settings.your-affiliation-and-data-sharing')}
+    </h2>
+    {#if $affiliations.selectedAffiliationsAreLoadedFromDatabase}
+      {#each organizationsForTable as { name, url, isAffiliated, isPrimary, isDataSharing, affiliateOrganizationSlug, isVirtualPrimary }}
+        <div class="bg-white flex gap-2 p-4 flex-col mt-4">
+          <div class="flex items-center gap-2">
+            <span class="font-bold leading-tight">{name}</span>
+            {#if isPrimary && !isVirtualPrimary}
+              <span class="badge badge-sm badge-outline">Primary</span>
+            {:else if isVirtualPrimary}
+              <span class="badge badge-sm badge-outline">System</span>
+            {/if}
+          </div>
+          <div class="flex gap-3 items-center text-sm">
+            <div class="flex gap-1 items-center">
+              <BooleanAsIcon value={isAffiliated} />
+              <span>{$_('driver.settings.affiliated')}</span>
+            </div>
+            <div class="flex gap-1 items-center">
+              <BooleanAsIcon value={isDataSharing} />
+              <span>{$_('driver.settings.sharing-data')}</span>
+            </div>
+          </div>
+          <div>
+            {#if isDataSharing}
+              <a
+                href="/driver/settings/stop-sharing/{affiliateOrganizationSlug}"
+                class="link link-error text-sm normal-case"
+              >
+                {$_('settings.stop-sharing.stop-sharing-data-with-org', {
+                  values: { org: name }
+                })}
+              </a>
+            {:else}
+              <a href="/driver/settings/org" class="link text-sm normal-case"
+                >{$_('settings.share-data-with-org', { values: { org: name } })}</a
+              >
+            {/if}
+          </div>
+        </div>
+        {#if url}
+          <ExternalLink href={url}>{$_('driver.settings.learn-more-about')} {name}</ExternalLink>
+        {/if}
+      {/each}
+    {:else}
+      <Spinner />
+    {/if}
+
+    <p>
+      <button class="btn btn-outline" onclick={() => logOut()}>
+        {$_('driver.settings.logout')}
+      </button>
+    </p>
+
+    <p>
+      <a href="/driver/opt-out" class="link link-error text-sm">
+        {$_('driver.settings.delete-all-my-data-from-system')}
+      </a>
+    </p>
+
+    <BottomDrawer orientation="vertical">
+      {#if userId && phoneNumberLastTwo && hasAnyArgyleAccounts}
+        <CsvDataDownloadButton
+          {userId}
+          {phoneNumberLastTwo}
+          title={$_('driver.settings.download-my-data')}
+        />
+      {/if}
+
+      <a class="btn btn-ghost" href="/driver/settings/org">
+        {$_('driver.data.manage-data-sharing')}
+      </a>
+    </BottomDrawer>
+  {/if}
 </div>

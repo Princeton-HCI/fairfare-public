@@ -1,6 +1,7 @@
 import type { RequestEvent } from './$types';
 import { supabase } from '@src/lib/server/db';
 import { getProfileFromUserId } from '@src/lib/databaseHelpers';
+import { isDemoMode, stripPhoneNumberStringOfNonDigits } from '@src/lib/utils';
 
 interface SendOtpPhoneNumberRequestBody {
   phoneNumber: string;
@@ -14,11 +15,10 @@ interface SendOtpUserIdRequestBody {
 
 type SendOtpRequestBody = SendOtpPhoneNumberRequestBody | SendOtpUserIdRequestBody;
 
-const stripPhoneNumberStringOfNonDigits = (phoneNumber: string) => {
-  return phoneNumber.replace(/\D/g, '');
-};
-
 export const POST = async (event: RequestEvent) => {
+  // In demo mode, skip sending real OTP since we use a fixed code
+  if (isDemoMode) return new Response('sent');
+
   const body: SendOtpRequestBody = await event.request.clone().json();
 
   if (!body) throw new Error('No request body found');

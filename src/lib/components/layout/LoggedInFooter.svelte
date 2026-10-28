@@ -7,8 +7,8 @@
 <footer class="mt-12">
   <div class="px-4 md:px-6 flex flex-col gap-2 pb-6">
     <div class="flex items-center gap-2">
-      <img src="https://placehold.co/32" alt="The System logo." class="rounded-lg" />
-      <span class="font-semibold text-2xl">Sample System</span>
+      <img src="/img/system-32x32.webp" alt="The System logo." class="rounded-lg" />
+      <span class="font-semibold text-2xl">System</span>
     </div>
     <span class="text-xs text-neutral-500">{$_('nav.footer.a-organization-project')}</span>
   </div>

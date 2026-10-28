@@ -18,6 +18,11 @@ const messageTemplates: messageTemplateConfig[] = [
   {
     key: 'view_take_rate',
     messageTemplate: 'System: Your rideshare data is ready: {{driverDataLink}}'
+  },
+  {
+    key: 'data_deletion_notification',
+    messageTemplate:
+      'System: A user ({{userFullName}} - {{userId}}) who had consented to share data with your organization has opted out and stopped data sharing. Please review their data and delete it.'
   }
 ];
 

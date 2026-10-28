@@ -1,12 +1,13 @@
 <script lang="ts">
   import { _ } from 'svelte-i18n';
+  import { PUB_SUPPORT_EMAIL } from '$env/static/public';
 </script>
 
 <section class="prose leading-snug bg-offwhite">
   <div class="flex justify-center">
     <a href="/">
       <img
-        src="https://placehold.co/32"
+        src="/img/system-32x32.webp"
         class="max-h-20"
         alt={$_('home.stylized-f-inside-of-a-circle-the-system-logo')}
       />
@@ -96,7 +97,7 @@
       <p>
         For more information about our privacy practices, if you have questions, or if you would
         like to make a complaint, please contact us by e-mail at <a
-          href="mailto:organization@university.edu">organization@university.edu</a
+          href="mailto:{PUB_SUPPORT_EMAIL}">{PUB_SUPPORT_EMAIL}</a
         >
         or by mail using the details provided below:
       </p>
@@ -105,7 +106,7 @@
         Name Name<br />
         Address Address<br />
         Address Address<br />
-        University University<br />
+        Sample University<br />
       </address>
     </div>
   </div>

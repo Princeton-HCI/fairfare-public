@@ -1,6 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ['./src/**/*.{html,js,svelte,ts}', './node_modules/tw-elements/dist/js/**/*.js'],
+  safelist: [
+    'border-[#4aa125]',
+    'border-[#2E7D99]',
+    'border-[#8cad25]',
+    'border-[#CDB924]',
+    'border-[#A052A6]'
+  ],
   theme: {
     fontFamily: {
       sans: ['Noto Sans', 'sans-serif'],

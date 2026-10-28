@@ -143,7 +143,7 @@ export interface ArgyleIdentitiesResponse {
   previous: null | string;
 }
 
-interface ArgyleGig {
+export interface ArgyleGig {
   id: string;
   account: string;
   employer: string;
@@ -244,3 +244,54 @@ export interface ArgyleGigsResponse {
   next: null | string;
   previous: null | string;
 }
+
+export type FlattenedArgyleGig = {
+  user: string;
+  id: string;
+  account: string;
+  employer: string;
+  created_at: string;
+  updated_at: string;
+  status: 'completed' | string;
+  type: 'delivery' | string;
+  task_count: number;
+  start_datetime: string;
+  end_datetime: string;
+  distance: string;
+  distance_unit: string;
+  duration: number;
+  timezone: string;
+  earning_type: 'work' | string;
+  // Note: datetimes were removed in supabase/migrations/20241125220231_fix_timestamps.sql
+  // Flatten start_location
+  start_location_lat: string;
+  start_location_lng: string;
+  start_location_formatted_address: string;
+  // Flatten end_location
+  end_location_lat: string;
+  end_location_lng: string;
+  end_location_formatted_address: string;
+  circumstances_is_pool: boolean;
+  circumstances_is_rush: boolean;
+  circumstances_is_surge: boolean;
+  circumstances_service_type: string;
+  circumstances_position: string | null;
+  // Flatten income
+  income_currency: string;
+  income_total_charge: string;
+  income_fees: string;
+  income_total: string;
+  income_pay: string;
+  income_tips: string;
+  income_bonus: string;
+  income_other: string;
+  // Flatten income_rates
+  income_rates_hour: string;
+  income_rates_mile: string;
+  // Flatten metadata
+  metadata_circumstances_is_rush: boolean | null;
+  metadata_circumstances_is_pool: boolean | null;
+  metadata_circumstances_is_surge: boolean | null;
+  metadata_circumstances_service_type: string | null;
+  metadata_origin_id: string | null;
+};

@@ -34,7 +34,7 @@ function createDataSharingConsents() {
 
       const { data: affiliateOrganizationConsents, error } = await supabase
         .from('driver_affiliate_organization_data_sharing_consents')
-        .select('affiliate_organizations(*)')
+        .select('affiliate_organizations(id, key, name, url, created_at, updated_at, status)')
         .eq('user_id', userId);
       if (error) {
         throw new Error('Error fetching consents: ' + error);

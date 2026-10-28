@@ -2,6 +2,7 @@
 // for information about these interfaces
 // and what to do when importing types
 type Profile = SupabaseRows['profiles'];
+type AuthContext = import('./lib/rbac').AuthContext;
 
 declare namespace App {
   interface Locals {
@@ -10,6 +11,7 @@ declare namespace App {
       session: import('@supabase/supabase-js').Session | null;
       user: import('@supabase/supabase-js').User | null;
       profile: Profile | null;
+      roles: AuthContext;
     }>;
   }
   // interface Error {}
@@ -23,5 +25,6 @@ declare namespace App {
   }
   interface PageData {
     session: import('@supabase/supabase-js').Session | null;
+    roles?: AuthContext;
   }
 }

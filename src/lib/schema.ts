@@ -169,6 +169,51 @@ export type Database = {
           }
         ];
       };
+      argyle_accounts_export: {
+        Row: {
+          account: Json;
+          argyle_account: string;
+          argyle_created_at: string | null;
+          argyle_updated_at: string | null;
+          argyle_user: string | null;
+          connection_error_code: string | null;
+          connection_error_message: string | null;
+          connection_status: string | null;
+          connection_updated_at: string | null;
+          employers: string[] | null;
+          exported_at: string;
+          id: string;
+        };
+        Insert: {
+          account: Json;
+          argyle_account: string;
+          argyle_created_at?: string | null;
+          argyle_updated_at?: string | null;
+          argyle_user?: string | null;
+          connection_error_code?: string | null;
+          connection_error_message?: string | null;
+          connection_status?: string | null;
+          connection_updated_at?: string | null;
+          employers?: string[] | null;
+          exported_at?: string;
+          id?: string;
+        };
+        Update: {
+          account?: Json;
+          argyle_account?: string;
+          argyle_created_at?: string | null;
+          argyle_updated_at?: string | null;
+          argyle_user?: string | null;
+          connection_error_code?: string | null;
+          connection_error_message?: string | null;
+          connection_status?: string | null;
+          connection_updated_at?: string | null;
+          employers?: string[] | null;
+          exported_at?: string;
+          id?: string;
+        };
+        Relationships: [];
+      };
       argyle_driver_activities: {
         Row: {
           account: string | null;
@@ -326,6 +371,60 @@ export type Database = {
             referencedColumns: ['id'];
           }
         ];
+      };
+      argyle_error_accounts: {
+        Row: {
+          address: string | null;
+          affiliate_organization: string | null;
+          argyle_account: string;
+          argyle_created_at: string | null;
+          argyle_updated_at: string | null;
+          argyle_user: string;
+          email: string | null;
+          employer: string | null;
+          error_code: string | null;
+          first_name: string | null;
+          id: string;
+          last_initial: string | null;
+          phone: string | null;
+          status: string | null;
+          user_id: string | null;
+        };
+        Insert: {
+          address?: string | null;
+          affiliate_organization?: string | null;
+          argyle_account: string;
+          argyle_created_at?: string | null;
+          argyle_updated_at?: string | null;
+          argyle_user: string;
+          email?: string | null;
+          employer?: string | null;
+          error_code?: string | null;
+          first_name?: string | null;
+          id?: string;
+          last_initial?: string | null;
+          phone?: string | null;
+          status?: string | null;
+          user_id?: string | null;
+        };
+        Update: {
+          address?: string | null;
+          affiliate_organization?: string | null;
+          argyle_account?: string;
+          argyle_created_at?: string | null;
+          argyle_updated_at?: string | null;
+          argyle_user?: string;
+          email?: string | null;
+          employer?: string | null;
+          error_code?: string | null;
+          first_name?: string | null;
+          id?: string;
+          last_initial?: string | null;
+          phone?: string | null;
+          status?: string | null;
+          user_id?: string | null;
+        };
+        Relationships: [];
       };
       argyle_items: {
         Row: {

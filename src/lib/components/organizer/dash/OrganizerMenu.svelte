@@ -9,6 +9,9 @@
 
   let { organizationKey }: Props = $props();
 
+  const canViewDriverPii = $derived(
+    hasCapability(page.data.roles, 'org:view_driver_pii', organizationKey)
+  );
   // Mirror the sidebar: settings and team are for organizer administrators only.
   const canManageSettings = $derived(
     hasCapability(page.data.roles, 'org:manage_argyle_settings', organizationKey)
@@ -43,6 +46,14 @@
     description="Data term definitions and methodology"
     borderClass="border-l-[#A052A6]"
   />
+  {#if canViewDriverPii}
+    <NavButton
+      url={`/organizer/org/${organizationKey}/argyle-errors`}
+      name="Account Errors"
+      description="Drivers whose Argyle connection has an error"
+      borderClass="border-l-[#C2410C]"
+    />
+  {/if}
   {#if canManageSettings}
     <NavButton
       url={`/organizer/org/${organizationKey}/argyle-settings`}

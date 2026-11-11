@@ -26,6 +26,7 @@
     "seed:demo-organizers": "npx tsx data-scripts/makeDemoOrganizerSeeds.ts",
     "snapshot:argyle-stub": "npx tsx data-scripts/recordArgyleSandboxResponses.ts",
     "snapshot:argyle-sandbox": "npx tsx data-scripts/snapshotArgyleSandboxGigs.ts",
+    "export:argyle-accounts": "npx tsx data-scripts/exportArgyleAccounts.ts",
     "tunnel": "lt --port 5173 --subdomain sample",
     "tunnel:2": "lt --port 5173 --subdomain sample2",
     "tunnel:3": "lt --port 5173 --subdomain sample3"

@@ -2,6 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  scroll-behavior: smooth;
+}
+
 .input,
 .textarea {
   height: 40px;
@@ -51,4 +55,22 @@ viewports
 /* for the first a child of .bottom-drawer, if it is a.btn-ghost, then apply pl-0 */
 .bottom-drawer > a.btn-ghost:first-child {
   @apply pl-0;
+}
+
+/* Organizer dashboard overrides -- scoped to .organizer-dash to avoid breaking driver pages */
+.organizer-dash .btn {
+  @apply rounded-lg;
+}
+
+.organizer-dash .input,
+.organizer-dash .textarea {
+  @apply rounded-lg;
+}
+
+.organizer-dash .select {
+  @apply rounded-lg;
+}
+
+.organizer-dash .badge {
+  @apply rounded-full;
 }

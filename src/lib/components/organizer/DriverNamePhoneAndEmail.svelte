@@ -3,24 +3,21 @@
 
   interface Props {
     fullName: string | null;
-    phone: string | null; // like 12223334444
-    email: string | null; // like 12223334444
+    phone: string | null;
+    email: string | null;
     hasSynced: boolean;
   }
 
   let { fullName, phone, email, hasSynced }: Props = $props();
 </script>
 
-<div class="flex justify-start gap-2 max-w-md">
-  <!-- FIXME: move to icons directory -->
+<div class="flex items-start gap-2.5">
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    class="icon icon-tabler icon-tabler-user-circle pt-1"
-    width="44"
-    height="44"
+    class="w-7 h-7 shrink-0 text-base-content/30 mt-0.5"
     viewBox="0 0 24 24"
     stroke-width="1.5"
-    stroke="#2c3e50"
+    stroke="currentColor"
     fill="none"
     stroke-linecap="round"
     stroke-linejoin="round"
@@ -30,23 +27,21 @@
     <path d="M12 10m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
     <path d="M6.168 18.849a4 4 0 0 1 3.832 -2.849h4a4 4 0 0 1 3.834 2.855" />
   </svg>
-  <div class="flex flex-col gap-0.5">
-    <p class="font-bold flex align-middle gap-1">
-      <span>{fullName}</span>
+  <div class="min-w-0">
+    <p class="font-semibold text-sm text-base-content flex items-center gap-1.5">
+      <span class="truncate">{fullName}</span>
       {#if hasSynced}
-        <!-- FIXME: move to icons directory -->
-        <!-- https://tabler.io/icons/icon/circle-check -->
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          width="18"
-          height="18"
+          width="15"
+          height="15"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
           stroke-width="2.75"
           stroke-linecap="round"
           stroke-linejoin="round"
-          class="icon icon-tabler icons-tabler-outline icon-tabler-circle-check text-green-600 mt-1 ml-1"
+          class="text-green-600 shrink-0"
           role="img"
         >
           <title>Data Synced</title>
@@ -54,16 +49,16 @@
           <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
           <path d="M9 12l2 2l4 -4" />
         </svg>
-        <span class="uppercase text-sm font-bold mt-1.5 leading-none text-green-600">
-          Data Synced
-        </span>
+        <span class="uppercase text-xs font-bold text-green-600"> Data Synced </span>
       {/if}
     </p>
     {#if !phone}
-      <p>Phone number not available</p>
+      <p class="text-xs text-base-content/50">Phone number not available</p>
     {:else}
-      <p>{formatPhoneNumber(phone)}</p>
-      <p>{email}</p>
+      <p class="text-xs text-base-content/50">{formatPhoneNumber(phone)}</p>
+      {#if email}
+        <p class="text-xs text-base-content/40">{email}</p>
+      {/if}
     {/if}
   </div>
 </div>

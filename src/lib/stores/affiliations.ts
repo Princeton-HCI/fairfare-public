@@ -1,29 +1,49 @@
-import { writable } from 'svelte/store';
+import { writable, get } from 'svelte/store';
 import { supabase } from '@src/lib/client/db';
 
 type AffiliateOrganization = SupabaseInserts['affiliate_organizations'];
 
-// Although affiliations are stored in the affiliate_organization table,
-// we also include them here to avoid hitting the db again.
-// This represents the affiliate organizations that are not user created.
-export const allAffiliations: AffiliateOrganization[] = [
-  { name: 'PELQ', key: 'pelq', url: 'http://crouton.net' },
-  {
-    name: 'OPL',
-    key: 'opl',
-    url: 'http://crouton.net'
-  },
-  { name: 'EDL', key: 'edl', url: 'http://crouton.net' },
-  { name: 'LPC', key: 'lpc', url: 'http://crouton.net' },
-  { name: 'GLS', key: 'gls', url: 'http://crouton.net' }
-];
+// All active affiliate organizations, loaded from the database.
+export const allAffiliations = writable<AffiliateOrganization[]>([]);
+
+let _loadPromise: Promise<void> | null = null;
+
+/** Fetch all active affiliate organizations from the database. Safe to call multiple times. */
+export async function loadAllAffiliations(): Promise<void> {
+  if (_loadPromise) return _loadPromise;
+
+  _loadPromise = (async () => {
+    if (get(allAffiliations).length > 0) return;
+
+    const { data, error } = await supabase
+      .from('affiliate_organizations')
+      .select('id, key, name, url, status')
+      .eq('status', 'active')
+      .order('name');
+
+    if (error) {
+      console.error('Error fetching affiliate organizations:', error);
+      _loadPromise = null;
+      return;
+    }
+
+    allAffiliations.set(data ?? []);
+  })();
+
+  return _loadPromise;
+}
 
 export type Affiliations = {
+  primary: undefined | AffiliateOrganization;
+  secondaryOrgs: AffiliateOrganization[];
+  /** @deprecated Use `primary`. */
   selected: undefined | AffiliateOrganization;
   selectedAffiliationsAreLoadedFromDatabase: boolean;
 };
 
-const defaultAffiliations = {
+const defaultAffiliations: Affiliations = {
+  primary: undefined,
+  secondaryOrgs: [],
   selected: undefined,
   selectedAffiliationsAreLoadedFromDatabase: false
 };
@@ -36,44 +56,55 @@ function createAffiliations() {
     update,
     reset: () => set(defaultAffiliations),
     getSelectedAffiliationsFromDatabase: async () => {
-      // get the user ID
       const {
         data: { user }
       } = await supabase.auth.getUser();
       const userId = user?.id;
       if (!userId) return console.error('No user ID found');
 
-      const { data: affiliations, error } = await supabase
+      const { data, error } = await supabase
         .from('driver_affiliate_organization_affiliations')
-        .select('affiliate_organizations(*)')
+        .select(
+          'is_primary, affiliate_organizations(id, key, name, url, created_at, updated_at, status)'
+        )
         .eq('user_id', userId);
+
       if (error) {
         console.error('Error fetching affiliations:', error);
         return;
       }
-      // @ts-expect-error Type 'any[]' is missing the following properties from type '{ created_at?: string | undefined; id?: string | undefined; key: string; name: string; signup_code?: string | null | undefined; status?: "active" | "deleted" | undefined; updated_at?: string | undefined; url?: string | null | undefined; }': key, namets(2352)
-      const flattenedAffiliations = affiliations
-        .map((affiliation) => affiliation.affiliate_organizations)
-        .filter((a) => a !== null) as AffiliateOrganization[];
 
-      update((affiliations) => {
-        return {
-          ...affiliations,
-          selected: flattenedAffiliations[0],
-          selectedAffiliationsAreLoadedFromDatabase: true
-        };
-      });
+      type Row = {
+        is_primary: boolean | null;
+        affiliate_organizations: AffiliateOrganization | null;
+      };
+
+      const rows = (data ?? []) as unknown as Row[];
+
+      const primaryRow = rows.find((r) => r.is_primary === true);
+      const secondaryRows = rows.filter((r) => r.is_primary !== true);
+
+      const primary = primaryRow?.affiliate_organizations ?? undefined;
+      const secondaryOrgs = secondaryRows
+        .map((r) => r.affiliate_organizations)
+        .filter((a): a is AffiliateOrganization => a !== null);
+
+      update((state) => ({
+        ...state,
+        primary,
+        secondaryOrgs,
+        selected: primary,
+        selectedAffiliationsAreLoadedFromDatabase: true
+      }));
     },
     toggleSelection: (affiliation: AffiliateOrganization) => {
-      update((affiliations) => {
-        return {
-          ...affiliations,
-          selected: affiliation
-        };
-      });
+      update((state) => ({
+        ...state,
+        selected: affiliation
+      }));
     },
+    /** @deprecated Prefer `/api/driver/affiliate-primary` or `/api/driver/affiliate-secondary`. */
     updateDatabase: async () => {
-      // get the user ID
       const {
         data: { user }
       } = await supabase.auth.getUser();
@@ -81,10 +112,9 @@ function createAffiliations() {
       if (!userId) return console.error('No user ID found');
 
       let newSelectedAffiliationKey: string | undefined;
-      update((affiliations) => {
-        // get the affiliation keys
-        newSelectedAffiliationKey = affiliations.selected?.key;
-        return affiliations;
+      update((state) => {
+        newSelectedAffiliationKey = state.selected?.key;
+        return state;
       });
 
       const { data: affiliateOrganizationsWithIds, error: affiliateOrganizationsError } =
@@ -100,37 +130,32 @@ function createAffiliations() {
         (affiliateOrganization) => affiliateOrganization.id
       );
 
-      const newSelectedAffiliations = newSelectedAffiliationIds.map((affiliationId) => ({
-        user_id: userId as string,
-        affiliate_organization_id: affiliationId
-      }));
-
-      // the strategy here is to delete all affiliations for the user and then insert the new ones
-      // this will have the possibility of deleting affiliations that were not
-      // changed by the user, but it's the simplest way to handle this since
-      // supabase does not currently have transaction support on the js client
-
-      // delete all affiliations for the user
       const { error: deleteError } = await supabase
         .from('driver_affiliate_organization_affiliations')
         .delete()
-        .eq('user_id', userId);
+        .eq('user_id', userId)
+        .eq('is_primary', true);
 
       if (deleteError) {
-        console.error('Error deleting affiliations:', deleteError);
+        console.error('Error deleting primary affiliation:', deleteError);
         throw deleteError;
       }
 
-      // insert the new affiliations
+      const newPrimary = newSelectedAffiliationIds.map((affiliationId) => ({
+        user_id: userId as string,
+        affiliate_organization_id: affiliationId,
+        is_primary: true
+      }));
+
       const { error: insertError } = await supabase
         .from('driver_affiliate_organization_affiliations')
-        .insert(newSelectedAffiliations);
+        .insert(newPrimary);
       if (insertError) {
-        console.error('Error inserting affiliations:', insertError);
+        console.error('Error inserting primary affiliation:', insertError);
         throw insertError;
       }
 
-      console.log('affiliations written to database');
+      console.log('primary affiliation written to database');
     }
   };
 }

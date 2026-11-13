@@ -1,5 +1,6 @@
 <script lang="ts">
   import Spinner from '@src/lib/components/Spinner.svelte';
+  import { onMount } from 'svelte';
 
   import { supabase } from '@src/lib/client/db';
   import { goto } from '$app/navigation';
@@ -8,26 +9,41 @@
   import BottomDrawer from './BottomDrawer.svelte';
   import { _ } from 'svelte-i18n';
 
-  let { redirectUrl } = $props();
+  import PhoneNumberInput from './PhoneNumberInput.svelte';
+  import { PUB_SUPPORT_EMAIL } from '$env/static/public';
+  import { isDemoMode } from '@src/lib/utils';
+  import { userDemoPhoneNumber } from '@src/lib/stores/userDemoPhoneNumber';
+  import { DEMO_OTP } from '$lib/demo/constants';
 
-  const onPhoneSubmit = async (event: Event) => {
+  let { redirectUrl } = $props();
+  let otpInput = $state<HTMLInputElement | undefined>(undefined);
+
+  // skip the login if the user is already logged in
+  onMount(async () => {
+    const {
+      data: { session }
+    } = await supabase.auth.getSession();
+    if (session) {
+      await goto(redirectUrl);
+    }
+  });
+
+  const onPhoneSubmit = async () => {
     isLoading = true;
-    const formData = new FormData(event.target as HTMLFormElement);
-    const formPhoneNumber = formData.get('phoneNumber');
 
     // hit the API to verify the OTP
     const response = await fetch('/driver/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        phoneNumber: formPhoneNumber
+        phoneNumber: phoneNumber
       })
     });
     isLoading = false;
     if (response.ok) {
       // show the OTP input
       toast({
-        text: $_('components.DriverOtpLogin.sent-an-otp-if-this-phone-number-is-registered'),
+        text: $_('components.DriverOtpLogin.sent-an-otp'),
         type: 'success'
       });
       showOtpInput = true;
@@ -45,7 +61,6 @@
   const onTokenSubmit = async (event: Event) => {
     isLoading = true;
     const formData = new FormData(event.target as HTMLFormElement);
-    const formPhoneNumber = formData.get('phoneNumber');
     const formToken = formData.get('otp');
 
     // hit the API to verify the OTP
@@ -53,7 +68,7 @@
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        phone: formPhoneNumber,
+        phone: phoneNumber,
         token: formToken
       })
     });
@@ -66,9 +81,15 @@
         access_token: data.session.access_token,
         refresh_token: data.session.refresh_token
       });
+
+      // In demo mode, store the user's phone number for fake SMS preview later
+      if (isDemoMode) {
+        userDemoPhoneNumber.set(phoneNumber);
+      }
+
       // pop a toast
       toast({
-        text: 'Successfully logged in!',
+        text: 'Successfully logged in/signed up!',
         type: 'success'
       });
       await goto(redirectUrl);
@@ -78,38 +99,48 @@
   };
 
   let isLoading = $state(false);
+  let phoneNumber = $state('');
   let showOtpInput = $state(false);
+  let otpValue = $state(isDemoMode ? DEMO_OTP : '');
   let error = $state(null) as { message: string } | null;
+
+  $effect(() => {
+    if (showOtpInput) {
+      // Use setTimeout to ensure the input is rendered before focusing
+      setTimeout(() => {
+        otpInput?.focus();
+      }, 0);
+    }
+  });
 </script>
 
 <div class="prose">
-  <h1>{$_('components.DriverOtpLogin.log-in')}</h1>
+  <h1>{$_('components.DriverOtpLogin.log-in-or-sign-up')}</h1>
 
   <form
     onsubmit={(event) => {
+      // prevent default
+      event.preventDefault();
       if (showOtpInput) {
         onTokenSubmit(event);
       } else {
-        onPhoneSubmit(event);
+        onPhoneSubmit();
       }
     }}
   >
-    <Input
-      label={$_('components.DriverOtpLogin.phone-number')}
-      bottomLabel={$_('components.DriverOtpLogin.phoneFormat')}
-      type="tel"
-      name="phoneNumber"
-      readonly={showOtpInput}
-      required
-    />
+    <PhoneNumberInput {showOtpInput} bind:phoneNumber />
     {#if showOtpInput}
       <Input
         label={$_('components.DriverOtpLogin.one-time-passcode')}
-        bottomLabel={$_('components.DriverOtpLogin.format-222333')}
+        bottomLabel={isDemoMode
+          ? $_('demo.login.format_with_hint')
+          : $_('components.DriverOtpLogin.format-222333')}
         type="number"
         name="otp"
         maxlength={6}
         required
+        bind:element={otpInput}
+        bind:value={otpValue}
       />
     {/if}
     <div class="flex justify-center h-8 items-center">
@@ -133,8 +164,6 @@
   </form>
   <p>
     {$_('components.DriverOtpLogin.for-help-logging-in-please-email')}{' '}
-    <a href="mailto:organization@university.edu" class="font-medium underline"
-      >organization@university.edu</a
-    >.
+    <a href="mailto:{PUB_SUPPORT_EMAIL}" class="font-medium underline">{PUB_SUPPORT_EMAIL}</a>.
   </p>
 </div>

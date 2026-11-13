@@ -37,14 +37,14 @@
   </ul>
   <p>
     {$_('driver.about.the-team-behind-system-includes-drivers-organizing-with')}
-    <a href="https://crouton.net">
-      {$_('driver.about.pelq-pelq')}
+    <a href="https://example.org">
+      {$_('driver.about.pelq')}
     </a>
     {$_('driver.about.and')}
-    <a href="https://crouton.net">{$_('driver.about.gls-gls')}</a>
+    <a href="https://example.org">{$_('driver.about.gls')}</a>
     {$_('driver.about.and-researchers-at-the')}
     <a href="https://university.edu/organization"> {$_('driver.about.organization')}</a>{$_(
-      'driver.about.a-project-by-mit-and-university-with-funding-from-the-mozilla-foundation'
+      'driver.about.a-project-by-sample-university'
     )}
   </p>
   <p>

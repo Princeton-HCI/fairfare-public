@@ -4,6 +4,8 @@ import {
   fetchIdentity,
   fetchIdentityByUser
 } from '@src/lib/server/argyle';
+import { cleanupAffiliationsAfterAccountRemoval } from '@src/lib/server/driverOrgSharing';
+import type { ResolvedArgyleCredentials } from '@src/lib/server/organizationArgyle';
 
 import { supabase } from '@src/lib/server/db';
 import syncAccountData from '@src/lib/syncAccountData';
@@ -15,6 +17,12 @@ import handleDuplicateUser from './handleDuplicateUser';
 
 import type { ArgyleWebhookResponse } from './types';
 import { UserDoesNotExistError } from '@src/lib/errors';
+import { isDemoMode } from '@src/lib/utils';
+
+export interface HandleWebhookOptions {
+  credentials?: ResolvedArgyleCredentials | null;
+  organizationId?: string | null;
+}
 
 // error for WriteToReceivedArgyleWebhooksError
 class WriteToReceivedArgyleWebhooksError extends Error {
@@ -39,10 +47,11 @@ const writeWebhookToReceivedArgyleWebhooks = async (response: ArgyleWebhookRespo
 
 const trySyncingAccountData = async (
   argyleAccount: string,
-  shouldUpdateAllGigsLastSyncedAt = true
+  shouldUpdateAllGigsLastSyncedAt = true,
+  credentials?: ResolvedArgyleCredentials | null
 ) => {
   try {
-    await syncAccountData(argyleAccount, shouldUpdateAllGigsLastSyncedAt);
+    await syncAccountData(argyleAccount, { shouldUpdateAllGigsLastSyncedAt, credentials });
   } catch (error) {
     if (error instanceof UserDoesNotExistError) {
       console.log('[users.fully_synced] Argyle account not in database, exiting:', argyleAccount);
@@ -50,6 +59,18 @@ const trySyncingAccountData = async (
     }
     throw error;
   }
+};
+
+const softDeleteArgyleAccount = async (argyleAccount: string) => {
+  const { error } = await supabase
+    .from('argyle_accounts')
+    .update({ deleted_at: new Date() })
+    .eq('argyle_account', argyleAccount);
+  if (error) {
+    console.error('Could not soft delete argyle account:', error);
+    throw new Error('Could not soft delete argyle account: ' + error.message);
+  }
+  console.log('[softDeleteArgyleAccount] Soft deleted argyle account:', argyleAccount);
 };
 
 /**
@@ -85,6 +106,11 @@ const trySyncingAccountData = async (
  * sent, we can consider that all of the user's data is now present in Argyle.
  * We sync all of the user's activities and send a survey message to the user.
  *
+ * 7. `accounts.removed`: This is sent when an account is removed from Argyle.
+ * We will confirm that the account is removed from Argyle and then update the
+ * corresponding `argyle_accounts` entry in the database to set the `deleted_at`
+ * field to the current time. This is done to reduce costs for unused accounts.
+ *
  * Note: the `gigs.added` and `gigs.updated` webhooks sync account data alongside
  * nightly updates to ensure data is up to date.
  *
@@ -95,7 +121,19 @@ const trySyncingAccountData = async (
  * @param response The webhook response from Argyle
  * @returns A response object with a success message if the webhook was handled successfully
  */
-export async function handleWebhook(response: ArgyleWebhookResponse) {
+export async function handleWebhook(
+  response: ArgyleWebhookResponse,
+  options: HandleWebhookOptions = {}
+) {
+  const credentials = options.credentials ?? null;
+  const organizationId = options.organizationId ?? null;
+
+  // In demo mode, skip webhook processing entirely - demo uses pre-seeded sandbox data
+  if (isDemoMode) {
+    console.log('[handleWebhook] Demo mode - skipping all webhook processing');
+    return;
+  }
+
   try {
     await writeWebhookToReceivedArgyleWebhooks(response);
   } catch (e) {
@@ -142,9 +180,14 @@ export async function handleWebhook(response: ArgyleWebhookResponse) {
       const { error: newAccountError } = await supabase
         .from('argyle_accounts')
         .upsert(
-          { argyle_user: argyleUser, argyle_account: argyleAccount, user_id: userId },
           {
-            onConflict: 'argyle_user, argyle_account',
+            argyle_user: argyleUser,
+            argyle_account: argyleAccount,
+            user_id: userId,
+            organization_id: organizationId
+          },
+          {
+            onConflict: 'argyle_user,argyle_account,user_id',
             ignoreDuplicates: true
           }
         )
@@ -159,7 +202,7 @@ export async function handleWebhook(response: ArgyleWebhookResponse) {
     case 'accounts.updated': {
       // Here we can add the employer to the account
       const { account: updatedAccountId, user: updatedUserId } = response.data;
-      const accountData = await fetchAccount(updatedAccountId);
+      const accountData = await fetchAccount(updatedAccountId, credentials);
 
       if (!accountData) {
         console.warn('[accounts.updated] Account not found on argyle:', updatedAccountId);
@@ -209,7 +252,7 @@ export async function handleWebhook(response: ArgyleWebhookResponse) {
         if (!argyleAccounts[0].all_gigs_last_synced_at) {
           // pull in the gigs
           // this auto-updates the all_gigs_last_synced_at value
-          await trySyncingAccountData(argyleAccountId);
+          await trySyncingAccountData(argyleAccountId, true, credentials);
 
           // send the right type of sms (if necessary) if it's not already sent
           await handlePostSync(response.data.user);
@@ -221,16 +264,17 @@ export async function handleWebhook(response: ArgyleWebhookResponse) {
       // webhooks fire in production. This is implemented on 2024-11-27.
       if (accountData.availability?.identities?.status === 'synced') {
         const { user: argyleUserId } = response.data;
-        const identities = await fetchIdentityByUser(argyleUserId);
+        const identities = await fetchIdentityByUser(argyleUserId, credentials);
 
         // assuming the first identity
         const identity = identities[0].id;
 
-        const identityData = await fetchIdentity(identity);
+        const identityData = await fetchIdentity(identity, credentials);
         try {
           const updatedProfile = await addIdentityDataToUserAndEnableOtpLogin(
             argyleUserId,
-            identityData
+            identityData,
+            { organizationId }
           );
           if (updatedProfile && updatedProfile.phone) {
             await sendWelcomeSmsMessage(updatedProfile, 'accounts.updated');
@@ -254,11 +298,12 @@ export async function handleWebhook(response: ArgyleWebhookResponse) {
     }
     case 'identities.added': {
       const { identity, user: argyleUserId } = response.data;
-      const identityData = await fetchIdentity(identity);
+      const identityData = await fetchIdentity(identity, credentials);
       try {
         const updatedProfile = await addIdentityDataToUserAndEnableOtpLogin(
           argyleUserId,
-          identityData
+          identityData,
+          { organizationId }
         );
         if (updatedProfile && updatedProfile.phone) {
           await sendWelcomeSmsMessage(updatedProfile, 'identities.added');
@@ -292,47 +337,17 @@ export async function handleWebhook(response: ArgyleWebhookResponse) {
       // If it has, we send a welcome message.
       const { identity: newIdentity, user: newUser } = response.data;
       // get identity from argyle API
-      const newIdentityData = await fetchIdentity(newIdentity);
+      const newIdentityData = await fetchIdentity(newIdentity, credentials);
 
-      const { data: profile, error: supabaseFindUserError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('argyle_user', newUser)
-        .single();
-
-      if (supabaseFindUserError) {
-        console.log('[users.fully_synced] User not in database, exiting:', response.data.user);
-        return;
-      }
-
-      if (profile) {
-        const oldPhone = profile.phone || '';
-        const newProfileWithIdentityData = await addIdentityDataToUserAndEnableOtpLogin(
-          newUser,
-          newIdentityData
-        );
-        const newPhone = newProfileWithIdentityData?.phone;
-
-        // This fixes mismatches like +1 (123) 456-7890 and 123-456-7890
-        const numbersOnly = (phone: string) => phone.replace(/\D/g, '');
-
-        if (newPhone && oldPhone && numbersOnly(newPhone) !== numbersOnly(oldPhone)) {
-          console.log(
-            `Phone number changed from ${oldPhone} to ${newPhone}. Sending welcome message to user ${newProfileWithIdentityData?.user_id}...`
-          );
-          if (!newProfileWithIdentityData?.user_id) {
-            throw new Error('iuUpdatedUser not found in identities_updated webhook handling');
-          }
-          await sendWelcomeSmsMessage(newProfileWithIdentityData, 'identities.updated');
-        }
-      }
+      // Update the user's profile with the new identity data
+      await addIdentityDataToUserAndEnableOtpLogin(newUser, newIdentityData, { organizationId });
       break;
     }
     case 'gigs.partially_synced': {
       // This means 30 days of gigs have been synced.
       // We want to pull all of the data and send the survey invitation.
       // This does **not** update the all_gigs_last_synced_at value on the account.
-      await trySyncingAccountData(response.data.account, false);
+      await trySyncingAccountData(response.data.account, false, credentials);
       await handlePostSync(response.data.user);
       break;
     }
@@ -343,7 +358,7 @@ export async function handleWebhook(response: ArgyleWebhookResponse) {
       // Via: https://docs.argyle.com/api-reference/gigs-webhooks#added
       // "The gigs.added webhook is sent only when an account's data is refreshed
       // (does not include initial data retrieval) and a new gig is retrieved."
-      await trySyncingAccountData(response.data.account, true);
+      await trySyncingAccountData(response.data.account, true, credentials);
       break;
     case 'gigs.updated':
       // Sync the account data
@@ -353,14 +368,14 @@ export async function handleWebhook(response: ArgyleWebhookResponse) {
       // "The gigs.updated webhook is sent when there is any change to a property
       // value of the gig object. For example, after a gig assignment is completed
       // the gig object's status value changes from in_progress to completed."
-      await trySyncingAccountData(response.data.account, false);
+      await trySyncingAccountData(response.data.account, false, credentials);
       break;
     case 'users.fully_synced':
       // The users.fully_synced webhook is sent when all data has been fully
       // retrieved from all payroll accounts a user connected through Link.
       // This also updates the all_gigs_last_synced_at on this user's accounts.
       try {
-        await processFullSync(response);
+        await processFullSync(response, { credentials });
 
         // Here we have some branching logic based on the study_participation
         // about what to do when the syncing is completed. This is handled in
@@ -374,5 +389,40 @@ export async function handleWebhook(response: ArgyleWebhookResponse) {
         throw error;
       }
       break;
+    case 'accounts.removed': {
+      // This is sent when an account is removed from Argyle.
+      // We will confirm that the account is removed from Argyle and then update the
+      // corresponding `argyle_accounts` entry in the database to set the `deleted_at`
+      // field to the current time. This is done to reduce costs for unused accounts.
+      console.log('[accounts.removed] Handling account removal:', response.data.account);
+      const { account: removedAccountId } = response.data;
+      const accountData = await fetchAccount(removedAccountId, credentials);
+
+      // We expect this account data to be null if the account has been removed,
+      // since this should 404 from Argyle.
+      if (accountData !== null) {
+        console.warn(
+          '[accounts.removed] Account not removed from Argyle but we received an accounts.removed webhook. Performing a no-op:',
+          removedAccountId
+        );
+        return; // no-op if the account is not actually removed
+      }
+
+      const { data: removedRow } = await supabase
+        .from('argyle_accounts')
+        .select('user_id, organization_id')
+        .eq('argyle_account', removedAccountId)
+        .single();
+
+      await softDeleteArgyleAccount(removedAccountId);
+
+      if (removedRow?.user_id) {
+        await cleanupAffiliationsAfterAccountRemoval(
+          removedRow.user_id,
+          removedRow.organization_id
+        );
+      }
+      break;
+    }
   }
 }

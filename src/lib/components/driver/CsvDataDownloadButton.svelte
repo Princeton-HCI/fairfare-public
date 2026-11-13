@@ -19,23 +19,38 @@
   let isLoading = $state(false);
 
   const onSuccessfulLogin = () => {
-    console.log('success');
     isLoading = true;
     fetch('/api/download/activities', {
       method: 'GET',
       headers: { 'Content-Type': 'text/csv' }
-    }).then((response) => {
-      // Save the file
-      response.blob().then((blob) => {
-        const file = window.URL.createObjectURL(blob);
-        window.location.assign(file);
+    })
+      .then((response) => {
+        if (!response.ok) {
+          isLoading = false;
+          toast({
+            text: $_('driver.settings.csv-data-download-button-not-available'),
+            type: 'error'
+          });
+          return;
+        }
+        // Save the file
+        response.blob().then((blob) => {
+          const file = window.URL.createObjectURL(blob);
+          window.location.assign(file);
+          isLoading = false;
+          toast({
+            text: $_('components.driver.csvDataDownloadButton.successfully-downloaded'),
+            type: 'success'
+          });
+        });
+      })
+      .catch(() => {
         isLoading = false;
         toast({
-          text: $_('components.driver.csvDataDownloadButton.successfully-downloaded'),
-          type: 'success'
+          text: $_('driver.settings.csv-data-download-button-not-available'),
+          type: 'error'
         });
       });
-    });
   };
 </script>
 

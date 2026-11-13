@@ -3,7 +3,14 @@ import type { ArgyleWebhookResponse } from './types';
 import { expect, vi } from 'vitest';
 import * as syncAccountData from '@src/lib/syncAccountData';
 
-describe('incoming gigs.updated webhook', () => {
+// Webhook persistence is covered by handleWebhook.db.spec.ts.
+vi.mock('@src/lib/server/db', () => ({
+  supabase: { from: vi.fn(() => ({ insert: vi.fn().mockResolvedValue({ error: null }) })) }
+}));
+
+afterEach(() => vi.restoreAllMocks());
+
+describe('incoming gigs.added webhook', () => {
   const payload: ArgyleWebhookResponse = {
     event: 'gigs.added',
     name: 'ALL_development',
@@ -24,6 +31,9 @@ describe('incoming gigs.updated webhook', () => {
 
     await handleWebhook(payload);
 
-    expect(syncAccountDataSpy).toHaveBeenCalledWith('cc99cc99-cc99-cc99-cc99-cc99cc99cc99', true);
+    expect(syncAccountDataSpy).toHaveBeenCalledWith('cc99cc99-cc99-cc99-cc99-cc99cc99cc99', {
+      shouldUpdateAllGigsLastSyncedAt: true,
+      credentials: null
+    });
   });
 });

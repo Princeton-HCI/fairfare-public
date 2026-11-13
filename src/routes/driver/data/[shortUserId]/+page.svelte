@@ -6,12 +6,10 @@
 
   title.set('Take rate');
 
-  let averagePlatformTakePctString = page.data.averagePlatformTakePctString;
-  let averagePlatformTakePct = page.data.averagePlatformTakePct;
-  let gigsLength = page.data.gigsLength;
-  let maxPlatformTakeString = page.data.maxPlatformTakeString;
+  let aggregate = page.data.aggregate ?? null;
+  let byPlatform = page.data.byPlatform ?? [];
+  let unsupportedEmployers = page.data.unsupportedEmployers ?? [];
   let monthsSinceMinDateToShow = page.data.monthsSinceMinDateToShow;
-  let minPlatformTakeString = page.data.minPlatformTakeString;
   let userId = page.data.userId;
   let phoneNumberLastTwo = page.data.phoneNumberLastTwo;
 
@@ -21,11 +19,9 @@
 
 <div class="prose">
   <TakeInfo
-    {averagePlatformTakePctString}
-    {averagePlatformTakePct}
-    {minPlatformTakeString}
-    {maxPlatformTakeString}
-    {gigsLength}
+    {aggregate}
+    {byPlatform}
+    {unsupportedEmployers}
     {monthsSinceMinDateToShow}
     {hasError}
     {errorI18nKey}

@@ -7,19 +7,13 @@ const config: UserConfig = {
     sentrySvelteKit({
       sourceMapsUploadOptions: {
         org: 'the-organization',
-        project: 'Sample System'
+        project: 'system'
       }
     }),
     sveltekit()
   ],
   server: {
-    allowedHosts: [
-      'getsystem.org',
-      'sample.ngrok.io',
-      'sample2.ngrok.io',
-      'sample3.ngrok.io',
-      'staging.getsystem.org'
-    ]
+    allowedHosts: ['getsystem.org', '.loca.lt', 'staging.getsystem.org']
   }
 };
 

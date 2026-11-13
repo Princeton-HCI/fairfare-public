@@ -1,0 +1,315 @@
+{
+  "capturedAt": "2026-09-12T13:18:30.436Z",
+  "source": "https://api-sandbox.argyle.com/v2/gigs?account=01a04c67-2759-0dbc-77fc-16fdf8290366&limit=5",
+  "status": 200,
+  "body": {
+    "results": [
+      {
+        "id": "96ae9e3b-1386-3ce8-812d-336d2858f403",
+        "account": "01a04c67-2759-0dbc-77fc-16fdf8290366",
+        "employer": "Uber Driver",
+        "created_at": "2026-08-29T07:24:05.901Z",
+        "updated_at": "2026-08-29T07:24:05.901Z",
+        "status": "cancelled",
+        "type": "rideshare",
+        "task_count": 1,
+        "start_datetime": "2026-08-31T00:04:15.000Z",
+        "end_datetime": null,
+        "all_datetimes": {
+          "request_at": "2026-08-31T00:04:15.000Z",
+          "accept_at": null,
+          "pickup_at": null,
+          "dropoff_at": null,
+          "cancel_at": "2026-08-31T00:04:54.000Z",
+          "shift_start": null,
+          "shift_end": null,
+          "breaks": []
+        },
+        "duration": 0,
+        "timezone": "America/New_York",
+        "earning_type": "work",
+        "start_location": null,
+        "end_location": null,
+        "distance": "0.00",
+        "distance_unit": "miles",
+        "metadata": {},
+        "circumstances": {
+          "is_pool": true,
+          "is_rush": false,
+          "is_surge": false,
+          "service_type": "Uber driver Pool",
+          "position": null
+        },
+        "income": {
+          "currency": "USD",
+          "total_charge": "0.00",
+          "fees": "0.00",
+          "total": "0.00",
+          "pay": "0.00",
+          "tips": "0.00",
+          "bonus": "0.00",
+          "other": "0.00",
+          "customer_price": null
+        },
+        "income_rates": {
+          "hour": null,
+          "mile": null
+        },
+        "task_details": {
+          "events": [],
+          "orders": []
+        }
+      },
+      {
+        "id": "d7a21e97-b21a-3bea-9028-fffa4b147f51",
+        "account": "01a04c67-2759-0dbc-77fc-16fdf8290366",
+        "employer": "Uber Driver",
+        "created_at": "2026-08-29T07:24:05.960Z",
+        "updated_at": "2026-08-29T07:24:05.960Z",
+        "status": "completed",
+        "type": "rideshare",
+        "task_count": 1,
+        "start_datetime": "2026-08-30T23:24:08.000Z",
+        "end_datetime": "2026-08-31T00:10:46.000Z",
+        "all_datetimes": {
+          "request_at": "2026-08-30T23:24:08.000Z",
+          "accept_at": "2026-08-30T23:25:00.000Z",
+          "pickup_at": "2026-08-30T23:30:32.000Z",
+          "dropoff_at": "2026-08-31T00:10:46.000Z",
+          "cancel_at": null,
+          "shift_start": null,
+          "shift_end": null,
+          "breaks": []
+        },
+        "duration": 2798,
+        "timezone": "America/New_York",
+        "earning_type": "work",
+        "start_location": {
+          "lat": "40.694577921359816",
+          "lng": "-73.7432470901599",
+          "formatted_address": "010 Ashley Bridge, New York, NY 53450, US"
+        },
+        "end_location": {
+          "lat": "40.69499965730532",
+          "lng": "-73.88501218620706",
+          "formatted_address": "7931 Ramirez Ports, New York, NY 64689, US"
+        },
+        "distance": "29.50",
+        "distance_unit": "miles",
+        "metadata": {},
+        "circumstances": {
+          "is_pool": false,
+          "is_rush": false,
+          "is_surge": true,
+          "service_type": "Uber driver Pool",
+          "position": null
+        },
+        "income": {
+          "currency": "USD",
+          "total_charge": "23.85",
+          "fees": "0.00",
+          "total": "23.85",
+          "pay": "23.85",
+          "tips": "0.00",
+          "bonus": "0.00",
+          "other": "0.00",
+          "customer_price": null
+        },
+        "income_rates": {
+          "hour": "7.91",
+          "mile": "0.60"
+        },
+        "task_details": {
+          "events": [],
+          "orders": []
+        }
+      },
+      {
+        "id": "a32d1fd5-591d-3524-bb69-76006bfdd50d",
+        "account": "01a04c67-2759-0dbc-77fc-16fdf8290366",
+        "employer": "Uber Driver",
+        "created_at": "2026-08-29T07:24:05.949Z",
+        "updated_at": "2026-08-29T07:24:05.949Z",
+        "status": "completed",
+        "type": "rideshare",
+        "task_count": 1,
+        "start_datetime": "2026-08-30T22:37:39.000Z",
+        "end_datetime": "2026-08-30T23:02:58.000Z",
+        "all_datetimes": {
+          "request_at": "2026-08-30T22:37:39.000Z",
+          "accept_at": "2026-08-30T22:38:27.000Z",
+          "pickup_at": "2026-08-30T22:42:01.000Z",
+          "dropoff_at": "2026-08-30T23:02:58.000Z",
+          "cancel_at": null,
+          "shift_start": null,
+          "shift_end": null,
+          "breaks": []
+        },
+        "duration": 1519,
+        "timezone": "America/New_York",
+        "earning_type": "work",
+        "start_location": {
+          "lat": "40.6538240519964",
+          "lng": "-73.85654931679231",
+          "formatted_address": "4372 Brown Harbor Apt. 748, New York, NY 52219, US"
+        },
+        "end_location": {
+          "lat": "40.70340837166445",
+          "lng": "-73.76540141312726",
+          "formatted_address": "71022 Hunter Club, New York, NY 44256, US"
+        },
+        "distance": "20.00",
+        "distance_unit": "miles",
+        "metadata": {},
+        "circumstances": {
+          "is_pool": true,
+          "is_rush": true,
+          "is_surge": true,
+          "service_type": "Uber driver Pool",
+          "position": null
+        },
+        "income": {
+          "currency": "USD",
+          "total_charge": "14.77",
+          "fees": "0.00",
+          "total": "14.77",
+          "pay": "14.77",
+          "tips": "0.00",
+          "bonus": "0.00",
+          "other": "0.00",
+          "customer_price": null
+        },
+        "income_rates": {
+          "hour": "6.57",
+          "mile": "0.60"
+        },
+        "task_details": {
+          "events": [],
+          "orders": []
+        }
+      },
+      {
+        "id": "832c7897-8866-3276-b988-f64cc86da8c2",
+        "account": "01a04c67-2759-0dbc-77fc-16fdf8290366",
+        "employer": "Uber Driver",
+        "created_at": "2026-08-29T07:24:05.890Z",
+        "updated_at": "2026-08-29T07:24:05.890Z",
+        "status": "completed",
+        "type": "rideshare",
+        "task_count": 1,
+        "start_datetime": "2026-08-30T21:55:42.000Z",
+        "end_datetime": "2026-08-30T22:34:56.000Z",
+        "all_datetimes": {
+          "request_at": "2026-08-30T21:55:42.000Z",
+          "accept_at": "2026-08-30T21:56:33.000Z",
+          "pickup_at": "2026-08-30T22:00:29.000Z",
+          "dropoff_at": "2026-08-30T22:34:56.000Z",
+          "cancel_at": null,
+          "shift_start": null,
+          "shift_end": null,
+          "breaks": []
+        },
+        "duration": 2354,
+        "timezone": "America/New_York",
+        "earning_type": "work",
+        "start_location": {
+          "lat": "40.71661144607031",
+          "lng": "-73.73759883087017",
+          "formatted_address": "0611 Maria Divide Suite 922, New York, NY 22354, US"
+        },
+        "end_location": {
+          "lat": "40.69059436571938",
+          "lng": "-73.62549206136337",
+          "formatted_address": "21896 Eric Walks, New York, NY 45939, US"
+        },
+        "distance": "19.03",
+        "distance_unit": "miles",
+        "metadata": {},
+        "circumstances": {
+          "is_pool": false,
+          "is_rush": false,
+          "is_surge": true,
+          "service_type": "Uber driver Pool",
+          "position": null
+        },
+        "income": {
+          "currency": "USD",
+          "total_charge": "41.54",
+          "fees": "6.99",
+          "total": "34.55",
+          "pay": "34.55",
+          "tips": "0.00",
+          "bonus": "0.00",
+          "other": "0.00",
+          "customer_price": null
+        },
+        "income_rates": {
+          "hour": "15.00",
+          "mile": "1.30"
+        },
+        "task_details": {
+          "events": [],
+          "orders": []
+        }
+      },
+      {
+        "id": "88bba21a-1a14-38bb-af11-bbcb21b0d829",
+        "account": "01a04c67-2759-0dbc-77fc-16fdf8290366",
+        "employer": "Uber Driver",
+        "created_at": "2026-08-29T07:24:05.880Z",
+        "updated_at": "2026-08-29T07:24:05.880Z",
+        "status": "cancelled",
+        "type": "rideshare",
+        "task_count": 1,
+        "start_datetime": "2026-08-29T21:41:01.000Z",
+        "end_datetime": null,
+        "all_datetimes": {
+          "request_at": "2026-08-29T21:41:01.000Z",
+          "accept_at": null,
+          "pickup_at": null,
+          "dropoff_at": null,
+          "cancel_at": "2026-08-29T21:41:50.000Z",
+          "shift_start": null,
+          "shift_end": null,
+          "breaks": []
+        },
+        "duration": 0,
+        "timezone": "America/New_York",
+        "earning_type": "work",
+        "start_location": null,
+        "end_location": null,
+        "distance": "0.00",
+        "distance_unit": "miles",
+        "metadata": {},
+        "circumstances": {
+          "is_pool": false,
+          "is_rush": false,
+          "is_surge": true,
+          "service_type": "Uber driver Pool",
+          "position": null
+        },
+        "income": {
+          "currency": "USD",
+          "total_charge": "0.00",
+          "fees": "0.00",
+          "total": "0.00",
+          "pay": "0.00",
+          "tips": "0.00",
+          "bonus": "0.00",
+          "other": "0.00",
+          "customer_price": null
+        },
+        "income_rates": {
+          "hour": null,
+          "mile": null
+        },
+        "task_details": {
+          "events": [],
+          "orders": []
+        }
+      }
+    ],
+    "next": null,
+    "previous": null
+  }
+}

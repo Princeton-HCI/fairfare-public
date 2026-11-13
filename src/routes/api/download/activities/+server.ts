@@ -1,46 +1,33 @@
 import { supabase } from '@src/lib/server/db';
 import { AsyncParser } from '@json2csv/node';
-import { fetchIdentityByUser, saveAllArgyleDriverActivitiesToDb } from '@src/lib/server/argyle';
-
 import type { RequestEvent } from './$types';
 import { getProfileFromUserId } from '@src/lib/databaseHelpers';
 
 export const GET = async (request: RequestEvent) => {
   const { user } = await request.locals.safeGetSession();
   if (!user) throw new Error('No user found');
-
   const profile = await getProfileFromUserId(supabase, user.id);
 
-  // TODO: support multiple accounts
   const { data: argyleAccountData, error: argyleAccountError } = await supabase
     .from('argyle_accounts')
     .select('argyle_account')
     .eq('user_id', user.id);
-
   if (argyleAccountError) throw new Error(argyleAccountError.message);
 
-  const { argyle_account: argyleAccount } = argyleAccountData[0];
-
-  if (!argyleAccount) return new Response('No argyle account found', { status: 404 });
+  const argyleAccounts = argyleAccountData.map((account) => account.argyle_account);
+  if (argyleAccounts.length === 0) return new Response('No argyle account found', { status: 404 });
   if (!profile.argyle_user) return new Response('No argyle user id found', { status: 404 });
-
-  // Here we update the database by getting all of the activities from Argyle
-  // TODO: stop doing this! We update nightly now
-  const identities = await fetchIdentityByUser(profile.argyle_user);
-  const argyleIdentity = identities[0];
-
-  await saveAllArgyleDriverActivitiesToDb(argyleIdentity, argyleAccount);
 
   const { data, error } = await supabase
     .from('argyle_driver_activities')
     .select('*')
-    .eq('account', argyleAccount);
+    .in('account', argyleAccounts);
 
   if (error) throw new Error("Couldn't find activities: " + error.message);
 
-  // we need this because the parser will only accept keys in quotes
   const dataAsPojo = JSON.parse(JSON.stringify(data));
 
+  // TODO: make this more efficient (see the download_driver_data_zip endpoint)
   const parser = new AsyncParser({
     fields: [
       'id',
@@ -78,7 +65,7 @@ export const GET = async (request: RequestEvent) => {
       'income_other'
     ]
   });
-  const csv = await parser.parse(dataAsPojo).promise();
 
+  const csv = await parser.parse(dataAsPojo).promise();
   return new Response(csv, { headers: { 'Content-Type': 'text/csv' } });
 };

@@ -10,7 +10,7 @@ const cleanAcceptLanguageString = (acceptLanguage: string) => {
 };
 export const load: LayoutServerLoad = wrapLoadWithSentry(
   async ({ locals: { safeGetSession }, cookies, request: { headers }, params: { slug } }) => {
-    const { session, user, profile } = await safeGetSession();
+    const { session, user, profile, roles } = await safeGetSession();
 
     // FIXME: don't use user_metadata; swtich to profile
     const userPreferredLanguage = user?.user_metadata.preferred_language;
@@ -36,6 +36,7 @@ export const load: LayoutServerLoad = wrapLoadWithSentry(
       profile,
       slug: slug,
       user,
+      roles,
       cookies: cookies.getAll()
     };
   }

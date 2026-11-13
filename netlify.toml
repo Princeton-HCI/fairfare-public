@@ -3,4 +3,4 @@
   publish = "build"
 
 [build.environment]
-  PNPM_VERSION = "9.12.3"
+  PNPM_VERSION = "10.18.0"

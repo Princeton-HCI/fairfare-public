@@ -2,21 +2,17 @@
   import Header from '@src/lib/components/layout/Header.svelte';
   import LoggedInFooter from '@src/lib/components/layout/LoggedInFooter.svelte';
 
-  import { page } from '$app/state';
-  import profileIsSynced from '@src/lib/client/profileIsSynced';
   import UseToast from '@src/lib/components/UseToast.svelte';
   interface Props {
     children: import('svelte').Snippet;
   }
 
   let { children }: Props = $props();
-
-  let profile = $derived(page.data?.profile);
 </script>
 
 <UseToast />
 <div class="flex flex-col w-full items-center max-w-prose h-screen justify-between">
-  <Header profileIsSynced={profileIsSynced(profile)} />
+  <Header />
   <div class="px-4 flex-grow w-full">
     {@render children()}
   </div>

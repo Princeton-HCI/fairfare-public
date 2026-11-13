@@ -6,6 +6,14 @@ import enDict from '@src/lang/en.json';
 import esDict from '@src/lang/es.json';
 import frDict from '@src/lang/fr.json';
 
+const BLACKLISTED_PHONE_NUMBERS = ['18009000010', '18009000020', '18009000030'];
+
+//Check if phone number is blacklisted
+function isPhoneNumberBlacklisted(phoneNumber: string): boolean {
+  const normalizedPhoneNumber = phoneNumber.replace(/\D/g, ''); // remove non-digit characters
+  return BLACKLISTED_PHONE_NUMBERS.includes(normalizedPhoneNumber);
+}
+
 function messageArgumentsAreValid(
   messageTemplate: string,
   messageArguments: { [key: string]: string }
@@ -75,7 +83,7 @@ interface baseSendSmsMessageArguments {
  * @param args.lang: string | null - The language to send the message in, like 'en'.
  * @returns SmsMessage
  */
-const writeSmsMessageToDatabase = async (
+export const writeSmsMessageToDatabase = async (
   args: baseSendSmsMessageArguments
 ): Promise<SmsMessage> => {
   const { messageTemplateKey, messageArguments, phoneNumber, sendDelay, lang } = args;
@@ -129,9 +137,32 @@ type AttemptSendingSmsMessage = {
   phone_number: string;
   message: string;
 };
-
-const attemptSendingSmsMessage = async (message: AttemptSendingSmsMessage): Promise<SmsMessage> => {
+export const attemptSendingSmsMessage = async (
+  message: AttemptSendingSmsMessage
+): Promise<SmsMessage> => {
   const client = smsClient;
+
+  // Check if the phone number is blacklisted
+  if (isPhoneNumberBlacklisted(message.phone_number)) {
+    console.log(
+      `SMS not sent: Phone number ${message.phone_number} is blacklisted (Argyle test number)`
+    );
+
+    // Update the message status in the database
+    const { data: updateData, error: updateError } = await supabase
+      .from('sms_messages')
+      .update({
+        status: 'skipped',
+        error: 'Phone number is blacklisted (Argyle test number)',
+        sent_to_twilio_at: new Date().toISOString()
+      })
+      .match({ id: message.id })
+      .select();
+
+    if (updateError) throw updateError;
+    if (updateData.length !== 1) throw Error('Failed to update the message status.');
+    return updateData[0];
+  }
 
   const sendMessage = ({ phone, body }: { phone: string; body: string }) => {
     const { MODE } = import.meta.env;
@@ -161,8 +192,6 @@ const attemptSendingSmsMessage = async (message: AttemptSendingSmsMessage): Prom
     if (updateData.length !== 1) throw Error('Failed to update the message status.');
     return updateData[0];
   } catch (error) {
-    // TODO: test w broken number and confirm table is updated
-
     // logging
     const errorAsStr = error instanceof Error ? error?.message : JSON.stringify(error);
     await supabase
@@ -172,5 +201,3 @@ const attemptSendingSmsMessage = async (message: AttemptSendingSmsMessage): Prom
     throw Error('Sending SMS messages through Twilio failed. ' + errorAsStr);
   }
 };
-
-export { formatMessage, writeSmsMessageToDatabase, attemptSendingSmsMessage };

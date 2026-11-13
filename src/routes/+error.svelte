@@ -2,33 +2,57 @@
   import { page } from '$app/state';
   import { title } from '@src/lib/stores/pageinfo';
   import Header from '@src/lib/components/layout/Header.svelte';
-  import profileIsSynced from '@src/lib/client/profileIsSynced';
-  const errorMessage = page.error?.message;
-  const is404Error = errorMessage === 'Not Found';
-  // Set the HTML title
-  title.set('Error');
-  // Function to reload the page
+
+  const status = $derived(page.status);
+  const errorMessage = $derived(page.error?.message);
+  const is404 = $derived(status === 404);
+  const isForbidden = $derived(status === 401 || status === 403);
+
+  const titleFor = (httpStatus: number): string =>
+    httpStatus === 401 || httpStatus === 403
+      ? 'Access denied'
+      : httpStatus === 404
+        ? 'Not found'
+        : 'Error';
+
+  // Set once during render so the server-rendered <title> is right, and again in
+  // an effect so a client-side navigation to a different error updates it.
+  // `$effect` alone runs only in the browser, which left the SSR'd title showing
+  // whatever the previous page had set.
+  title.set(titleFor(page.status));
+  $effect(() => {
+    title.set(titleFor(status));
+  });
+
   const reloadPage = () => {
     location.reload();
   };
-  let profile = $derived(page.data?.profile);
 </script>
 
-<Header profileIsSynced={profileIsSynced(profile)} />
+<Header />
 
 <div class="prose text-center min-h-screen px-4">
-  {#if is404Error}
+  {#if is404}
     <img
-      src="/img/instructions/404Image.png"
+      src="/img/instructions/404Image.webp"
       alt="404 illustration of people asking questions at a whiteboard."
       class="w-[200px] mx-auto"
     />
     <h1>Oops! This page doesn't exist.</h1>
     <p>The page you're looking for might have been moved, renamed, or never existed.</p>
     <a href="/" class="btn btn-neutral"> Back to Home </a>
+  {:else if isForbidden}
+    <img
+      src="/img/instructions/404Image.webp"
+      alt="Access denied illustration."
+      class="w-[200px] mx-auto"
+    />
+    <h1>You don't have access to this page.</h1>
+    <p>This area is only available to people with the right role for this organization.</p>
+    <a href="/" class="btn btn-neutral"> Back to Home </a>
   {:else}
     <img
-      src="/img/instructions/5xxImage.png"
+      src="/img/instructions/5xxImage.webp"
       alt="Server error illustration."
       class="w-[200px] mx-auto"
     />

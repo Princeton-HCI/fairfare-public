@@ -1,4 +1,5 @@
 import { UserDoesNotExistError } from '@src/lib/errors';
+import type { ResolvedArgyleCredentials } from '@src/lib/server/organizationArgyle';
 import type { WebhookUsersFullySynced } from './types';
 import syncAccountData from '@src/lib/syncAccountData';
 
@@ -6,7 +7,10 @@ import syncAccountData from '@src/lib/syncAccountData';
  * This function processes the a full sync from Argyle based on an Argyle webhook response.
  * It saves the activities to the database and returns the phone, user, and argyle_user.
  */
-const processFullSync = async (response: WebhookUsersFullySynced) => {
+const processFullSync = async (
+  response: WebhookUsersFullySynced,
+  options?: { credentials?: ResolvedArgyleCredentials | null }
+) => {
   console.log('[processFullSync] Syncing', response.data.user, '...');
 
   const {
@@ -24,7 +28,7 @@ const processFullSync = async (response: WebhookUsersFullySynced) => {
 
   const accountPromises = accounts_connected.map(async (account: string) => {
     try {
-      await syncAccountData(account);
+      await syncAccountData(account, { credentials: options?.credentials });
 
       getActivitiesResults.push({
         argyle_account: account,

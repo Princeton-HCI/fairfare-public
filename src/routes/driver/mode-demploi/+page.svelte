@@ -3,6 +3,7 @@
   import { title } from '@src/lib/stores/pageinfo';
 
   import BreadCrumb from '@src/lib/components/BreadCrumb.svelte';
+  import { PUB_SUPPORT_EMAIL } from '$env/static/public';
 
   title.set('Mode d’emploi');
   locale.set('fr');
@@ -13,8 +14,8 @@
   <h1>Instructions pour l'inscription</h1>
 
   <p>
-    Bonjour les conducteurs! Le PELQ s'associe à des chercheurs de University et du University pour
-    étudier les taux de participation équitables et l'équité des courses en taxi.
+    Bonjour les conducteurs! Le PELQ s'associe à des chercheurs de Sample University pour étudier
+    les taux de participation équitables et l'équité des courses en taxi.
     <strong>
       L'inscription prend 5 minutes et vous obtiendrez des informations sur le taux de participation
       réel.
@@ -36,7 +37,7 @@
   </ul>
   <div class="max-w-[250px] m-auto">
     <img
-      src="/img/instructions/how-much-is-uber-taking.jpg"
+      src="/img/instructions/how-much-is-uber-taking.webp"
       class="border border-black"
       alt="A screenshot of the System interface with a red arrow pointing at the 'Join Our Study' button."
     />
@@ -69,7 +70,7 @@
   </ul>
   <div class="max-w-[250px] m-auto">
     <img
-      src="/img/instructions/how-do-you-want-to-log-in.jpg"
+      src="/img/instructions/how-do-you-want-to-log-in.webp"
       class="border border-black"
       alt="A screenshot of the data linking screen, with a red arrow pointing at the 'Phone Number' button."
     />
@@ -87,7 +88,7 @@
   </ul>
   <div class="max-w-[250px] m-auto">
     <img
-      src="/img/instructions/your-uber-account-is-connected.png"
+      src="/img/instructions/your-uber-account-is-connected.webp"
       class="border border-black"
       alt="A screenshot with text 'Your Uber account is connected' with a red arrow pointing at a 'Continue to System button'."
     />
@@ -105,7 +106,7 @@
   <p>
     Si vous avez des questions, problèmes, ou suggestions, nous serons ravis de vous aider -
     envoyez-nous un mail à l’adresse suivante
-    <a href="mailto:theorganization@university.edu">theorganization@university.edu</a>.
+    <a href="mailto:{PUB_SUPPORT_EMAIL}">{PUB_SUPPORT_EMAIL}</a>.
   </p>
   <BreadCrumb returnUrl="/driver/landing" text="← Retour à la page d'inscription" />
 </div>

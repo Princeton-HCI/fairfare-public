@@ -3,6 +3,7 @@
   import { title } from '@src/lib/stores/pageinfo';
 
   import BreadCrumb from '@src/lib/components/BreadCrumb.svelte';
+  import { PUB_SUPPORT_EMAIL } from '$env/static/public';
 
   title.set('Instructions');
   locale.set('en');
@@ -13,8 +14,8 @@
   <h1>Signup Instructions</h1>
 
   <p>
-    Hello drivers! PELQ is partnering with researchers at University and University to study fair
-    take rates and ridehail fairness.
+    Hello drivers! PELQ is partnering with researchers at Sample University to study fair take rates
+    and ridehail fairness.
     <strong> Signing up takes 5 minutes, and you’ll get insights about actual take rate. </strong>
   </p>
   <p class="text-center">
@@ -31,7 +32,7 @@
   </ul>
   <div class="max-w-[250px] m-auto">
     <img
-      src="/img/instructions/how-much-is-uber-taking.jpg"
+      src="/img/instructions/how-much-is-uber-taking.webp"
       class="border border-black"
       alt="A screenshot of the System interface with a red arrow pointing at the 'Join Our Study' button."
     />
@@ -52,7 +53,7 @@
   </ul>
   <div class="max-w-[250px] m-auto">
     <img
-      src="/img/instructions/how-do-you-want-to-log-in.jpg"
+      src="/img/instructions/how-do-you-want-to-log-in.webp"
       class="border border-black"
       alt="A screenshot of the data linking screen, with a red arrow pointing at the 'Phone Number' button."
     />
@@ -65,7 +66,7 @@
   </ul>
   <div class="max-w-[250px] m-auto">
     <img
-      src="/img/instructions/your-uber-account-is-connected.png"
+      src="/img/instructions/your-uber-account-is-connected.webp"
       class="border border-black"
       alt="A screenshot with text 'Your Uber account is connected' with a red arrow pointing at a 'Continue to System button'."
     />
@@ -82,7 +83,7 @@
 
   <p>
     Questions? Problems? Requests? We’d love to help – please email us at <a
-      href="mailto:theorganization@university.edu">theorganization@university.edu</a
+      href="mailto:{PUB_SUPPORT_EMAIL}">{PUB_SUPPORT_EMAIL}</a
     >.
   </p>
   <BreadCrumb returnUrl="/driver/landing" text="← Return to signup page" />

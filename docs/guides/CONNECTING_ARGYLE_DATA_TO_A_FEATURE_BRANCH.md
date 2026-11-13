@@ -54,6 +54,8 @@ For this branch **only**:
    value shown on the Supabase API settings.
 3. Set the `PUB_VITE_SUPABASE_ANON_KEY` value to the `anon [public]`
    value shown on the Supabase API settings.
+4. Set the `ARGYLE_WEBHOOK_SECRET` value to the webhook secret you configure
+   in the Argyle console (see Argyle section below).
 
 ### Argyle
 
@@ -65,7 +67,7 @@ For this branch **only**:
 5. Set the following values:
    - Name: the name of your feature branch
    - URL: `https://deploy-preview-###--system.netlify.app/api/driver/argyle/webhooks` (where ### is replaced by your PR number)
-   - Secret: (blank)
+   - Secret: Generate a secure secret and copy it (you'll need this for Netlify)
    - API v2
    - All events
 
@@ -74,3 +76,23 @@ For this branch **only**:
 Upon completing these steps, Argyle, Netlify, and Supabase should all
 be working on your feature branch. Note that the easier option is to use
 the pre-configured `staging` branch.
+
+## Alternative: Testing webhooks locally with localtunnel
+
+If you want to test webhooks against your local dev server (instead of a deployed
+feature branch), you can use [localtunnel](https://github.com/localtunnel/localtunnel)
+to expose your local server to the internet.
+
+1. Start the dev server: `pnpm dev`
+2. In a separate terminal, start a tunnel:
+   ```bash
+   pnpm tunnel      # https://sample.loca.lt
+   pnpm tunnel:2    # https://sample2.loca.lt
+   pnpm tunnel:3    # https://sample3.loca.lt
+   ```
+   Coordinate with teammates to pick different subdomains.
+3. In the [Argyle Console](https://console.argyle.com/), sandbox webhooks are already configured for all 3 tunnels.
+4. Copy the webhook secret into your `.env` as `ARGYLE_WEBHOOK_SECRET`.
+
+This approach is useful for rapid iteration since you don't need to deploy
+to Netlify to test webhook-related changes.

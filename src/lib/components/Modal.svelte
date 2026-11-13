@@ -52,12 +52,16 @@
 </button>
 
 <div class="hidden mm-modal" {id} aria-hidden="true">
-  <div data-micromodal-close tabindex="-1" class="fixed inset-0 bg-black bg-opacity-50"></div>
+  <div
+    data-micromodal-close
+    tabindex="-1"
+    class="fixed inset-0 bg-black bg-opacity-50 z-[60]"
+  ></div>
   <div
     role="dialog"
     aria-modal="true"
     aria-labelledby={`${id}-title`}
-    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-base-100 p-6 w-[95vw] max-w-[580px] rounded-sm max-h-screen overflow-y-auto {modalClass}"
+    class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-base-100 p-6 w-[95vw] max-w-[580px] rounded-sm max-h-screen overflow-y-auto z-[70] {modalClass}"
   >
     <header class="flex flex-col justify-between items-center mb-2">
       <button
